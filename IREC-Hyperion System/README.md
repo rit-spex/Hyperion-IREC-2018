@@ -26,7 +26,16 @@ ADD Miscellaneous hardware
 Dependency tracking for software libraries used.  
 ### Sensors:
 
-LSM9DS1-https://github.com/sparkfun/SparkFun_LSM9DS1_Arduino_Library
+LSM9DS1:
+
+https://github.com/sparkfun/SparkFun_LSM9DS1_Arduino_Library
+
+BME280:
+
+https://github.com/adafruit/Adafruit_BME280_Library
+
+https://github.com/adafruit/Adafruit_Sensor
+
 
 ## Contributors
 Name Here
