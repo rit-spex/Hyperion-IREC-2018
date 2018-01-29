@@ -30,7 +30,11 @@ LSM9DS1-https://github.com/sparkfun/SparkFun_LSM9DS1_Arduino_Library
 
 ## Contributors
 Name Here
+
 ...
+
 ...
+
 ...
+
 Dylan R. Wagner 
