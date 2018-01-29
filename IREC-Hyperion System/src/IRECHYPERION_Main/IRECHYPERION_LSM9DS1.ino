@@ -1,5 +1,5 @@
 /*
- * File: LSM9DS1_utils.ino
+ * File: IRECHYPERION_LSM9DS1.ino
  * Description:
  *     Utilities functions for the SparkFun LSM9DS1 sensor.
  */
@@ -17,6 +17,8 @@ int start_LSM9DS1(){
   
   if (!imu_LSM9DS1.begin()) return 1; // return 1 if error has occured
   // TODO: set error 
+
+  return 0;
 }
 
 
