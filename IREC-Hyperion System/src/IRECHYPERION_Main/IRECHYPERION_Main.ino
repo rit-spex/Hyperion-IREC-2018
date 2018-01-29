@@ -26,7 +26,7 @@
 // Global Varables //
 ////////////////////
 
-LSM9DS1 imu; // LSM9DS1
+LSM9DS1 imu_LSM9DS1; // LSM9DS1
 
 //////////////////////////
 // Function prototypes //
