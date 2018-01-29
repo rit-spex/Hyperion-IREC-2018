@@ -4,9 +4,8 @@
  *     Utilities functions for the SparkFun LSM9DS1 sensor.
  */
 
-/*
- * Starts the LSM9DS1 with correct settings.
- */
+
+//Starts the LSM9DS1 with correct settings.
 int start_LSM9DS1(){
   
   imu_LSM9DS1.settings.device.commInterface = IMU_MODE_I2C;
@@ -24,9 +23,9 @@ int start_LSM9DS1(){
 // request_Gyro() - Requests sensor information, gyroscope data is updated on exit.
 void request_Gyro(){
   
-  if(imu.gyroAvailable()){
+  if(imu_LSM9DS1.gyroAvailable()){
     
-    imu.readGyro();
+    imu_LSM9DS1.readGyro();
   }
 }
 
@@ -94,8 +93,8 @@ float get_Mag(lsm9ds1_axis axis) {
 // Returns:
 //    Pitch value in degrees
 float calc_Pitch_Deg() {
-  //TODO
-  return 0;
+
+  return calc_Pitch_Rad() * 180/PI;
 }
 
 
@@ -103,8 +102,8 @@ float calc_Pitch_Deg() {
 // Returns:
 //    Roll value in degrees
 float calc_Roll_Deg(){
-  //TODO
-  return 0;
+
+  return calc_Roll_Rad() * 180/PI;
 }
 
 
@@ -112,8 +111,8 @@ float calc_Roll_Deg(){
 // Returns:
 //    Heading value in degrees
 float calc_Heading_Deg() {
-  //TODO
-  return 0;
+
+  return calc_Heading_Rad() * 180/PI;
 }
 
 
@@ -121,17 +120,24 @@ float calc_Heading_Deg() {
 // Returns:
 //    Pitch value in Radians
 float calc_Pitch_Rad() {
-  //TODO
-  return 0;
+
+  float ax = get_Accel(X_AXIS); // Grab X accel value
+  float ay = get_Accel(Y_AXIS); // Grab Y accel value
+  float az = get_Accel(Z_AXIS); // Grab Z accel value
+  
+  return atan2(-ax, sqrt(ay * ay + az * az));
 }
 
 
-// calc_Roll_Deg() -- Roll in Radians
+// calc_Roll_Rad() -- Roll in Radians
 // Returns:
 //    Roll value in Radians
 float calc_Roll_Rad(){
-  //TODO
-  return 0;
+  
+  float ay = get_Accel(Y_AXIS); // Grab Y accel value
+  float az = get_Accel(Z_AXIS); // Grab Z accel value
+  
+  return atan2(ay, az);;
 }
 
 
@@ -139,7 +145,22 @@ float calc_Roll_Rad(){
 // Returns:
 //    Heading value in Radians
 float calc_Heading_Rad() {
-  //TODO
-  return 0;
+
+  float mx = get_Mag(X_AXIS); // Grab X mag value
+  float my = get_Mag(Y_AXIS); // Grab Y mag value
+  float heading;
+  
+  if (my == 0)
+    heading = (mx < 0) ? PI : 0;
+  else
+    heading = atan2(mx, my);
+    
+  heading -= DECLINATION * PI / 180;
+  
+  if (heading > PI) heading -= (2 * PI);
+  else if (heading < -PI) heading += (2 * PI);
+  else if (heading < 0) heading += 2 * PI;
+
+  return heading;
 }
 

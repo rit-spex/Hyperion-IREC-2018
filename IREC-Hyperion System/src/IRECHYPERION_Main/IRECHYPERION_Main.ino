@@ -35,7 +35,7 @@ LSM9DS1 imu_LSM9DS1; // LSM9DS1
 // *********************************
 // IRECHYPERION_LSM9DS1_utils
 
-int      start_LSM9DS1(); // Init function for LSM9DS1 Sensor
+int       start_LSM9DS1(); // Init function for LSM9DS1 Sensor
 void      request_Gyro(); // Update sensor values
 void      request_Accel(); // Update sensor values
 void      request_Mag(); // Update sensor values
