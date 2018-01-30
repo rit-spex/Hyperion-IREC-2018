@@ -17,13 +17,13 @@ Adafruit_BME280 bme; // I2C
 unsigned long delayTime;
 
 void setup() {
-  // put your setup code here, to run once:
+  // Setup code for BME280
   Serial.begin(9600);
   Serial.println(F("BME280 I2C"));
 
   bool status;
     
-  // Check status
+  // Check status of BME280
   status = bme.begin();  
   if (!status) {
       Serial.println("Could not find a valid BME280 sensor, check wiring!");
@@ -39,28 +39,29 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  // Main Loop
   printValues();
   delay(delayTime);
 }
 
 void printValues() {
-    Serial.print("Temperature = ");
-    Serial.print(bme.readTemperature());
-    Serial.println(" *C");
+  // Printo out for debug
+  Serial.print("Temperature = ");
+  Serial.print(bme.readTemperature());
+  Serial.println(" *C");
 
-    Serial.print("Pressure = ");
+  Serial.print("Pressure = ");
+  
+  Serial.print(bme.readPressure() / 100.0F);
+  Serial.println(" hPa");
 
-    Serial.print(bme.readPressure() / 100.0F);
-    Serial.println(" hPa");
+  Serial.print("Approx. Altitude = ");
+  Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+  Serial.println(" m");
 
-    Serial.print("Approx. Altitude = ");
-    Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-    Serial.println(" m");
+  Serial.print("Humidity = ");
+  Serial.print(bme.readHumidity());
+  Serial.println(" %");
 
-    Serial.print("Humidity = ");
-    Serial.print(bme.readHumidity());
-    Serial.println(" %");
-
-    Serial.println();
+  Serial.println();
 }
