@@ -1,4 +1,16 @@
-# IREC-Hyperion
-Our goal is to design and build a scientific payload to compete in the intercollegiate rocket engineering competition
+# IREC-Hyperion HABnet Data Feeder
+...
 
-# Dependencies
+## Data Processor
+Software running on ground base server.
+
+...
+
+### Dependencies 
+
+## System Forwarder
+Software running on Arduino micro controller.
+
+...
+
+### Dependencies 
