@@ -5,6 +5,8 @@
  */
 
 
+// Define/setup interupts
+// Uses polling currently
 //Starts the LSM9DS1 with correct settings.
 int start_LSM9DS1(){
   
@@ -59,7 +61,21 @@ void request_Mag(){
 //    Sensor data for given axis in DPS
 float get_Gyro(lsm9ds1_axis axis) {
   
-  int16_t raw_Data = imu_LSM9DS1.readGyro(axis);
+  int16_t raw_Data;
+
+  switch(axis){
+    case X_AXIS:
+      raw_Data = imu_LSM9DS1.gx;
+      break;
+    case Y_AXIS:
+      raw_Data = imu_LSM9DS1.gy;
+      break;
+    case Z_AXIS:
+      raw_Data = imu_LSM9DS1.gz;
+      break;
+    default:
+      return 0; // Did not supply a vaild axis.
+  }
 
   return imu_LSM9DS1.calcGyro(raw_Data);
 }
@@ -72,8 +88,21 @@ float get_Gyro(lsm9ds1_axis axis) {
 //    Sensor data for given axis in g's
 float get_Accel(lsm9ds1_axis axis) {
   
-  int16_t raw_Data = imu_LSM9DS1.readAccel(axis);
+  int16_t raw_Data;
 
+  switch(axis){
+    case X_AXIS:
+      raw_Data = imu_LSM9DS1.ax;
+      break;
+    case Y_AXIS:
+      raw_Data = imu_LSM9DS1.ay;
+      break;
+    case Z_AXIS:
+      raw_Data = imu_LSM9DS1.az;
+      break;
+    default:
+      return 0; // Did not supply a vaild axis.
+  }
   return imu_LSM9DS1.calcAccel(raw_Data);
 }
 
@@ -85,7 +114,21 @@ float get_Accel(lsm9ds1_axis axis) {
 //    Sensor data for given axis in Gauss
 float get_Mag(lsm9ds1_axis axis) {
   
-  int16_t raw_Data = imu_LSM9DS1.readMag(axis);
+  int16_t raw_Data;
+
+  switch(axis){
+    case X_AXIS:
+      raw_Data = imu_LSM9DS1.mx;
+      break;
+    case Y_AXIS:
+      raw_Data = imu_LSM9DS1.my;
+      break;
+    case Z_AXIS:
+      raw_Data = imu_LSM9DS1.mz;
+      break;
+    default:
+      return 0; // Did not supply a vaild axis.
+  }
 
   return imu_LSM9DS1.calcMag(raw_Data);
 }
