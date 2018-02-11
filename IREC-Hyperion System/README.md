@@ -14,7 +14,9 @@ https://www.sparkfun.com/products/13284
 ADD SENSORS
 
 ### Communication
-ADD Communication hardware
+RFM95 LORA: 
+
+https://learn.adafruit.com/adafruit-rfm69hcw-and-rfm96-rfm95-rfm98-lora-packet-padio-breakouts/overview  
 
 ### Control
 ADD Control hardware
@@ -35,6 +37,10 @@ BME280:
 https://github.com/adafruit/Adafruit_BME280_Library
 
 https://github.com/adafruit/Adafruit_Sensor
+
+RFM95:
+
+https://github.com/adafruit/RadioHead
 
 
 ## Contributors
