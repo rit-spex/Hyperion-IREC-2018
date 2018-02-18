@@ -50,6 +50,6 @@ Name Here
 
 ...
 
-...
+Thomas James Hall
 
 Dylan R. Wagner 
