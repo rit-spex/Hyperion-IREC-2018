@@ -9,7 +9,7 @@ Every year Spaceport America host the Intercollegiate Rocket and Engineering Com
 - Sparkfun LSM9DS1
 - Sparkfun BME280
 
-## Contributors
+###### Contributors
 Name Here
 
 ...
