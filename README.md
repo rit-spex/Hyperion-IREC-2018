@@ -8,3 +8,14 @@ Every year Spaceport America host the Intercollegiate Rocket and Engineering Com
 - Sparkfun LIS331
 - Sparkfun LSM9DS1
 - Sparkfun BME280
+
+## Contributors
+Name Here
+
+...
+
+...
+
+Thomas James Hall
+
+Dylan R. Wagner 
