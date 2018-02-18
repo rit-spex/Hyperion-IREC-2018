@@ -1,0 +1,122 @@
+
+\documentclass{article}
+
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{float}
+
+\title{RIT SPEX Hyperion Protocol}
+\date{February 1, 2018}
+\author{Dylan R. Wagner}
+
+\begin{document}
+  \pagenumbering{gobble}
+  \maketitle
+  \pagenumbering{arabic}
+  
+  \section{Abstract}
+  The Hyperion Protocol defines data packing techniques and configurations in order to achieve communication between endpoints. A universal header will be defined which allows senders the freedom to include a wide range of information from individual sensors or information groups. In addition, multiple other data configurations will be defined. These additional data configurations will store information regarding data groups from sensors without any notion of time captured.
+  
+  \section{Header}
+  The header will be required for any outgoing and incoming data within the realm of the Hyperion protocol. This header will include information regarding the which data group (Sensor values) is contained in a message, flags and time sent. Any data wished to be sent with the Hyperion Protocol will be tacked on behind the header.  The Hyperion Protocol header will be \textbf{40bits} long or \textbf{5 bytes}.
+  \subsection{Header Data}
+  Data contained in the header will have a maximum size, this size will be defined in bits and largest value stored. 
+  
+  \paragraph{Data Group (4 bits)}
+  The Data Group section will contain information to distinguish which data is contained after the header. A size of 4 bits will be allocated to this section, this allows for 16 separate values. This will be plenty for the number of data groups sent within the Hyperion system. 
+  
+  \paragraph{Flags (4 bits)}
+  The Flags section will be used to define how the data will be parsed or handled. A size of 4 bits will allow for 4 flags to be set at a time.
+  
+  \paragraph{Sent Time (32 bits)}
+  The Sent Time section will be used to determine the time sent in seconds from the Hyperion system. This will be used for timestamps/data evolution analysis. This section will need to be 32 bits. This allows for a value of maximum value of 4294967295. A large maximum value is needed to store the time in seconds from unix epoch (Jan 01 1970. (UTC)). Currently at the time of writing this, this value is in the 1.5 billion range. 
+  
+  \subsection{Visualization}
+  
+  \begin{table}[h]
+  \centering
+  \caption{Hyperion Header}
+  \label{Hyperion Header}
+  \begin{tabular}{|c|c|c|l|l|l|l|l|l|l|lll}
+  \cline{1-10}
+  1 & 2 & \multicolumn{8}{c|}{Sent Time (32 bits)} &  & 1 & Data Group (4 bits) \\ \cline{1-10}
+  \multicolumn{10}{|c|}{Data}                      &  & 2 & Flags (4 bits)      \\ \cline{1-10}
+  \end{tabular}
+  \end{table}
+  
+  \subsection{Header Values}
+  This section displays mappings between header values and their meanings. In the header only two sections will need further definitions. These sections are the Data Group and Flags sections.
+  
+  \subsubsection{Data Group Mapping}
+  
+  \begin{table}[h]
+  \centering
+  \caption{Data Group Mapping}
+  \begin{tabular}{ll}
+  Value & Mapping \\
+  0     & No Data \\
+  1     & LSM9DS1     \\
+  2     & BME280        \\
+  3     & ...        \\
+  4     &         \\
+  5     &         \\
+  6     &         \\
+  7     &         \\
+  8     &         \\
+  9     &         \\
+  10    &         \\
+  11    &         \\
+  12    &         \\
+  13    &         \\
+  14    &         \\
+  15    &        
+  \end{tabular}
+  \end{table}
+
+  \subsubsection{Flag Mapping}
+  
+  \begin{table}[H]
+  \centering
+  \caption{Flag Meanings}
+  \begin{tabular}{ll}
+  Bit Pos & Flag Meaning \\
+  0       & ...          \\
+  1       &              \\
+  2       &              \\
+  3       &             
+  \end{tabular}
+  \end{table}
+  
+  \section{Data Groups}
+  \subsection{LSM9DS1}
+  This section will define the data frame for the LSM9DS1 data group. The LSM9DS1 data group contains information regarding acceleration, gyroscope and magnetometer sensors in the X, Y and Z axis. In total, this data frame will be 36 bytes in size. 
+  \subsubsection{LSM9DS1 Data}
+  \paragraph{Acceleration X, Y, Z (12 bytes - 96 bits)}
+  The acceleration section of the LSM9DS1 data frame will store the X, Y, Z values. Each axis is 4 bytes or 32 bits long. The X, Y, Z values will be placed in that order.
+  \paragraph{Gyroscope X, Y, Z (12 bytes - 96 bits)}
+  The gyroscope section of the LSM9DS1 data frame will store the X, Y, Z values. Each axis is 4 bytes or 32 bits long. The X, Y, Z values will be placed in that order.
+  \paragraph{Magnetometer X, Y, Z (12 bytes - 96 bits)}
+  The magnetometer section of the LSM9DS1 data frame will store the X, Y, Z values. Each axis is 4 bytes or 32 bits long. The X, Y, Z values will be placed in that order.
+  \subsubsection{Visualization}
+  
+  \begin{table}[h]
+  \centering
+  \caption{LSM9DS1 Data frame}
+  \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|}
+  \hline
+  \multicolumn{4}{|l|}{ax (4 bytes)} & \multicolumn{4}{l|}{ay (4 bytes)} & \multicolumn{4}{l|}{az (4 bytes)} \\ \hline
+  \multicolumn{4}{|l|}{gx (4 bytes)} & \multicolumn{4}{l|}{gy (4 bytes)} & \multicolumn{4}{l|}{gz (4 bytes)} \\ \hline
+  \multicolumn{4}{|l|}{mx (4 bytes)} & \multicolumn{4}{l|}{my (4 bytes)} & \multicolumn{4}{l|}{mz (4 bytes)} \\ \hline
+  \end{tabular}
+  \end{table}
+
+  \subsection{BME280}
+  This section will define the data frame for the BME280 data group. The BME280 data group contains information regarding atmospheric temperature, pressure and humidity. In total, this data frame will be 12 bytes in size.
+  \subsubsection{BME280 Data}
+  \paragraph{Temperature (4 bytes)}
+  The temperature section of the BME280 data frame will store the atmospheric temperature in degrees Celsius. In total, the temperature section will be 4 bytes.
+  \paragraph{Pressure (4 bytes)}
+  The pressure section of the BME280 data frame will store the atmospheric pressure in kPa. In total, the pressure section will be 4 bytes.
+  \subsection{Data Group 3}
+  
+  
+\end{document}
