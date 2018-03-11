@@ -1,9 +1,9 @@
 /*
  * File: IRECHYPERION_BME280.ino
+ * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions for the SparkFun BME280 sensor.
  */
-
 
 // Init function for the BME280 sensor
 int start_BME280() {

@@ -1,7 +1,6 @@
-
 /*
  * IREC - Hyperion
- * ...
+ * Organization: RIT Space Exploration
  * ...
  */
 
@@ -12,6 +11,7 @@
 #include <LSM9DS1_Types.h>
 #include <LSM9DS1_Registers.h>
 #include <Adafruit_BME280.h>
+#include <DSQ.h>
 
 ////////////////////
 // Define Macros //
@@ -32,8 +32,9 @@
 // Global Varables //
 ////////////////////
 
-LSM9DS1 imu_LSM9DS1; // LSM9DS1
+DSQ dsq; // Dynamic Scheduling Queue(DSQ)
 Adafruit_BME280 bme; // BME280
+LSM9DS1 imu_LSM9DS1; // LSM9DS1
 
 //////////////////////////
 // Function prototypes //
@@ -43,9 +44,6 @@ Adafruit_BME280 bme; // BME280
 // IRECHYPERION_LSM9DS1
 
 int       start_LSM9DS1(); // Init function for LSM9DS1 Sensor
-void      request_Gyro(); // Update sensor values
-void      request_Accel(); // Update sensor values
-void      request_Mag(); // Update sensor values
 float     get_Gyro(lsm9ds1_axis axis); // Return value is in DPS
 float     get_Accel(lsm9ds1_axis axis); // Return value is in g's
 float     get_Mag(lsm9ds1_axis axis); // Return value is in Gauss
@@ -65,5 +63,15 @@ float     get_Pressure(); // Pressure in hPa
 float     get_BME280_Alt(); // Approx alt in m
 float     get_Humidity(); // Humidity in %
 
+// *********************************
+// IRECHYPERION_CCS811
+
+int       start_CCS811(); // Init function for CCS811
+void      read_Algo_Results(); // Reads results
+uint16_t  get_CO2(); // returns CO2 in ppm
+uint16_t  get_TVOC(); // volitile compounds in ppm
+
+// *********************************
+// IRECHYPERION_Routines
 
 

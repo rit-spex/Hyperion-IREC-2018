@@ -1,9 +1,9 @@
 /*
  * File: IRECHYPERION_LSM9DS1.ino
+ * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions for the SparkFun LSM9DS1 sensor.
  */
-
 
 // Define/setup interupts
 // Uses polling currently
@@ -22,37 +22,6 @@ int start_LSM9DS1(){
 
   return 0;
 }
-
-
-// request_Gyro() - Requests sensor information, gyroscope data is updated on exit.
-void request_Gyro(){
-  
-  if(imu_LSM9DS1.gyroAvailable()){
-    
-    imu_LSM9DS1.readGyro();
-  }
-}
-
-
-// request_Accel() - Requests sensor information, acceleration data is updated on exit.
-void request_Accel(){
-
-  if(imu_LSM9DS1.accelAvailable()){
-
-    imu_LSM9DS1.readAccel();
-  }
-}
-
-
-// request_Mag() - Requests sensor information, Mag data is updated on exit.
-void request_Mag(){
-
-  if(imu_LSM9DS1.magAvailable()){
-
-    imu_LSM9DS1.readMag();
-  }
-}
-
 
 // get_Gyro() -- Grabs raw sensor data, converts into DPS
 // Args:

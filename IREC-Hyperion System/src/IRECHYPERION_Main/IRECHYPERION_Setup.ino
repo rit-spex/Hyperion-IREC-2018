@@ -1,5 +1,6 @@
 /*
  * IRECHYPERION_Setup
+ * Organization: RIT Space Exploration
  * Desc:
  *    Code included in setup() will run once during startup.
  */
