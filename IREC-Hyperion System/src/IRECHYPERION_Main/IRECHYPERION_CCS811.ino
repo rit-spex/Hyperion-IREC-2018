@@ -4,3 +4,4 @@
  * Description:
  *     Utilities functions for the SparkFun CCS811 sensor.
  */
+ 

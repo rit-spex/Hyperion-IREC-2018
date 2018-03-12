@@ -10,6 +10,7 @@
 #include <SparkFunLSM9DS1.h>
 #include <LSM9DS1_Types.h>
 #include <LSM9DS1_Registers.h>
+#include <SparkFunCCS811.h>
 #include <Adafruit_BME280.h>
 #include <DSQ.h>
 
@@ -28,6 +29,11 @@
 /// Data is Pressure at Sea Level in hPa
 #define SEALEVELPRESSURE_HPA (1023.23)
 
+#define CCS811_ADDR 0x5B //Default I2C Address
+//#define CCS811_ADDR 0x5A //Alternate I2C Address
+
+#define BUFFER_CAP 500
+
 //////////////////////
 // Global Varables //
 ////////////////////
@@ -35,6 +41,7 @@
 DSQ dsq; // Dynamic Scheduling Queue(DSQ)
 Adafruit_BME280 bme; // BME280
 LSM9DS1 imu_LSM9DS1; // LSM9DS1
+CCS811 ccs(CCS811_ADDR);; // CCS811
 
 //////////////////////////
 // Function prototypes //
@@ -65,7 +72,7 @@ float     get_Humidity(); // Humidity in %
 
 // *********************************
 // IRECHYPERION_CCS811
-
+// TODO
 int       start_CCS811(); // Init function for CCS811
 void      read_Algo_Results(); // Reads results
 uint16_t  get_CO2(); // returns CO2 in ppm
@@ -73,5 +80,30 @@ uint16_t  get_TVOC(); // volitile compounds in ppm
 
 // *********************************
 // IRECHYPERION_Routines
+// TODO
+void      R_write_buffer(); // Write data in buffer to SD card
+void      R_check_deployment(); // Check if deployed
+void      R_mission_constraints(); // Check mission constrignts
+void      R_deploy_parachute(); // Deploy parachute
+void      R_deploy_dampers(); // Deploy impact damper
+void      R_req_LSM9DS1(); // Request data from LSM9DS1
+void      R_seq_LSM9DS1_data(); // Gather, log data to buffer and transmit
+void      R_seq_BME280_data(); // Gather, log data to buffer and transmit
+void      R_req_CCS811(); // Request data from the CCS811
+void      R_seq_CCS811_data(); // Gather, log data to buffer and transmit
+
+// *********************************
+// IRECHYPERION_Data_Buffer
+//TODO
+void      init_buffer(); // Init buffer
+void      flush_buffer(); // Clear buffer
+int       add_to_buffer(char * data); // Add null terminated string to buffer
+int       get_size(); // Get size of buffer
+int       write_buffer(); //TODO
+
+
+
+
+
 
 

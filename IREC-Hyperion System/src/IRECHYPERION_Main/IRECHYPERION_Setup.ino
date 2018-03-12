@@ -6,6 +6,8 @@
  */
  
 void setup() {
-  // put your setup code here, to run once:
-
+  // TODO
+  // Initilize hardware modules
+  // Add startup routines into the dsq
+  // Add Default routine to the dsq
 }
