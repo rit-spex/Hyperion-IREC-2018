@@ -8,6 +8,75 @@
 #ifndef IREC_HYPERION_PROTOCOL_LIBRARY_H
 #define IREC_HYPERION_PROTOCOL_LIBRARY_H
 
+#include <stdint.h>
+
+/////////////////////
+/// Data Structs ///
+///////////////////
+
+/**
+ * Unpacked header
+ */
+typedef struct {
+    uint8_t data_type;
+    uint8_t flags;
+    uint32_t time;
+} unpk_header;
+
+/**
+ * Data struct for the LSM8DS1 data frame
+ */
+typedef struct {
+    int32_t ax, ay, az;
+    int32_t gx, gy, gz;
+    int32_t mx, my, mz;
+} LSM9DS1_Data;
+
+/**
+ * Data struct for the BME280 data frame
+ */
+typedef struct {
+    int32_t temperature;
+    int32_t pressure;
+    int32_t humdity;
+    int32_t altiude;
+} BME280_Data;
+
+/**
+ * Data struct for the CSS811 data frame
+ */
+typedef struct {
+    int16_t co2;
+    int16_t TVOC;
+} CCS811_Data;
+
+/**
+ * Packet struct containing LSM9DS1 data and header.
+ */
+typedef struct {
+    unpk_header header;
+    LSM9DS1_Data data;
+} LSM9DS1_Packet;
+
+/**
+ * Packet struct containing BME280 data and header.
+ */
+typedef struct {
+    unpk_header header;
+    BME280_Data data;
+} BME280_Packet;
+
+/**
+ * Packet struct containing CCS811 data and header.
+ */
+typedef struct {
+    unpk_header header;
+    CCS811_Data data;
+} CCS811_Packet;
+
+/**
+ * Data Type Enums
+ */
 enum DataFrameType{
     NULLDATA,
     LSM9DS1,
@@ -52,7 +121,7 @@ public:
      * @return
      *      A fully complete data frame with header
      */
-    static uint8_t *createLSM9DS1Frame(char *flags, uint32_t time,
+    static void createLSM9DS1Frame(uint8_t buff[], char *flags, uint32_t time,
                        int32_t ax, int32_t ay, int32_t az,
                        int32_t gx, int32_t gy, int32_t gz,
                        int32_t mx, int32_t my, int32_t mz);
@@ -74,7 +143,7 @@ public:
      * @return
      *      A fully complete data frame with header
      */
-    static uint8_t *createBME280Frame(char flags[], uint32_t time,
+    static void createBME280Frame(uint8_t buff[], char flags[], uint32_t time,
                                    int32_t temp, int32_t humidity, int32_t pressure, int32_t altitude);
 
     /**
@@ -90,8 +159,21 @@ public:
      * @return
      *      A fully complete data frame with header
      */
-    static uint8_t *createCCS811Frame(char flags[], uint32_t time,
+    static void createCCS811Frame(uint8_t buff[], char flags[], uint32_t time,
                                    int16_t co2, int16_t TVOC);
+
+    /**
+     * Unpack function for the LSM9DS1 data frame
+     * @param buff
+     *      A array containing a packed LSM9DS1 packet
+     * @return
+     *      A LSM9DS1 packet
+     */
+    static LSM9DS1_Packet unpack_LSM9DS1(const uint8_t buff[]);
+
+    static BME280_Packet unpack_BME280(const uint8_t buff[]);
+
+    static CCS811_Packet unpack_CCS811(const uint8_t buff[]);
 
 private:
     /**
@@ -105,6 +187,28 @@ private:
      * @return
      *      A null terminated string
      */
-    static u_int8_t *createHeader(DataFrameType type, const char *flags, uint32_t time);
+    static void createHeader(uint8_t buff[], DataFrameType type, const char *flags, uint32_t time);
+
+    /**
+     * Unpacks function for a hyperion header.
+     * @param buff
+     *      Array of header data values
+     * @return
+     *      A packed header struct
+     */
+    static unpk_header unpack_header(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the LSM9DS1 data segment
+     * @param buff
+     *      Array of LSM9DS1 data values
+     * @return
+     *      A packed LSM9DS1 Data struct
+     */
+    static LSM9DS1_Data unpack_LSM9DS1_Data(const uint8_t buff[]);
+
+    static BME280_Data unpack_BME280_Data(const uint8_t buff[]);
+
+    static CCS811_Data unpack_CCS811_Data(const uint8_t buff[]);
 };
 #endif
