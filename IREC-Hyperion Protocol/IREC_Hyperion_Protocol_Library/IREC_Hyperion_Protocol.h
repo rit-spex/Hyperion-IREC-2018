@@ -8,7 +8,15 @@
 #ifndef IREC_HYPERION_PROTOCOL_LIBRARY_H
 #define IREC_HYPERION_PROTOCOL_LIBRARY_H
 
+#define BYTE_MASK 255
+#define NIBBLE_MASK 15
+
 #include <stdint.h>
+
+#define HEADER_SIZE 5
+#define LSM9DS1_FRAME_SIZE 36
+#define BME280_FRAME_SIZE 16
+#define CCS811_FRAME_SIZE 4
 
 /////////////////////
 /// Data Structs ///
@@ -17,7 +25,7 @@
 /**
  * Unpacked header
  */
-typedef struct {
+typedef struct unpk_header{
     uint8_t data_type;
     uint8_t flags;
     uint32_t time;
@@ -26,7 +34,7 @@ typedef struct {
 /**
  * Data struct for the LSM8DS1 data frame
  */
-typedef struct {
+typedef struct LSM9DS1_Data{
     int32_t ax, ay, az;
     int32_t gx, gy, gz;
     int32_t mx, my, mz;
@@ -35,7 +43,7 @@ typedef struct {
 /**
  * Data struct for the BME280 data frame
  */
-typedef struct {
+typedef struct BME280_Data{
     int32_t temperature;
     int32_t pressure;
     int32_t humdity;
@@ -45,7 +53,7 @@ typedef struct {
 /**
  * Data struct for the CSS811 data frame
  */
-typedef struct {
+typedef struct CCS811_Data{
     int16_t co2;
     int16_t TVOC;
 } CCS811_Data;
@@ -53,7 +61,7 @@ typedef struct {
 /**
  * Packet struct containing LSM9DS1 data and header.
  */
-typedef struct {
+typedef struct LSM9DS1_Packet{
     unpk_header header;
     LSM9DS1_Data data;
 } LSM9DS1_Packet;
@@ -61,7 +69,7 @@ typedef struct {
 /**
  * Packet struct containing BME280 data and header.
  */
-typedef struct {
+typedef struct BME280_Packet{
     unpk_header header;
     BME280_Data data;
 } BME280_Packet;
@@ -69,7 +77,7 @@ typedef struct {
 /**
  * Packet struct containing CCS811 data and header.
  */
-typedef struct {
+typedef struct CCS811_Packet{
     unpk_header header;
     CCS811_Data data;
 } CCS811_Packet;
@@ -78,11 +86,11 @@ typedef struct {
  * Data Type Enums
  */
 enum DataFrameType{
-    NULLDATA,
-    LSM9DS1,
-    BME280,
-    CCS811,
-    PFSL
+    NULLDATAt,
+    LSM9DS1t,
+    BME280t,
+    CCS811t,
+    PFSLt
 };
 
 // TODO add unpacking functionality
@@ -171,9 +179,23 @@ public:
      */
     static LSM9DS1_Packet unpack_LSM9DS1(const uint8_t buff[]);
 
+    /**
+     * Unpack function for the BME280 packet
+     * @param buff
+     *      A array containing a packed BME280 packet
+     * @return
+     *      A BME280 packet
+     */
     static BME280_Packet unpack_BME280(const uint8_t buff[]);
 
-    static CCS811_Packet unpack_CCS811(const uint8_t buff[]);
+    /**
+     * Unpack function for the CCS811 packet
+     * @param buff
+     *      A array containing a packed CCS811 packet
+     * @return
+     *      A CCS811 packet
+     */
+    //static CCS811_Packet unpack_CCS811(const uint8_t buff[]);
 
 private:
     /**
@@ -207,8 +229,23 @@ private:
      */
     static LSM9DS1_Data unpack_LSM9DS1_Data(const uint8_t buff[]);
 
+    /**
+     * Unpack function for the BME280 data segment
+     * @param buff
+     *      Array of BME280 data values
+     * @return
+     *      A packed BME280 Data struct
+     */
     static BME280_Data unpack_BME280_Data(const uint8_t buff[]);
 
-    static CCS811_Data unpack_CCS811_Data(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the CCS811 data segment
+     * @param buff
+     *      Array of CCS811 data values
+     * @return
+     *      A packed CCS811 Data struct
+     */
+    //static CCS811_Data unpack_CCS811_Data(const uint8_t buff[]);
 };
 #endif

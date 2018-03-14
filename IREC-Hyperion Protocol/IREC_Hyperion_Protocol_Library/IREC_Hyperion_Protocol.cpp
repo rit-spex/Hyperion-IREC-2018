@@ -5,16 +5,7 @@
  *      Protocol to be used on the Hyperion payload.
  */
 
-#include <iostream>
-#include "IREC-Hyperion_Protocol.h"
-
-#define BYTE_MASK 255
-#define NIBBLE_MASK 15
-
-#define HEADER_SIZE 5
-#define LSM9DS1_FRAME_SIZE 36
-#define BME280_FRAME_SIZE 16
-#define CCS811_FRAME_SIZE 4
+#include "IREC_Hyperion_Protocol.h"
 
 void IRECHYPERP::createHeader(uint8_t buff[], DataFrameType type, const char *flags, uint32_t time) {
     int cnt = 0;
@@ -48,7 +39,7 @@ void IRECHYPERP::createLSM9DS1Frame(uint8_t buff[], char *flags, uint32_t time,
                                      int32_t mx, int32_t my, int32_t mz) {
 
     uint8_t buff_header[HEADER_SIZE] = {0};
-    createHeader(buff_header, LSM9DS1, flags, time);
+    createHeader(buff_header, LSM9DS1t, flags, time);
 
     int cnt = 0;
 
@@ -71,11 +62,11 @@ void IRECHYPERP::createLSM9DS1Frame(uint8_t buff[], char *flags, uint32_t time,
     }
 }
 
-void IRECHYPERP::createBME280Frame(uint8_t buff[], char *flags, uint32_t time, int32_t temp, int32_t humidity, int32_t pressure,
+void IRECHYPERP::createBME280Frame(uint8_t buff[], char *flags, uint32_t time, int32_t temp, int32_t pressure, int32_t humidity,
                                     int32_t altitude) {
 
     uint8_t buff_header[HEADER_SIZE] = {0};
-    createHeader(buff_header, BME280, flags, time);
+    createHeader(buff_header, BME280t, flags, time);
 
     int cnt = 0;
 
@@ -103,7 +94,7 @@ void IRECHYPERP::createBME280Frame(uint8_t buff[], char *flags, uint32_t time, i
 void IRECHYPERP::createCCS811Frame(uint8_t buff[], char *flags, uint32_t time, int16_t co2, int16_t TVOC) {
 
     uint8_t buff_header[HEADER_SIZE] = {0};
-    createHeader(buff_header, CCS811, flags, time);
+    createHeader(buff_header, CCS811t, flags, time);
 
     int cnt = 0;
 
@@ -171,6 +162,43 @@ LSM9DS1_Data IRECHYPERP::unpack_LSM9DS1_Data(const uint8_t buff[]) {
     int cnt = 0;
 
     for (int i = 0; i < 9; ++i){
+        for (int j = 0; j < sizeof(int32_t); ++j) {
+            *val_buff[i] = *val_buff[i] << sizeof(uint8_t)*8;
+            *val_buff[i] |= buff[j+cnt];
+        }
+        cnt += sizeof(int32_t);
+    }
+
+    return data;
+}
+
+
+BME280_Packet IRECHYPERP::unpack_BME280(const uint8_t *buff) {
+    BME280_Packet packet={0};
+
+    packet.header = unpack_header(buff);
+
+    uint8_t sliced_arry[BME280_FRAME_SIZE]={};
+
+    int cnt = 0;
+    for (int i = HEADER_SIZE; i < HEADER_SIZE+BME280_FRAME_SIZE; ++i) {
+        sliced_arry[cnt] = buff[i];
+        cnt += 1;
+    }
+
+    packet.data = unpack_BME280_Data(sliced_arry);
+
+    return packet;
+}
+
+BME280_Data IRECHYPERP::unpack_BME280_Data(const uint8_t *buff) {
+    BME280_Data data={0};
+
+    int32_t *val_buff[9] = {&data.temperature, &data.pressure, &data.humdity, &data.altiude};
+
+    int cnt = 0;
+
+    for (int i = 0; i < 4; ++i){
         for (int j = 0; j < sizeof(int32_t); ++j) {
             *val_buff[i] = *val_buff[i] << sizeof(uint8_t)*8;
             *val_buff[i] |= buff[j+cnt];

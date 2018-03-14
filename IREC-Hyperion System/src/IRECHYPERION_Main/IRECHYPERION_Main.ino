@@ -7,12 +7,15 @@
 // Included libaries
 #include <Wire.h>
 #include <SPI.h>
-#include <SparkFunLSM9DS1.h>
 #include <LSM9DS1_Types.h>
+#include <SparkFunLSM9DS1.h>
 #include <LSM9DS1_Registers.h>
 #include <SparkFunCCS811.h>
 #include <Adafruit_BME280.h>
+#include <stdint.h>
+#include <IREC_Hyperion_Protocol.h>
 #include <DSQ.h>
+#include <RH_RF95.h>
 
 ////////////////////
 // Define Macros //
@@ -32,7 +35,16 @@
 #define CCS811_ADDR 0x5B //Default I2C Address
 //#define CCS811_ADDR 0x5A //Alternate I2C Address
 
+// Maximum buffer capacity
 #define BUFFER_CAP 500
+
+// SPI pins
+#define RFM95_RST     9   // "A"
+#define RFM95_CS      10   // "B"
+#define RFM95_INT     4    // "C"
+
+// Change to 434.0 or other frequency, must match RX's freq!
+#define RF95_FREQ 915.0
 
 //////////////////////
 // Global Varables //
@@ -40,8 +52,9 @@
 
 DSQ dsq; // Dynamic Scheduling Queue(DSQ)
 Adafruit_BME280 bme; // BME280
-LSM9DS1 imu_LSM9DS1; // LSM9DS1
-CCS811 ccs(CCS811_ADDR);; // CCS811
+LSM9DS1 imu; // LSM9DS1
+CCS811 ccs(CCS811_ADDR); // CCS811
+RH_RF95 rf95(RFM95_CS, RFM95_INT); // Singleton instance of the radio driver
 
 //////////////////////////
 // Function prototypes //
@@ -50,7 +63,7 @@ CCS811 ccs(CCS811_ADDR);; // CCS811
 // *********************************
 // IRECHYPERION_LSM9DS1
 
-int       start_LSM9DS1(); // Init function for LSM9DS1 Sensor
+int       init_LSM9DS1(); // Init function for LSM9DS1 Sensor
 float     get_Gyro(lsm9ds1_axis axis); // Return value is in DPS
 float     get_Accel(lsm9ds1_axis axis); // Return value is in g's
 float     get_Mag(lsm9ds1_axis axis); // Return value is in Gauss
@@ -64,7 +77,7 @@ float     calc_Heading_Rad(); // Return is in Radians
 // *********************************
 // IRECHYPERION_BME280
 
-int       start_BME280(); // Init function for BME280 sensor
+int       init_BME280(); // Init function for BME280 sensor
 float     get_Temp(); // Temp in C
 float     get_Pressure(); // Pressure in hPa
 float     get_BME280_Alt(); // Approx alt in m
@@ -86,11 +99,16 @@ void      R_check_deployment(); // Check if deployed
 void      R_mission_constraints(); // Check mission constrignts
 void      R_deploy_parachute(); // Deploy parachute
 void      R_deploy_dampers(); // Deploy impact damper
+void      R_maintain_dampers(); // Maintaion airbag pressure
 void      R_req_LSM9DS1(); // Request data from LSM9DS1
 void      R_seq_LSM9DS1_data(); // Gather, log data to buffer and transmit
+void      R_req_BME280(); // Request BME280 data
 void      R_seq_BME280_data(); // Gather, log data to buffer and transmit
 void      R_req_CCS811(); // Request data from the CCS811
 void      R_seq_CCS811_data(); // Gather, log data to buffer and transmit
+void      R_trans_LSM9DS1(); // Tansmit LSM9DS1 data via the Hyperion Protocol
+void      R_trans_BME280(); // Transmit BME280 data via the Hyperion Protocol
+void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
 
 // *********************************
 // IRECHYPERION_Data_Buffer
@@ -101,9 +119,9 @@ int       add_to_buffer(char * data); // Add null terminated string to buffer
 int       get_size(); // Get size of buffer
 int       write_buffer(); //TODO
 
+// *********************************
+// IRECHYPERION_Transmit
 
-
-
-
-
+void      init_LoRa();
+void      transmit_data(uint8_t * data, int data_len);
 

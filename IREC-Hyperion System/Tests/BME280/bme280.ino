@@ -46,11 +46,12 @@ void loop() {
 
 void printValues() {
   // Printo out for debug
-  Serial.print("Temperature = ");
+  //Serial.print("Temperature = ");
   unsigned long time = millis();
-  Serial.print(bme.readTemperature());
+  bme.readTemperature();
   Serial.println(millis() - time);
-  Serial.println(" *C");
+  Serial.print(bme.readTemperature());
+  //Serial.println(" *C");
 
   Serial.print("Pressure = ");
   

@@ -8,16 +8,16 @@
 // Define/setup interupts
 // Uses polling currently
 //Starts the LSM9DS1 with correct settings.
-int start_LSM9DS1(){
+int init_LSM9DS1(){
   
-  imu_LSM9DS1.settings.device.commInterface = IMU_MODE_I2C;
-  imu_LSM9DS1.settings.device.mAddress = LSM9DS1_M;
-  imu_LSM9DS1.settings.device.agAddress = LSM9DS1_AG;
+  imu.settings.device.commInterface = IMU_MODE_I2C;
+  imu.settings.device.mAddress = LSM9DS1_M;
+  imu.settings.device.agAddress = LSM9DS1_AG;
   // The above lines will only take effect AFTER calling
   // imu.begin(), which verifies communication with the IMU
   // and turns it on.
   
-  if (!imu_LSM9DS1.begin()) return 1; // return 1 if error has occured
+  if (!imu.begin()) return 1; // return 1 if error has occured
   // TODO: set error 
 
   return 0;
@@ -34,19 +34,19 @@ float get_Gyro(lsm9ds1_axis axis) {
 
   switch(axis){
     case X_AXIS:
-      raw_Data = imu_LSM9DS1.gx;
+      raw_Data = imu.gx;
       break;
     case Y_AXIS:
-      raw_Data = imu_LSM9DS1.gy;
+      raw_Data = imu.gy;
       break;
     case Z_AXIS:
-      raw_Data = imu_LSM9DS1.gz;
+      raw_Data = imu.gz;
       break;
     default:
       return 0; // Did not supply a vaild axis.
   }
 
-  return imu_LSM9DS1.calcGyro(raw_Data);
+  return imu.calcGyro(raw_Data);
 }
 
 
@@ -61,18 +61,18 @@ float get_Accel(lsm9ds1_axis axis) {
 
   switch(axis){
     case X_AXIS:
-      raw_Data = imu_LSM9DS1.ax;
+      raw_Data = imu.ax;
       break;
     case Y_AXIS:
-      raw_Data = imu_LSM9DS1.ay;
+      raw_Data = imu.ay;
       break;
     case Z_AXIS:
-      raw_Data = imu_LSM9DS1.az;
+      raw_Data = imu.az;
       break;
     default:
       return 0; // Did not supply a vaild axis.
   }
-  return imu_LSM9DS1.calcAccel(raw_Data);
+  return imu.calcAccel(raw_Data);
 }
 
 
@@ -87,19 +87,19 @@ float get_Mag(lsm9ds1_axis axis) {
 
   switch(axis){
     case X_AXIS:
-      raw_Data = imu_LSM9DS1.mx;
+      raw_Data = imu.mx;
       break;
     case Y_AXIS:
-      raw_Data = imu_LSM9DS1.my;
+      raw_Data = imu.my;
       break;
     case Z_AXIS:
-      raw_Data = imu_LSM9DS1.mz;
+      raw_Data = imu.mz;
       break;
     default:
       return 0; // Did not supply a vaild axis.
   }
 
-  return imu_LSM9DS1.calcMag(raw_Data);
+  return imu.calcMag(raw_Data);
 }
 
 

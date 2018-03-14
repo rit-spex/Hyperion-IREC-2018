@@ -6,16 +6,18 @@
  */
 
 // Init function for the BME280 sensor
-int start_BME280() {
+int init_BME280() {
   
   bool status;
     
   // Check status
   status = bme.begin();  
   if (!status) {
+      Serial.print("[BME280] - Init failed");
       return 1; // Errors
   }
 
+  Serial.print("[BME280] - Init success");
   return 0; // Correctly started
 }
 

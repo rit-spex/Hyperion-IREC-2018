@@ -34,8 +34,14 @@ void flush_buffer(){
  *    1 if buffer is full
  */
 int add_to_buffer(char * data){
-  
+  return 0;
 }
 
-int       get_size(); // Get size of buffer
-int       write_buffer(); //TODO
+int get_size() {
+  return buff_size;
+}
+
+int write_buffer() {
+  return 0;
+}
+

@@ -6,7 +6,6 @@
  */
  
 void loop() {
-
+    Serial.print("loop ");
   dsq.execute(); // Execute routine placed into the DSQ
-
 }
