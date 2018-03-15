@@ -12,7 +12,6 @@
 #include <LSM9DS1_Registers.h>
 #include <SparkFunCCS811.h>
 #include <Adafruit_BME280.h>
-#include <stdint.h>
 #include <IREC_Hyperion_Protocol.h>
 #include <DSQ.h>
 #include <RH_RF95.h>
@@ -20,6 +19,8 @@
 ////////////////////
 // Define Macros //
 //////////////////
+
+#define LED 13
 
 // Pin Macros
 #define LSM9DS1_M  0x1E // Would be 0x1C if SDO_M is LOW

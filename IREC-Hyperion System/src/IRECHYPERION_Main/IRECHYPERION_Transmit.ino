@@ -12,7 +12,8 @@ void init_LoRa(){
   
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
-
+  pinMode(RFM95_INT,INPUT);
+  
   // manual reset
   digitalWrite(RFM95_RST, LOW);
   delay(10);
@@ -42,11 +43,9 @@ void init_LoRa(){
  *    data_len: The length of the data to be sent
  */
 void transmit_data(uint8_t data[], int data_len){
-
+  
+  digitalWrite(LED, HIGH);
   // Transmit the data
   rf95.send(data, data_len);
-
-  // Blocks until the transmitter is no longer transmitting.
-  rf95.waitPacketSent();
 }
 
