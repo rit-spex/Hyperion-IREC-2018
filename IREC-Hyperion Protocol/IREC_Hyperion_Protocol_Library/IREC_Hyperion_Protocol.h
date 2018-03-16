@@ -46,8 +46,8 @@ typedef struct LSM9DS1_Data{
 typedef struct BME280_Data{
     int32_t temperature;
     int32_t pressure;
-    int32_t humdity;
-    int32_t altiude;
+    int32_t humidity;
+    int32_t altitude;
 } BME280_Data;
 
 /**
@@ -101,6 +101,17 @@ enum DataFrameType{
  */
 class IRECHYPERP {
 public:
+
+    /**
+     * Determines the type of data contained in buff
+     * @param buff
+     *      Packet data
+     * @return
+     *      A type corresponding to header data
+     */
+    static int typeofData(const uint8_t buff[]){
+        return buff[0] >> 4;
+    }
 
     /**
      * Main packer function for the LSMDS1 data frame.

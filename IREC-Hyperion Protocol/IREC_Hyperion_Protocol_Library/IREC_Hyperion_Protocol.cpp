@@ -194,7 +194,7 @@ BME280_Packet IRECHYPERP::unpack_BME280(const uint8_t *buff) {
 BME280_Data IRECHYPERP::unpack_BME280_Data(const uint8_t *buff) {
     BME280_Data data={0};
 
-    int32_t *val_buff[9] = {&data.temperature, &data.pressure, &data.humdity, &data.altiude};
+    int32_t *val_buff[9] = {&data.temperature, &data.pressure, &data.humidity, &data.altitude};
 
     int cnt = 0;
 
