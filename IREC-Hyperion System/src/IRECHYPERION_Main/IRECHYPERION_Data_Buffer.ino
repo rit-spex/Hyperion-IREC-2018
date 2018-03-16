@@ -47,6 +47,6 @@ int get_size() {
  * Write the buffer to the SD card
  */
 int write_buffer() {
-  return 0;
+  //return 0;
 }
 

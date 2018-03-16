@@ -21,10 +21,9 @@ void setup() {
   init_BME280();
   
   // Add Default routine to the dsq
-  dsq.set_default(1, );
+  dsq.set_default(1, R_Default);
   // Add startup routines into the dsq
-  dsq.add_routine(0, 3, R_trans_BME280);
-  
-  
+  dsq.add_routine(0, 20, R_trans_BME280);
+  dsq.add_routine(0, 3, R_trans_LSM9DS1); 
 
 }

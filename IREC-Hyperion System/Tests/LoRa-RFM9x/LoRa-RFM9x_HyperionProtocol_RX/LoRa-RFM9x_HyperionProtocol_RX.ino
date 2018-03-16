@@ -53,11 +53,39 @@ void loop() {
     if (rf95.recv(buf, &len))
     {
       digitalWrite(LED, HIGH);
+
+      float temp;
       
-      BME280_Packet packed = IRECHYPERP::unpack_BME280(buf);
-      Serial.println(packed.header.data_type);
-      Serial.println(packed.data.humdity);
-      
+      switch(IRECHYPERP::typeofData(buf)){
+        case 0: 
+          break;
+        case 1:
+          {      
+            LSM9DS1_Packet packed = IRECHYPERP::unpack_LSM9DS1(buf);
+            Serial.println("LSM9DS1 DATA:");
+            temp = *((float*)&packed.data.ax);
+            Serial.print("ax: "); Serial.println(temp);
+            temp = *((float*)&packed.data.ay);
+            Serial.print("ay: "); Serial.println(temp);
+            temp = *((float*)&packed.data.az);
+            Serial.print("az: "); Serial.println(temp);
+          }
+          break;
+        case 2:    
+          {      
+            BME280_Packet packed = IRECHYPERP::unpack_BME280(buf);
+            Serial.println("BME280 DATA:");
+            temp = *((float*)&packed.data.temperature);
+            Serial.print("Temperature: "); Serial.println(temp);
+            temp = *((float*)&packed.data.pressure);
+            Serial.print("Pressure: "); Serial.println(temp);
+            temp = *((float*)&packed.data.humidity);
+            Serial.print("Humidity: "); Serial.println(temp);
+            temp = *((float*)&packed.data.altitude);
+            Serial.print("Altitude: "); Serial.println(temp);
+            break;
+          }
+      }
     }
     else
     {

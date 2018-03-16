@@ -10,17 +10,27 @@
 //Starts the LSM9DS1 with correct settings.
 int init_LSM9DS1(){
   
-  imu.settings.device.commInterface = IMU_MODE_I2C;
-  imu.settings.device.mAddress = LSM9DS1_M;
-  imu.settings.device.agAddress = LSM9DS1_AG;
+  // Before initializing the IMU, there are a few settings
+  // we may need to adjust. Use the settings struct to set
+  // the device's communication mode and addresses:
+  imu.settings.device.commInterface = IMU_MODE_SPI;
+  imu.settings.device.mAddress = LSM9DS1_M_CS;
+  imu.settings.device.agAddress = LSM9DS1_AG_CS;
   // The above lines will only take effect AFTER calling
   // imu.begin(), which verifies communication with the IMU
   // and turns it on.
-  
-  if (!imu.begin()) return 1; // return 1 if error has occured
-  // TODO: set error 
+  if (!imu.begin())
+  {
+    Serial.println("[LSM9DS1] Init Failure");
+  }
+  Serial.println("[LSM9DS1] Init Success");
+}
 
-  return 0;
+void read_Sensors(){
+  
+  imu.readMag();
+  imu.readAccel();
+  imu.readGyro();
 }
 
 // get_Gyro() -- Grabs raw sensor data, converts into DPS

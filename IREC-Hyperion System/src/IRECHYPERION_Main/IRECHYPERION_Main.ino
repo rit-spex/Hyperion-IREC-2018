@@ -23,8 +23,8 @@
 #define LED 13
 
 // Pin Macros
-#define LSM9DS1_M  0x1E // Would be 0x1C if SDO_M is LOW
-#define LSM9DS1_AG  0x6B // Would be 0x6A if SDO_AG is LOW
+#define LSM9DS1_M_CS  36 // Can be any digital pin
+#define LSM9DS1_AG_CS 35  // Can be any other digital pin
 
 // WARNING CHANGE BASED LOCATION
 #define DECLINATION 11.27 // Declination (degrees) in Rochester, NY
@@ -65,6 +65,7 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT); // Singleton instance of the radio driver
 // IRECHYPERION_LSM9DS1
 
 int       init_LSM9DS1(); // Init function for LSM9DS1 Sensor
+void      read_Sensors();
 float     get_Gyro(lsm9ds1_axis axis); // Return value is in DPS
 float     get_Accel(lsm9ds1_axis axis); // Return value is in g's
 float     get_Mag(lsm9ds1_axis axis); // Return value is in Gauss
