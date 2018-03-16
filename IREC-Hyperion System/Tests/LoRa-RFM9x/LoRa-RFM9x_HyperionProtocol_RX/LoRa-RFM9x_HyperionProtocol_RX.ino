@@ -43,6 +43,12 @@ void setup() {
   Serial.println("[LoRa] - Init success");
 }
 
+float convert(int32_t inputvalue) {
+    float f;
+    memcpy(&f, &inputvalue, sizeof(f));
+    return f;
+}
+
 void loop() {
   if (rf95.available())
   {
@@ -54,8 +60,6 @@ void loop() {
     {
       digitalWrite(LED, HIGH);
 
-      float temp;
-      
       switch(IRECHYPERP::typeofData(buf)){
         case 0: 
           break;
@@ -63,26 +67,19 @@ void loop() {
           {      
             LSM9DS1_Packet packed = IRECHYPERP::unpack_LSM9DS1(buf);
             Serial.println("LSM9DS1 DATA:");
-            temp = *((float*)&packed.data.ax);
-            Serial.print("ax: "); Serial.println(temp);
-            temp = *((float*)&packed.data.ay);
-            Serial.print("ay: "); Serial.println(temp);
-            temp = *((float*)&packed.data.az);
-            Serial.print("az: "); Serial.println(temp);
+            Serial.print("ax: "); Serial.println(convert(packed.data.ax));
+            Serial.print("ay: "); Serial.println(convert(packed.data.ay));
+            Serial.print("az: "); Serial.println(convert(packed.data.az));
           }
           break;
         case 2:    
           {      
             BME280_Packet packed = IRECHYPERP::unpack_BME280(buf);
             Serial.println("BME280 DATA:");
-            temp = *((float*)&packed.data.temperature);
-            Serial.print("Temperature: "); Serial.println(temp);
-            temp = *((float*)&packed.data.pressure);
-            Serial.print("Pressure: "); Serial.println(temp);
-            temp = *((float*)&packed.data.humidity);
-            Serial.print("Humidity: "); Serial.println(temp);
-            temp = *((float*)&packed.data.altitude);
-            Serial.print("Altitude: "); Serial.println(temp);
+            Serial.print("Temperature: "); Serial.println(convert(packed.data.temperature));
+            Serial.print("Pressure: "); Serial.println(convert(packed.data.pressure));
+            Serial.print("Humidity: "); Serial.println(convert(packed.data.humidity));
+            Serial.print("Altitude: "); Serial.println(convert(packed.data.altitude));
             break;
           }
       }

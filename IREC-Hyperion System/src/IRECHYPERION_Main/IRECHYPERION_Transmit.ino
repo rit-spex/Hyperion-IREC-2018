@@ -49,3 +49,9 @@ void transmit_data(uint8_t data[], int data_len){
   rf95.send(data, data_len);
 }
 
+int32_t convert_float_int32(float inputvalue) {
+    int32_t f;
+    memcpy(&f, &inputvalue, sizeof(f));
+    return f;
+}
+

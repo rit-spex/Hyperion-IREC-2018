@@ -20,9 +20,10 @@ void R_trans_LSM9DS1(){
 
     read_Sensors(); //REMOVE
     
-    IRECHYPERP::createLSM9DS1Frame(buff, flags, time, (int32_t)get_Accel(X_AXIS), (int32_t)get_Accel(Y_AXIS), (int32_t)get_Accel(Z_AXIS),
-    (int32_t)get_Gyro(X_AXIS), (int32_t)get_Gyro(Y_AXIS), (int32_t)get_Gyro(Z_AXIS), (int32_t)get_Mag(X_AXIS), (int32_t)get_Mag(Y_AXIS), 
-    (int32_t)get_Mag(Z_AXIS));
+    IRECHYPERP::createLSM9DS1Frame(buff, flags, time, 
+    convert_float_int32(get_Accel(X_AXIS)), convert_float_int32(get_Accel(Y_AXIS)), convert_float_int32(get_Accel(Z_AXIS)),
+    convert_float_int32(get_Gyro(X_AXIS)), convert_float_int32(get_Gyro(Y_AXIS)), convert_float_int32(get_Gyro(Z_AXIS)),
+    convert_float_int32(get_Mag(X_AXIS)), convert_float_int32(get_Mag(Y_AXIS)), convert_float_int32(get_Mag(Z_AXIS)));
 
     float deltat = millis();
     transmit_data(buff, LSM9DS1_FRAME_SIZE+HEADER_SIZE);
@@ -43,7 +44,8 @@ void R_trans_BME280(){
 
     uint8_t buff[BME280_FRAME_SIZE+HEADER_SIZE] = {0};
 	  //TODO
-    IRECHYPERP::createBME280Frame(buff, flags, time, (int32_t)get_Temp(), (int32_t)get_Pressure(), (int32_t)get_Humidity(), (int32_t)get_BME280_Alt());
+    IRECHYPERP::createBME280Frame(buff, flags, time, 
+    convert_float_int32(get_Temp()), convert_float_int32(get_Pressure()), convert_float_int32(get_Humidity()), convert_float_int32(get_BME280_Alt()));
 
     // Transmit data via LoRa
     float deltat = millis();

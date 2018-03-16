@@ -57,6 +57,12 @@ LSM9DS1 imu; // LSM9DS1
 CCS811 ccs(CCS811_ADDR); // CCS811
 RH_RF95 rf95(RFM95_CS, RFM95_INT); // Singleton instance of the radio driver
 
+////////////////////////
+/// Data structures ///
+//////////////////////
+
+
+
 //////////////////////////
 // Function prototypes //
 ////////////////////////
@@ -126,4 +132,5 @@ int       write_buffer(); //TODO
 
 void      init_LoRa();
 void      transmit_data(uint8_t * data, int data_len);
+int32_t   convert_float_int32(float inputvalue);
 
