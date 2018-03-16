@@ -53,7 +53,6 @@ void loop() {
     if (rf95.recv(buf, &len))
     {
       digitalWrite(LED, HIGH);
-      RH_RF95::printBuffer("Received: ", buf, len);
       
       BME280_Packet packed = IRECHYPERP::unpack_BME280(buf);
       Serial.println(packed.header.data_type);

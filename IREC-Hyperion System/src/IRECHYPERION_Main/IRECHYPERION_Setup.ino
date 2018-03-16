@@ -14,15 +14,17 @@ void setup() {
   
   delay(100);
   
-  Serial.println("-----Initilizing------");
+  Serial.println("-----Initializing Hyperion------");
   // TODO
   // Initilize hardware modules  
   init_LoRa();
   init_BME280();
   
+  // Add Default routine to the dsq
+  dsq.set_default(1, );
   // Add startup routines into the dsq
   dsq.add_routine(0, 3, R_trans_BME280);
   
-  // Add Default routine to the dsq
+  
 
 }

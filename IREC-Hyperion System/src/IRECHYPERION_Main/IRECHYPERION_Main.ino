@@ -95,6 +95,7 @@ uint16_t  get_TVOC(); // volitile compounds in ppm
 // *********************************
 // IRECHYPERION_Routines
 // TODO
+void	  R_Default(); // Default routine
 void      R_write_buffer(); // Write data in buffer to SD card
 void      R_check_deployment(); // Check if deployed
 void      R_mission_constraints(); // Check mission constrignts
@@ -114,9 +115,8 @@ void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
 // *********************************
 // IRECHYPERION_Data_Buffer
 //TODO
-void      init_buffer(); // Init buffer
 void      flush_buffer(); // Clear buffer
-int       add_to_buffer(char * data); // Add null terminated string to buffer
+int       add_to_buffer(char data[]); // Add null terminated string to buffer
 int       get_size(); // Get size of buffer
 int       write_buffer(); //TODO
 
