@@ -26,6 +26,9 @@ int init_LSM9DS1(){
   Serial.println("[LSM9DS1] Init Success");
 }
 
+/**
+ * Read values from the sensors on the LSM9DS1
+ */
 void read_Sensors(){
   
   imu.readMag();

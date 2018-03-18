@@ -6,9 +6,22 @@
  *    Routines to be included into the DSQ
  */
 
-
 void R_Default(){
 	// TODO
+}
+
+void R_seq_LSM9DS1_data(){
+
+    // Read data from sensors
+    read_Sensors();
+
+    // TODO
+    // Create string
+    // Pack string with data from the sensors
+    char * data_str = form_LSM9DS1_str();
+    // Insert data into the data buffer
+
+    dsq.add_routine(0, 3, R_seq_LSM9DS1_data); 
 }
 
 void R_trans_LSM9DS1(){
@@ -17,8 +30,6 @@ void R_trans_LSM9DS1(){
     uint32_t time = 800; // Change
 
     uint8_t buff[LSM9DS1_FRAME_SIZE+HEADER_SIZE] = {0};
-
-    read_Sensors(); //REMOVE
     
     IRECHYPERP::createLSM9DS1Frame(buff, flags, time, 
     convert_float_int32(get_Accel(X_AXIS)), convert_float_int32(get_Accel(Y_AXIS)), convert_float_int32(get_Accel(Z_AXIS)),

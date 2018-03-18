@@ -15,12 +15,15 @@
 #include <IREC_Hyperion_Protocol.h>
 #include <DSQ.h>
 #include <RH_RF95.h>
+#include <string.h>
 
 ////////////////////
 // Define Macros //
 //////////////////
 
 #define LED 13
+
+#define DEFAULT_STR_LEN 100
 
 // Pin Macros
 #define LSM9DS1_M_CS  36 // Can be any digital pin
@@ -71,7 +74,7 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT); // Singleton instance of the radio driver
 // IRECHYPERION_LSM9DS1
 
 int       init_LSM9DS1(); // Init function for LSM9DS1 Sensor
-void      read_Sensors();
+void      read_Sensors(); // Read sensors on LSM9DS1
 float     get_Gyro(lsm9ds1_axis axis); // Return value is in DPS
 float     get_Accel(lsm9ds1_axis axis); // Return value is in g's
 float     get_Mag(lsm9ds1_axis axis); // Return value is in Gauss
@@ -102,7 +105,7 @@ uint16_t  get_TVOC(); // volitile compounds in ppm
 // *********************************
 // IRECHYPERION_Routines
 // TODO
-void	  R_Default(); // Default routine
+void	    R_Default(); // Default routine
 void      R_write_buffer(); // Write data in buffer to SD card
 void      R_check_deployment(); // Check if deployed
 void      R_mission_constraints(); // Check mission constrignts
@@ -126,6 +129,7 @@ void      flush_buffer(); // Clear buffer
 int       add_to_buffer(char data[]); // Add null terminated string to buffer
 int       get_size(); // Get size of buffer
 int       write_buffer(); //TODO
+char*     create_string(int str_size); // Create a string using dynamic allocation
 
 // *********************************
 // IRECHYPERION_Transmit
