@@ -17,7 +17,7 @@
   The Hyperion Protocol defines data packing techniques and configurations in order to achieve communication between endpoints. A universal header will be defined which allows senders the freedom to include a wide range of information from individual sensors or information groups. In addition, multiple other data configurations will be defined. These additional data configurations will store information regarding data groups from sensors without any notion of time captured.
   
   \section{Header}
-  The header will be required for any outgoing and incoming data within the realm of the Hyperion protocol. This header will include information regarding the which data group (Sensor values) is contained in a message, flags and time sent. Any data wished to be sent with the Hyperion Protocol will be tacked on behind the header.  The Hyperion Protocol header will be \textbf{40bits} long or \textbf{5 bytes}.
+  The header will be required for any outgoing and incoming data within the realm of the Hyperion protocol. This header will include information regarding the which data group (Sensor values) is contained in a message, flags and time sent. Any data wished to be sent with the Hyperion Protocol will be tacked on behind the header.  The Hyperion Protocol header will be \textbf{24bits} long or \textbf{3 bytes}.
   \subsection{Header Data}
   Data contained in the header will have a maximum size, this size will be defined in bits and largest value stored. 
   
@@ -27,8 +27,8 @@
   \paragraph{Flags (4 bits)}
   The Flags section will be used to define how the data will be parsed or handled. A size of 4 bits will allow for 4 flags to be set at a time.
   
-  \paragraph{Sent Time (32 bits)}
-  The Sent Time section will be used to determine the time sent in seconds from the Hyperion system. This will be used for timestamps/data evolution analysis. This section will need to be 32 bits. This allows for a value of maximum value of 4294967295. A large maximum value is needed to store the time in seconds from unix epoch (Jan 01 1970. (UTC)). Currently at the time of writing this, this value is in the 1.5 billion range. 
+  \paragraph{Sent Time (16 bits)}
+  The Sent Time section will be used to determine the time sent in seconds from the Hyperion system. This will be used for timestamps/data evolution analysis. This section will need to be 16 bits. This allows for a value of maximum value of 65535. This allows us to send data time stamped from startup for 18.2 hours. 
   
   \subsection{Visualization}
   
@@ -38,7 +38,7 @@
   \label{Hyperion Header}
   \begin{tabular}{|c|c|c|l|l|l|l|l|l|l|lll}
   \cline{1-10}
-  1 & 2 & \multicolumn{8}{c|}{Sent Time (32 bits)} &  & 1 & Data Group (4 bits) \\ \cline{1-10}
+  1 & 2 & \multicolumn{8}{c|}{Sent Time (16 bits)} &  & 1 & Data Group (4 bits) \\ \cline{1-10}
   \multicolumn{10}{|c|}{Data}                      &  & 2 & Flags (4 bits)      \\ \cline{1-10}
   \end{tabular}
   \end{table}
@@ -58,8 +58,8 @@
   2     & BME280        \\
   3     & CCS811        \\
   4     & PerfectFlite Strato Logger       \\
-  5     & ...        \\
-  6     &         \\
+  5     & Orientation   \\
+  6     &  ...        \\
   7     &         \\
   8     &         \\
   9     &         \\
@@ -110,16 +110,16 @@
   \end{table}
 
   \subsection{BME280}
-  This section will define the data frame for the BME280 data group. The BME280 data group contains information regarding atmospheric temperature, pressure and humidity. In total, this data frame will be 16 bytes in size.
+  This section will define the data frame for the BME280 data group. The BME280 data group contains information regarding atmospheric temperature, pressure and humidity. In total, this data frame will be 8 bytes in size.
   \subsubsection{BME280 Data}
-  \paragraph{Temperature (4 bytes)}
-  The temperature section of the BME280 data frame will store the atmospheric temperature in degrees Celsius. In total, the temperature section will be 4 bytes.
-  \paragraph{Pressure (4 bytes)}
-  The pressure section of the BME280 data frame will store the atmospheric pressure in kPa. In total, the pressure section will be 4 bytes.
-  \paragraph{Humidity (4 bytes)}
+  \paragraph{Temperature (2 bytes)}
+  The temperature section of the BME280 data frame will store the atmospheric temperature in degrees Celsius. In total, the temperature section will be 2 bytes.
+  \paragraph{Pressure (2 bytes)}
+  The pressure section of the BME280 data frame will store the atmospheric pressure in kPa. In total, the pressure section will be 2 bytes.
+  \paragraph{Humidity (2 bytes)}
   The humidity section of the BME280 data frame will store the atmospheric humidity by percentage. In total, the humidity section will be 4 bytes.
-  \paragraph{BME\_Altitude (4 bytes)}
-  The Altitude section of the BME280 data frame will store the altitude derived by pressure. In total, the BME\_Altitude section will be 4 bytes.
+  \paragraph{BME\_Altitude (2 bytes)}
+  The Altitude section of the BME280 data frame will store the altitude derived by pressure. In total, the BME\_Altitude section will be 2 bytes.
   \subsubsection{Visualization}
   
   \begin{table}[H]
@@ -128,8 +128,8 @@
   \label{my-label}
   \begin{tabular}{|l|l|}
   \hline
-Temperature (4 bytes) & Pressure (4 bytes)      \\ \hline
-Humidity (4 bytes)    & BME\_Altitude (4 bytes) \\ \hline
+Temperature (2 bytes) & Pressure (2 bytes)      \\ \hline
+Humidity (2 bytes)    & BME\_Altitude (2 bytes) \\ \hline
   \end{tabular}
   \end{table}
   
@@ -169,4 +169,25 @@ Altitude (2 bytes) \\ \hline
  \end{tabular}
  \end{table}
   
-\end{document}
+  \subsection{Orientation}
+  This section will define the data frame for the Orientation data group. The Orientation data group will contain calculations for Roll, Pitch and Yaw. In total, this data group will be 3 bytes in size.
+  \subsubsection{Orientation Data}
+  \paragraph{Roll (1 byte)}
+  The Roll section of the Orientation data group will store the Roll from range -180 to 180 (0 to 360 degrees).
+  \paragraph{Pitch (1 byte)}
+  The Pitch section of the Orientation data group will store the Pitch from range -180 to 180 (0 to 360 degrees).  
+  \paragraph{Yaw (1 byte)}
+  The Yaw section of the Orientation data group will store the Yaw from range -180 to 180 (0 to 360 degrees).  
+  
+  \subsubsection{Visualization}
+  \begin{table}[H]
+  \centering
+  \caption{Orientation Data Group}
+  \label{Orientation}
+  \begin{tabular}{|l|l|l|}
+  \hline
+Roll(1 byte) & Pitch(1 byte) & Yaw(1 byte) \\ \hline
+  \end{tabular}
+  \end{table}
+  
+  \end{document}
