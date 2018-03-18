@@ -1,7 +1,6 @@
 #include <RH_RF95.h>
 #include <Wire.h>
 #include <SPI.h>
-#include <IREC_Hyperion_Protocol.h>
 
 // SPI pins
 #define RFM95_RST     9   // "A"
