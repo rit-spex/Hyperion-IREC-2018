@@ -44,9 +44,12 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  uint8_t buff[20] = "Hello World";
-  float timed = millis();
-  rf95.send(buff, 1);
-  timed = millis()-timed;
-  Serial.print("Transmit Time: "); Serial.println(timed);
+  for(int i = 1; i < 42; i++){
+    uint8_t buff[20] = "Hello World";
+    float timed = millis();
+    rf95.send(buff, i);
+    timed = millis()-timed;
+    Serial.print(i); Serial.print("Transmit Time: "); Serial.println(timed);
+  }
+
 }
