@@ -6,6 +6,6 @@
  */
  
 void loop() {
-
-  dsq.execute(); // Execute routine placed into the DSQ
+  // Execute routine placed into the DSQ
+  dsq.execute(); 
 }

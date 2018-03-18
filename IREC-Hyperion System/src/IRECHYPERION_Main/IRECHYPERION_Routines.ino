@@ -15,11 +15,12 @@ void R_seq_LSM9DS1_data(){
     // Read data from sensors
     read_Sensors();
 
-    // TODO
     // Create string
     // Pack string with data from the sensors
     char * data_str = form_LSM9DS1_str();
+	
     // Insert data into the data buffer
+	add_to_buffer(data_str);
 
     dsq.add_routine(0, 3, R_seq_LSM9DS1_data); 
 }

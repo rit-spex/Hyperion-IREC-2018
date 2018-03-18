@@ -23,7 +23,7 @@
 
 #define LED 13
 
-#define DEFAULT_STR_LEN 100
+#define DEFAULT_STR_LEN 200
 
 // Pin Macros
 #define LSM9DS1_M_CS  36 // Can be any digital pin
