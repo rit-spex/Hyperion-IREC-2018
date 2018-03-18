@@ -26,7 +26,7 @@ char *form_LSM9DS1_str(){
   get_Mag(X_AXIS), get_Mag(Y_AXIS), get_Mag(Z_AXIS)};
   
   for (int i = 0; i < 9; i++){
-  	dtostrf(data_array[i], 1, 3, temp);
+  	dtostrf(data_array[i], 4, 3, temp);
 	  strcat(data_str, ",\0");
 	  strcat(data_str, temp);
   }
