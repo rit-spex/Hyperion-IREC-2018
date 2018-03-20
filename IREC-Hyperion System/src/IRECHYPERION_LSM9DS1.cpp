@@ -5,6 +5,10 @@
  *     Utilities functions for the SparkFun LSM9DS1 sensor.
  */
 
+#include "IRECHYPERION.h"
+
+LSM9DS1 imu; 
+
 // Define/setup interupts
 // Uses polling currently
 //Starts the LSM9DS1 with correct settings.

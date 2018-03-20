@@ -4,7 +4,11 @@
  * ...
  */
 
+#ifndef IRECHYPERION
+#define IRECHYPERION
+
 // Included libaries
+#include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <LSM9DS1_Types.h>
@@ -54,11 +58,11 @@
 // Global Varables //
 ////////////////////
 
-DSQ dsq; // Dynamic Scheduling Queue(DSQ)
-Adafruit_BME280 bme; // BME280
-LSM9DS1 imu; // LSM9DS1
-CCS811 ccs(CCS811_ADDR); // CCS811
-RH_RF95 rf95(RFM95_CS, RFM95_INT); // Singleton instance of the radio driver
+extern DSQ dsq; // Dynamic Scheduling Queue(DSQ)
+extern Adafruit_BME280 bme; // BME280
+extern LSM9DS1 imu; // LSM9DS1
+extern CCS811 ccs; // CCS811
+extern RH_RF95 rf95; // Singleton instance of the radio driver
 
 ////////////////////////
 /// Data structures ///
@@ -105,7 +109,7 @@ uint16_t  get_TVOC(); // volitile compounds in ppm
 // *********************************
 // IRECHYPERION_Routines
 // TODO
-void	    R_Default(); // Default routine
+void	  R_Default(); // Default routine
 void      R_write_buffer(); // Write data in buffer to SD card
 void      R_check_deployment(); // Check if deployed
 void      R_mission_constraints(); // Check mission constrignts
@@ -137,4 +141,11 @@ char*     create_string(int str_size); // Create a string using dynamic allocati
 void      init_LoRa();
 void      transmit_data(uint8_t * data, int data_len);
 int32_t   convert_float_int32(float inputvalue);
+
+// *********************************
+// IRECHYPERION_Routine_Helpers
+
+char *form_LSM9DS1_str();
+
+#endif
 

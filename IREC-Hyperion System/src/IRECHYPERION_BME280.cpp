@@ -5,10 +5,14 @@
  *     Utilities functions for the SparkFun BME280 sensor.
  */
 
+#include "IRECHYPERION.h"
+
 float BME280_Temperature = 0;
 float BME280_Pressure = 0;
 float BME280_Humidity = 0;
 float BME280_Altitude = 0;
+
+Adafruit_BME280 bme;
 
 // Init function for the BME280 sensor
 int init_BME280() {

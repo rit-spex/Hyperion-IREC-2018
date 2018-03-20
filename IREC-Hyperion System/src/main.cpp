@@ -1,10 +1,14 @@
 /*
- * IRECHYPERION_Setup
+ * main.cpp
  * Organization: RIT Space Exploration
  * Desc:
- *    Code included in setup() will run once during startup.
+ *    Code included in loop() will run execute in a loop.
  */
- 
+
+#include "IRECHYPERION.h"
+
+DSQ dsq; // Dynamic Scheduling Queue(DSQ)
+
 void setup() {
   Serial.begin(9600);
   
@@ -28,4 +32,9 @@ void setup() {
   dsq.add_routine(0, 20, R_trans_BME280);
   dsq.add_routine(0, 3, R_trans_LSM9DS1); 
   dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+}
+
+void loop() {
+  // Execute routine placed into the DSQ
+  dsq.execute(); 
 }

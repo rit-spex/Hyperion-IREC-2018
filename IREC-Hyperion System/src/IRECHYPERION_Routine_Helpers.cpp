@@ -5,6 +5,8 @@
  *     Routine helper functions.
  */
 
+#include "IRECHYPERION.h"
+
 /**
  * Helper function for the R_seq_LSM9DS1_data routine
  * Creates a string then populates it with data from the LSM9DS1 (imu) sensor.

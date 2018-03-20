@@ -5,6 +5,10 @@
  *     Utilities functions for the LoRa transmitter
  */
 
+#include "IRECHYPERION.h"
+
+RH_RF95 rf95(RFM95_CS, RFM95_INT); // Singleton instance of the radio driver
+
 /**
  * Initilize the LoRa transmitter.
  */

@@ -1,0 +1,143 @@
+/**
+ * File: queue
+ * Organization: RIT Space Exploration
+ * Author: Dylan Wagner (drw6528@rit.edu)
+ * Description:
+ *	    Priority Queue implementation using a min-heap.
+ */
+
+#define LCHILD(x) 2 * x
+#define RCHILD(x) 2 * x + 1
+#define PARENT(x) (int) x / 2
+#define START 1
+
+template <class T, unsigned int capacity, class Compare>
+class priority_queue {
+public:
+
+	/**
+	 * Remove first element from the priority queue
+	 */
+	T pop(){
+        if(!queue_size) return heap_array[0]; // If array is empty return default
+
+        T root = heap_array[START];
+        heap_array[START] = heap_array[queue_size];
+        queue_size -= 1;
+
+        int cnt = 1;
+
+        while (cnt < queue_size){
+
+            int lchild = cnt, rchild = cnt;
+
+            if(LCHILD(cnt) <= queue_size) lchild = LCHILD(cnt);
+            if(RCHILD(cnt) <= queue_size) rchild = RCHILD(cnt);
+
+            if(lchild == rchild) break;
+
+            if(compare(heap_array[lchild], heap_array[rchild])){
+                swap(cnt, lchild);
+                cnt = lchild;
+            } else {
+                if(rchild == cnt) break;
+                swap(cnt, rchild);
+                cnt = rchild;
+            }
+        }
+        return root;
+    }
+
+    /**
+     * Grab the first element in the priority queue and return it
+     * @return
+     *      First element in the priority queue if queue_size > 0
+     *      Default element id queue size is 0
+     */
+    T top(){
+        if(queue_size > 0) return heap_array[START];
+        return heap_array[0];
+    }
+
+    /**
+     * Push a element onto the priority queue
+     * @param element
+     *      The element to be inserted.
+     */
+    void push(T element){
+
+        if (hit_capacity()) return; // queue is full
+
+        queue_size += 1;
+        heap_array[queue_size] = element;
+
+        int dec_cnt = queue_size;
+
+        while (compare(element, heap_array[PARENT(dec_cnt)]) && PARENT(dec_cnt) > 0){
+            swap(dec_cnt, PARENT(dec_cnt));
+            dec_cnt = PARENT(dec_cnt);
+        }
+    }
+
+    /**
+     * Return the size of the priority queue
+     * @return
+     *      Size of priority queue.
+     */
+	int size(){
+        return queue_size;
+    }
+
+    /**
+     * Set default to be returned from pop() when queue_size is 0,
+     * this is optional
+     * @param default_T
+     *      The default value
+     */
+    void set_default(T default_T){
+        heap_array[0] = default_T;
+    }
+
+    /**
+     * Return the heap
+     * @return
+     *      The heap
+     */
+    T* peek_heap(){
+        return heap_array;
+    }
+
+private:
+
+    // Number of current elements in the queue.
+    unsigned int queue_size = 0;
+
+    // Min-Heap array
+    T heap_array[capacity];
+
+    // Compare object for two objects
+    Compare compare;
+
+    /**
+     * Checks if heap has hit max size.
+     * @return
+     *      TRUE: if size is greater than capacity
+     *      FALSE: if size is less than capacity
+     */
+    bool hit_capacity(){
+        return queue_size >= capacity;
+    }
+
+    /**
+     * Swap two elements in the array
+     * @param s1
+     *      first element index
+     * @param s2
+     *      second element index
+     */
+    void swap(const int s1, const int s2){
+        T temp = heap_array[s1];
+        heap_array[s1] = heap_array[s2];
+        heap_array[s2] = temp;
+    }
+};

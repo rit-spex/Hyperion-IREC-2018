@@ -8,6 +8,8 @@
  *     [Data_Type],[Time_from_Startup_Millis],[Data],[Data]...
  */
 
+#include "IRECHYPERION.h"
+
 int buff_size = 0;
 
 // Main data buffer

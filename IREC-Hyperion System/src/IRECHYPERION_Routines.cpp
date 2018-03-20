@@ -6,6 +6,8 @@
  *    Routines to be included into the DSQ
  */
 
+#include "IRECHYPERION.h"
+
 void R_Default(){
 	// TODO
 }
