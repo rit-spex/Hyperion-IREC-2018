@@ -1,0 +1,94 @@
+\title{IREC - Hyperion Software Status Report}
+\author{
+	Dylan Wagner (drw6528@rit.edu) \\
+	RIT Space Exploration
+}
+
+\date{\today}
+
+\documentclass[11pt]{article}
+\usepackage{hyperref} 
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\urlstyle{same}
+
+\begin{document}
+\maketitle
+
+\section{Work Completed}
+This section will outline work completed on the system software of the Hyperion payload. 
+\begin{itemize}
+  \item Inital testing of hardware modules:
+  \begin{itemize}
+  	\item LSM9DS1 (Accelerometer , Gyroscope, Magnetometer) Sensor
+	\item BME280 (Pressure, Humidity, Temperature) Sensor
+	\item CCS811 (TVOC, CO2) Sensor
+	\item LIS331 (Accelerometer) Sensor
+	\item RFM\_9X LoRa 
+  \end{itemize}
+  \item Utility functions for hardware modules
+  \begin{itemize}
+   	\item LSM9DS1 (Accelerometer , Gyroscope, Magnetometer) Sensor
+	\item BME280 (Pressure, Humidity, Temperature) Sensor
+	\item CCS811 (TVOC, CO2) Sensor
+	\item LIS331 (Accelerometer) Sensor
+	\item RFM\_9X LoRa 
+  \end{itemize}
+  \item Defining a communication protocol for the Hyperion Payload
+  \item Implementing the payload communication protocol
+  \item Creation of a robust execution scheduling queue (\href{https://github.com/RIT-Space-Exploration/Dynamic-Scheduling-Queue}{Dynamic Scheduling Queue})
+  \item Forked RadioHead library to work with Teensy3.6
+  \item Tested:
+  \begin{itemize}
+  	\item Communication between RFM\_9X modules 
+	\item Communication between RFM\_9X modules using the Hyperion payload Protocol
+	\item The Dynamic Scheduling Queue
+	\item Communication routines within the the system
+  \end{itemize}	
+\end{itemize}
+
+\section{In Progress / ToDo}
+This section will outline work that is in progress or will be in the near future. 
+\begin{itemize}
+	\item Further defining routines within the system
+	\item Implementation of routines regarding:
+	\begin{itemize}
+		\item Gathering data from sensors, logging it
+		\item Transmission of data groups with the Hyperion Protocol
+		\item Writing the data buffer to the storage card
+		\item Mission Events (Parachute deployment, Impact damper deployment)
+		\item Maintaining impact damper pressure
+	\end{itemize}
+	\item Testing implemented routines
+	\item Initial testing of the Pressure Transducer 
+	\item Utility functions for the Pressure Transducer 
+	\item Further optimizing the Hyperion Protocol for low-bandwidth environments
+	\item Testing deployment sensing mechanism 
+	\item Testing software with mission event tests (Parachute deployment, Impact damper deployment)
+	\item Readjustment of static priority values within the Dynamic Scheduling Queue.
+	\item Testing of overall system
+	\item Data feeder software for ground station:
+	\begin{itemize}
+		\item Software to collect transmissions from payload on a micro-controller 
+		\item Software to collect data over serial from connected micro-controller and feed data to HabNet
+	\end{itemize}
+\end{itemize}
+
+\section{Links}
+\begin{itemize}
+	\item The Rochester Institute of Technology Space Exploration Website
+	\\ \url{http://spex.rit.edu}
+	\item The Rochester Institute of Technology Space Exploration GitHub Page \url{https://github.com/RIT-Space-Exploration}
+	\item IREC - Hyperion Main Repository (GitHub)
+	\\ \url{https://github.com/RIT-Space-Exploration/IREC-Hyperion}
+	\item Dynamic Scheduling Queue (GitHub)
+	\\ \url{https://github.com/RIT-Space-Exploration/Dynamic-Scheduling-Queue}
+	\item Forked RadioHead Library (GitHub)
+	\\ \url{https://github.com/RIT-Space-Exploration/RadioHead}
+\end{itemize}
+
+\end{document}
