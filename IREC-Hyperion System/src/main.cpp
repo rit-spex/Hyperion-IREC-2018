@@ -33,6 +33,7 @@ void setup() {
   dsq.add_routine(0, 20, R_trans_BME280);
   dsq.add_routine(0, 3, R_trans_LSM9DS1);
   dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+  dsq.add_routine(0, 20, R_seq_BME280_data);
 }
 
 void loop() {
