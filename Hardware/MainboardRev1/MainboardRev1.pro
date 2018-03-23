@@ -1,4 +1,4 @@
-update=2/25/2018 12:27:48 PM
+update=3/21/2018 8:16:07 PM
 version=1
 last_client=kicad
 [pcbnew]
@@ -23,6 +23,8 @@ ModuleOutlineThickness=0.150000000000
 [cvpcb]
 version=1
 NetIExt=net
+[general]
+version=1
 [eeschema]
 version=1
 LibDir=
@@ -56,5 +58,6 @@ LibName26=opto
 LibName27=atmel
 LibName28=contrib
 LibName29=valves
-[general]
-version=1
+LibName30=C:/Users/danda/Desktop/Analog Design/PCB Design/kicad-library-master/library/SWITCH_3PDT
+LibName31=C:/Users/danda/Desktop/Analog Design/PCB Design/kicad-library-master/library/switch_dpdt
+LibName32=C:/Users/danda/Desktop/Analog Design/PCB Design/kicad-library-master/library/ltc3605
