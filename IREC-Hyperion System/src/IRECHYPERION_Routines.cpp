@@ -16,7 +16,7 @@ void R_Default(){
  * Write data in buffer to SD card
  */
 void R_write_buffer(){
-  
+
   write_buffer();
 
   dsq.add_routine(0, 50, R_write_buffer);
@@ -34,10 +34,30 @@ void R_seq_LSM9DS1_data(){
     // Pack string with data from the sensors
     char * data_str = form_LSM9DS1_str();
 
-    // Insert data into the data buffer
-    add_to_buffer(data_str);
+    if (data_str != NULL){
+      // Insert data into the data buffer
+      add_to_buffer(data_str);
+    }
 
     dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+}
+
+/**
+ * Gathers data from the BME280 util then creates a data string to be added
+ * into the data buffer.
+ */
+void R_seq_BME280_data(){
+
+  // Create string
+  // Pack string with data from the sensors
+  char * data_str = form_BME280_str();
+
+  if (data_str != NULL){
+    // Insert data into the data buffer
+    add_to_buffer(data_str);
+  }
+
+  dsq.add_routine(0, 3, R_seq_BME280_data);
 }
 
 void R_trans_LSM9DS1(){

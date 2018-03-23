@@ -147,6 +147,7 @@ int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 // IRECHYPERION_Routine_Helpers
 
 char*     form_LSM9DS1_str(); // Construct a string to be added into the data buffer
+char*     form_BME280_str(); // Construct a string to be added into the data buffer
 
 
 #endif

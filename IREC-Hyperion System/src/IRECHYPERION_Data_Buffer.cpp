@@ -5,7 +5,7 @@
  *     Main data buffer for the hyperion system.
  * Details
  *     Strings are stored into the buffer in the following format:
- *     [Data_Type],[Time_from_Startup_Millis],[Data],[Data]...
+ *     [Data_Type],[Time_from_Startup_Millis],[Data],[Data]...'\n'
  */
 
 #include "IRECHYPERION.h"
@@ -23,19 +23,22 @@ void flush_buffer(){
   for(int i = 0; i < buff_size; i++){
     free(data_buffer[i]);
   }
-  
+
   buff_size = 0;
 }
 
 /**
  * Allocate dynamic space for a string and fill the first value with a null terminator.
  * Arg
- *    str_size: the size of the string to be allocated. 
+ *    str_size: the size of the string to be allocated.
  */
 char * create_string(int str_size){
   char *result_str = (char*) malloc(str_size + 1);
+
+  if (result_str == NULL) return NULL;
+
   result_str[0] = '\0';
-  
+
   return result_str;
 }
 
@@ -48,13 +51,13 @@ char * create_string(int str_size){
  *    1 if buffer is full
  */
 int add_to_buffer(char * data_str){
-	
-	if(buff_size >= BUFFER_CAP) return 1; // Failure
-	
+
+	if(buff_size >= BUFFER_CAP) write_buffer();
+
 	data_buffer[buff_size] = data_str;
 	buff_size += 1;
-	
-	return 0; // Success 
+
+	return 0; // Success
 }
 
 /**
@@ -65,10 +68,12 @@ int get_size() {
 }
 
 /**
- * Write the buffer to the SD card
+ * Write the buffer to the SD card, then flush the buffer
  */
 int write_buffer() {
-  // TODO
-  //return 0;
-}
 
+  // TODO write data_buffer to the SD card
+
+  flush_buffer();
+  return 0;
+}
