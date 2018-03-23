@@ -12,6 +12,9 @@ void R_Default(){
 	// TODO
 }
 
+/**
+ * Gathers data then creates a data string to be added into the data buffer
+ */
 void R_seq_LSM9DS1_data(){
 
     // Read data from sensors
@@ -20,11 +23,11 @@ void R_seq_LSM9DS1_data(){
     // Create string
     // Pack string with data from the sensors
     char * data_str = form_LSM9DS1_str();
-	
-    // Insert data into the data buffer
-	add_to_buffer(data_str);
 
-    dsq.add_routine(0, 3, R_seq_LSM9DS1_data); 
+    // Insert data into the data buffer
+    add_to_buffer(data_str);
+
+    dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
 }
 
 void R_trans_LSM9DS1(){
@@ -33,8 +36,8 @@ void R_trans_LSM9DS1(){
     uint32_t time = 800; // Change
 
     uint8_t buff[LSM9DS1_FRAME_SIZE+HEADER_SIZE] = {0};
-    
-    IRECHYPERP::createLSM9DS1Frame(buff, flags, time, 
+
+    IRECHYPERP::createLSM9DS1Frame(buff, flags, time,
     convert_float_int32(get_Accel(X_AXIS)), convert_float_int32(get_Accel(Y_AXIS)), convert_float_int32(get_Accel(Z_AXIS)),
     convert_float_int32(get_Gyro(X_AXIS)), convert_float_int32(get_Gyro(Y_AXIS)), convert_float_int32(get_Gyro(Z_AXIS)),
     convert_float_int32(get_Mag(X_AXIS)), convert_float_int32(get_Mag(Y_AXIS)), convert_float_int32(get_Mag(Z_AXIS)));
@@ -45,7 +48,7 @@ void R_trans_LSM9DS1(){
     // REMOVE
     Serial.print("Transmitted LSM9DS1 data in "); Serial.println(deltat);
 
-    dsq.add_routine(0, 3, R_trans_LSM9DS1); 
+    dsq.add_routine(0, 3, R_trans_LSM9DS1);
 }
 
 /**
@@ -58,7 +61,7 @@ void R_trans_BME280(){
 
     uint8_t buff[BME280_FRAME_SIZE+HEADER_SIZE] = {0};
 	  //TODO
-    IRECHYPERP::createBME280Frame(buff, flags, time, 
+    IRECHYPERP::createBME280Frame(buff, flags, time,
     convert_float_int32(get_Temp()), convert_float_int32(get_Pressure()), convert_float_int32(get_Humidity()), convert_float_int32(get_BME280_Alt()));
 
     // Transmit data via LoRa
@@ -69,6 +72,5 @@ void R_trans_BME280(){
     Serial.print("Transmitted BME280 data in "); Serial.println(deltat);
 
     // Add routine back into the DSQ
-    dsq.add_routine(0, 20, R_trans_BME280); 
+    dsq.add_routine(0, 20, R_trans_BME280);
 }
-

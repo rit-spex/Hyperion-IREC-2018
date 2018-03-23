@@ -54,6 +54,11 @@
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
 
+#define CCS811_ADDR 0x5B //Default I2C Address
+//#define CCS811_ADDR 0x5A //Alternate I2C Address
+
+#define CCS811_NORMAL_MODE 3
+
 //////////////////////
 // Global Varables //
 ////////////////////
@@ -102,14 +107,13 @@ float     get_Humidity(); // Humidity in %
 // IRECHYPERION_CCS811
 // TODO
 int       start_CCS811(); // Init function for CCS811
-void      read_Algo_Results(); // Reads results
 uint16_t  get_CO2(); // returns CO2 in ppm
 uint16_t  get_TVOC(); // volitile compounds in ppm
 
 // *********************************
 // IRECHYPERION_Routines
 // TODO
-void	  R_Default(); // Default routine
+void      R_Default(); // Default routine
 void      R_write_buffer(); // Write data in buffer to SD card
 void      R_check_deployment(); // Check if deployed
 void      R_mission_constraints(); // Check mission constrignts
@@ -148,4 +152,3 @@ int32_t   convert_float_int32(float inputvalue);
 char *form_LSM9DS1_str();
 
 #endif
-

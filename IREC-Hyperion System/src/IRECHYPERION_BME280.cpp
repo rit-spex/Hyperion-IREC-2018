@@ -16,11 +16,11 @@ Adafruit_BME280 bme;
 
 // Init function for the BME280 sensor
 int init_BME280() {
-  
+
   bool status;
-    
+
   // Check status
-  status = bme.begin();  
+  status = bme.begin();
   if (!status) {
       Serial.print("[BME280] - Init failed");
       return 1; // Errors
@@ -63,5 +63,3 @@ float get_Humidity() {
 
   return bme.readHumidity();
 }
-
-
