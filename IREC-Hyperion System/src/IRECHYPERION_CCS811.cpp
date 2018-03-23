@@ -12,7 +12,7 @@ CCS811 ccs(CCS811_ADDR); // CCS811
 /**
  * Startup function for the CCS811
  */
-int start_CCS811(){
+int init_CCS811(){
 
   CCS811Core::status returnCode = ccs.begin();
   if (returnCode != CCS811Core::SENSOR_SUCCESS) {
@@ -26,7 +26,7 @@ int start_CCS811(){
 }
 
 /**
- * Getter function for CO2 
+ * Getter function for CO2
  */
 uint16_t get_CO2(){
 

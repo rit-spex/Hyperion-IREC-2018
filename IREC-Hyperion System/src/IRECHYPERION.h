@@ -105,8 +105,8 @@ float     get_Humidity(); // Humidity in %
 
 // *********************************
 // IRECHYPERION_CCS811
-// TODO
-int       start_CCS811(); // Init function for CCS811
+
+int       init_CCS811(); // Init function for CCS811
 uint16_t  get_CO2(); // returns CO2 in ppm
 uint16_t  get_TVOC(); // volitile compounds in ppm
 
@@ -149,6 +149,7 @@ int32_t   convert_float_int32(float inputvalue);
 // *********************************
 // IRECHYPERION_Routine_Helpers
 
-char *form_LSM9DS1_str();
+char*     form_LSM9DS1_str();
+
 
 #endif

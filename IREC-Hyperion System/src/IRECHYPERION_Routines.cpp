@@ -12,6 +12,16 @@ void R_Default(){
 	// TODO
 }
 
+/*
+ * Write data in buffer to SD card
+ */
+void R_write_buffer(){
+  
+  write_buffer();
+
+  dsq.add_routine(0, 50, R_write_buffer);
+}
+
 /**
  * Gathers data then creates a data string to be added into the data buffer
  */
