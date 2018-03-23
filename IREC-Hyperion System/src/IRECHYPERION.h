@@ -25,7 +25,7 @@
 // Define Macros //
 //////////////////
 
-#define LED 13
+#define LED 13 // LED pin
 
 #define DEFAULT_STR_LEN 200
 
@@ -120,11 +120,8 @@ void      R_mission_constraints(); // Check mission constrignts
 void      R_deploy_parachute(); // Deploy parachute
 void      R_deploy_dampers(); // Deploy impact damper
 void      R_maintain_dampers(); // Maintaion airbag pressure
-void      R_req_LSM9DS1(); // Request data from LSM9DS1
 void      R_seq_LSM9DS1_data(); // Gather, log data to buffer and transmit
-void      R_req_BME280(); // Request BME280 data
 void      R_seq_BME280_data(); // Gather, log data to buffer and transmit
-void      R_req_CCS811(); // Request data from the CCS811
 void      R_seq_CCS811_data(); // Gather, log data to buffer and transmit
 void      R_trans_LSM9DS1(); // Tansmit LSM9DS1 data via the Hyperion Protocol
 void      R_trans_BME280(); // Transmit BME280 data via the Hyperion Protocol
@@ -142,14 +139,14 @@ char*     create_string(int str_size); // Create a string using dynamic allocati
 // *********************************
 // IRECHYPERION_Transmit
 
-void      init_LoRa();
-void      transmit_data(uint8_t * data, int data_len);
-int32_t   convert_float_int32(float inputvalue);
+void      init_LoRa(); // Initilize the LoRa RFM_9X module
+void      transmit_data(uint8_t * data, int data_len); // Transmit
+int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 
 // *********************************
 // IRECHYPERION_Routine_Helpers
 
-char*     form_LSM9DS1_str();
+char*     form_LSM9DS1_str(); // Construct a string to be added into the data buffer
 
 
 #endif
