@@ -83,7 +83,7 @@ extern RH_RF95 rf95; // Singleton instance of the radio driver
 // IRECHYPERION_LSM9DS1
 
 int       init_LSM9DS1(); // Init function for LSM9DS1 Sensor
-void      read_Sensors(); // Read sensors on LSM9DS1
+void      read_LSM9DS1_Sensors(); // Read sensors on LSM9DS1
 float     get_Gyro(lsm9ds1_axis axis); // Return value is in DPS
 float     get_Accel(lsm9ds1_axis axis); // Return value is in g's
 float     get_Mag(lsm9ds1_axis axis); // Return value is in Gauss
@@ -98,6 +98,7 @@ float     calc_Heading_Rad(); // Return is in Radians
 // IRECHYPERION_BME280
 
 int       init_BME280(); // Init function for BME280 sensor
+void      read_BME280_Sensors(); // Reads the sensors 
 float     get_Temp(); // Temp in C
 float     get_Pressure(); // Pressure in hPa
 float     get_BME280_Alt(); // Approx alt in m

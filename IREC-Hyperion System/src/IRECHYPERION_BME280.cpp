@@ -30,13 +30,20 @@ int init_BME280() {
   return 0; // Correctly started
 }
 
+void read_BME280_Sensors(){
+  
+  BME280_Temperature = bme.readTemperature();
+  BME280_Pressure = bme.readPressure() / 100.0F;
+  BME280_Altitude = bme.readAltitude(bme.readAltitude(SEALEVELPRESSURE_HPA));
+  BME280_Humidity = bme.readHumidity();
+}
 
 // get_Temp() - Produces temperature reading from sensor
 // Returns:
 //    Temperture in degrees C
 float get_Temp() {
 
-  return bme.readTemperature();
+  return BME280_Temperature;
 }
 
 // get_Pressure() - Produces pressure reading from sensor
@@ -44,7 +51,7 @@ float get_Temp() {
 //    Pressure in hPa
 float get_Pressure() {
 
-  return bme.readPressure() / 100.0F;
+  return BME280_Pressure;
 }
 
 
@@ -53,7 +60,7 @@ float get_Pressure() {
 //    Approx alt in meters
 float get_BME280_Alt() {
 
-  return bme.readAltitude(bme.readAltitude(SEALEVELPRESSURE_HPA));
+  return BME280_Altitude;
 }
 
 // get_Humidity() - produces humidity in percent
@@ -61,5 +68,5 @@ float get_BME280_Alt() {
 //    humidity in percent.
 float get_Humidity() {
 
-  return bme.readHumidity();
+  return BME280_Humidity;
 }

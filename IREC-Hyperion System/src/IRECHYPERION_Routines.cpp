@@ -28,7 +28,7 @@ void R_write_buffer(){
 void R_seq_LSM9DS1_data(){
 
     // Read data from sensors
-    read_Sensors();
+    read_LSM9DS1_Sensors();
 
     // Create string
     // Pack string with data from the sensors
@@ -48,6 +48,8 @@ void R_seq_LSM9DS1_data(){
  */
 void R_seq_BME280_data(){
 
+  read_BME280_Sensors();
+
   // Create string
   // Pack string with data from the sensors
   char * data_str = form_BME280_str();
@@ -60,6 +62,9 @@ void R_seq_BME280_data(){
   dsq.add_routine(0, 3, R_seq_BME280_data);
 }
 
+/**
+ * Transmit routine for the LSM9DS1 data frame.
+ */
 void R_trans_LSM9DS1(){
       // Allocate space for flags
     char flags[4] = {0, 0, 0, 0};
@@ -82,7 +87,7 @@ void R_trans_LSM9DS1(){
 }
 
 /**
- * Transmit route for the BME280 data frame
+ * Transmit routine for the BME280 data frame
  */
 void R_trans_BME280(){
     // Allocate space for flags
@@ -92,7 +97,8 @@ void R_trans_BME280(){
     uint8_t buff[BME280_FRAME_SIZE+HEADER_SIZE] = {0};
 	  //TODO
     IRECHYPERP::createBME280Frame(buff, flags, time,
-    convert_float_int32(get_Temp()), convert_float_int32(get_Pressure()), convert_float_int32(get_Humidity()), convert_float_int32(get_BME280_Alt()));
+    convert_float_int32(get_Temp()), convert_float_int32(get_Pressure()),
+    convert_float_int32(get_Humidity()), convert_float_int32(get_BME280_Alt()));
 
     // Transmit data via LoRa
     float deltat = millis();
