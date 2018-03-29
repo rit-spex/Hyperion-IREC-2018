@@ -12,14 +12,38 @@ void R_Default(){
 	// TODO
 }
 
-/*
- * Write data in buffer to SD card
+/**
+ * Routine to check deployment of the Hyperion payload
+ * Cases:
+ * open > 2: Deployment of the Hyperion payload
+ * 0 < open <= 2: Anomaly case where 1 or 2 switches are open and 3 or 2 switches are still
+ * closed.
+ * Handling:
+ * Case 1: Deployment procedure
+ * Case 2: Further checking for deployment //TODO
  */
-void R_write_buffer(){
+void R_check_deployment(){
 
-  write_buffer();
+  int open_cnt = 0;
 
-  dsq.add_routine(0, 50, R_write_buffer);
+  if(digitalRead(DEPLOY_SWITCH_01) == LOW) open_cnt += 1;
+  if(digitalRead(DEPLOY_SWITCH_02) == LOW) open_cnt += 1;
+  if(digitalRead(DEPLOY_SWITCH_03) == LOW) open_cnt += 1;
+  if(digitalRead(DEPLOY_SWITCH_04) == LOW) open_cnt += 1;
+
+  if(open_cnt > 2){
+    // Deployed
+    set_deployment_time(); // Set time deployed
+    dsq.add_routine(0, 1, R_mission_constraints);
+
+  } else if (0 < open_cnt && open_cnt <= 2){
+    // Anomaly case where 1 or 2 switches are open and 3 or 2 switches are still
+    // closed.
+  }
+}
+
+void R_mission_constraints(){
+
 }
 
 /**

@@ -59,6 +59,11 @@
 
 #define CCS811_NORMAL_MODE 3
 
+#define DEPLOY_SWITCH_01 0 // change
+#define DEPLOY_SWITCH_02 0 // change
+#define DEPLOY_SWITCH_03 0 // change
+#define DEPLOY_SWITCH_04 0 // change
+
 //////////////////////
 // Global Varables //
 ////////////////////
@@ -98,7 +103,7 @@ float     calc_Heading_Rad(); // Return is in Radians
 // IRECHYPERION_BME280
 
 int       init_BME280(); // Init function for BME280 sensor
-void      read_BME280_Sensors(); // Reads the sensors 
+void      read_BME280_Sensors(); // Reads the sensors
 float     get_Temp(); // Temp in C
 float     get_Pressure(); // Pressure in hPa
 float     get_BME280_Alt(); // Approx alt in m
@@ -115,7 +120,6 @@ uint16_t  get_TVOC(); // volitile compounds in ppm
 // IRECHYPERION_Routines
 // TODO
 void      R_Default(); // Default routine
-void      R_write_buffer(); // Write data in buffer to SD card
 void      R_check_deployment(); // Check if deployed
 void      R_mission_constraints(); // Check mission constrignts
 void      R_deploy_parachute(); // Deploy parachute
@@ -150,5 +154,11 @@ int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 char*     form_LSM9DS1_str(); // Construct a string to be added into the data buffer
 char*     form_BME280_str(); // Construct a string to be added into the data buffer
 
+// *********************************
+// IRECHYPERION_Mission_Utils
+
+int       init_deploy_pins(); // Initilize the deployment switch pins
+uint32_t  deployed_delta(); // Delta time from deployment
+void      set_deployment_time(); // Setter function for deployment;
 
 #endif
