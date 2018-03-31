@@ -26,14 +26,14 @@ void R_check_deployment(){
 
   int open_cnt = 0;
 
-  if(digitalRead(DEPLOY_SWITCH_01) == LOW) open_cnt += 1;
-  if(digitalRead(DEPLOY_SWITCH_02) == LOW) open_cnt += 1;
-  if(digitalRead(DEPLOY_SWITCH_03) == LOW) open_cnt += 1;
-  if(digitalRead(DEPLOY_SWITCH_04) == LOW) open_cnt += 1;
+  if(digitalRead(DEPLOY_SWITCH_01) == HIGH) open_cnt += 1;
+  if(digitalRead(DEPLOY_SWITCH_02) == HIGH) open_cnt += 1;
+  if(digitalRead(DEPLOY_SWITCH_03) == HIGH) open_cnt += 1;
+  if(digitalRead(DEPLOY_SWITCH_04) == HIGH) open_cnt += 1;
 
   if(open_cnt > 2){
     // Deployed
-    set_deployment_time(); // Set time deployed
+    set_deployment(); // Set time deployed
     dsq.add_routine(0, 1, R_mission_constraints);
 
   } else if (0 < open_cnt && open_cnt <= 2){
@@ -44,6 +44,23 @@ void R_check_deployment(){
 
 void R_mission_constraints(){
 
+  // TODO
+  // if not parachute
+  // Check to see if deployment delta is > 3000 (3 seconds)
+  //    if deplyment delta > 3000: check orentation
+  //        if orentation is within acceptable orentation range
+  //            set parachute
+  //            add deploy R_deploy_parachute() to DSQ
+  //
+  // if not impact damper
+  // Check alititude range
+  //    if within altitude range
+  //      set impact damper
+  //      add R_deploy_dampers() to DSQ
+  //
+  // If not parachute or not impact damper
+  //    add R_mission_constraints to DSQ
+  //
 }
 
 /**

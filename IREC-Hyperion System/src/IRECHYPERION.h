@@ -159,6 +159,6 @@ char*     form_BME280_str(); // Construct a string to be added into the data buf
 
 int       init_deploy_pins(); // Initilize the deployment switch pins
 uint32_t  deployed_delta(); // Delta time from deployment
-void      set_deployment_time(); // Setter function for deployment;
+void      set_deployment(); // Setter function for deployment;
 
 #endif

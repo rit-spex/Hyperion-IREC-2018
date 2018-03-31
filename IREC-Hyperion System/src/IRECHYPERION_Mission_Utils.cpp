@@ -35,7 +35,7 @@ uint32_t deployed_delta(){
 /**
  * Set deployment_time
  */
-void set_deployment_time(){
+void set_deployment(){
 
   deployment_time = millis();
 }

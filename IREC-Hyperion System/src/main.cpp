@@ -25,6 +25,7 @@ void setup() {
   init_BME280();
   init_LSM9DS1();
   init_CCS811();
+  //init_deploy_pins(); // Initilize pins which deployment switches are attached.
 
   // Add Default routine to the dsq
   dsq.set_default(1, R_Default);
