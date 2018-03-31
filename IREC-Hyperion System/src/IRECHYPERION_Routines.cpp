@@ -36,8 +36,8 @@ void R_check_deployment(){
     set_deployment(); // Set time deployed
     dsq.add_routine(0, 1, R_mission_constraints);
 
-  } else if (0 < open_cnt && open_cnt <= 2){
-    // Anomaly case where 1 or 2 switches are open and 3 or 2 switches are still
+  } else if (open_cnt == 2){
+    // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
   }
 }
