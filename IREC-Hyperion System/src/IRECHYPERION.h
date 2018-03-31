@@ -9,17 +9,25 @@
 
 // Included libaries
 #include <Arduino.h>
+#include <string.h>
+
 #include <Wire.h>
 #include <SPI.h>
-#include <LSM9DS1_Types.h>
-#include <SparkFunLSM9DS1.h>
-#include <LSM9DS1_Registers.h>
-#include <SparkFunCCS811.h>
-#include <Adafruit_BME280.h>
+
 #include <IREC_Hyperion_Protocol.h>
 #include <DSQ.h>
+
+#include <LSM9DS1_Types.h>
+#include <LSM9DS1_Registers.h>
+#include <SparkFunLSM9DS1.h>
+#include <SparkFunCCS811.h>
+
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+#include <Adafruit_LIS3DH.h>
+
 #include <RH_RF95.h>
-#include <string.h>
+
 
 ////////////////////
 // Define Macros //
@@ -64,6 +72,13 @@
 #define DEPLOY_SWITCH_03 0 // change
 #define DEPLOY_SWITCH_04 0 // change
 
+// Used for software SPI LIS331
+#define LIS3DH_CLK 13
+#define LIS3DH_MISO 12
+#define LIS3DH_MOSI 11
+// Used for hardware & software SPI
+#define LIS3DH_CS 10
+
 //////////////////////
 // Global Varables //
 ////////////////////
@@ -73,6 +88,7 @@ extern Adafruit_BME280 bme; // BME280
 extern LSM9DS1 imu; // LSM9DS1
 extern CCS811 ccs; // CCS811
 extern RH_RF95 rf95; // Singleton instance of the radio driver
+extern Adafruit_LIS3DH lis; // LIS331
 
 ////////////////////////
 /// Data structures ///
@@ -115,6 +131,14 @@ float     get_Humidity(); // Humidity in %
 int       init_CCS811(); // Init function for CCS811
 uint16_t  get_CO2(); // returns CO2 in ppm
 uint16_t  get_TVOC(); // volitile compounds in ppm
+
+// *********************************
+// IRECHYPERION_CCS811
+
+int       init_LIS331(); // Init function for LIS331
+float     get_lis331_accel_x(); // Acceleration in the x axis m/s
+float     get_lis331_accel_y(); // Acceleration in the y axis m/s
+float     get_lis331_accel_z(); // Acceleration in the z axis m/s
 
 // *********************************
 // IRECHYPERION_Routines
