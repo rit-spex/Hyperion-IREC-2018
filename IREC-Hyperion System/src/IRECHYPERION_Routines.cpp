@@ -39,6 +39,12 @@ void R_check_deployment(){
   } else if (open_cnt == 2){
     // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
+
+    //TODO
+    // Check rate of climb
+    //    if rate of climb fast (> 20 m/s) and negitive
+    //      set_deployment()
+    //      dsq.add_routine(0, 1, R_mission_constraints);
   }
 }
 
@@ -47,14 +53,15 @@ void R_mission_constraints(){
   // TODO
   // if not parachute
   // Check to see if deployment delta is > 3000 (3 seconds)
-  //    if deplyment delta > 3000: check orentation
+  //    if deplyment delta > 3000:
+  //        check orentation
   //        if orentation is within acceptable orentation range
   //            set parachute
   //            add deploy R_deploy_parachute() to DSQ
   //
   // if not impact damper
-  // Check alititude range
-  //    if within altitude range
+  // Check rate of climb and deployment detla
+  //    if (rate of climb range(0 to -15m/s) and parachute) or deplyment delta > 30,000
   //      set impact damper
   //      add R_deploy_dampers() to DSQ
   //

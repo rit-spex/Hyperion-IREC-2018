@@ -170,14 +170,14 @@ Altitude (2 bytes) \\ \hline
  \end{table}
   
   \subsection{Orientation}
-  This section will define the data frame for the Orientation data group. The Orientation data group will contain calculations for Roll, Pitch and Yaw. In total, this data group will be 3 bytes in size.
+  This section will define the data frame for the Orientation data group. The Orientation data group will contain calculations for Roll, Pitch and Yaw. In total, this data group will be 3 bytes in size. In order to achieve one byte per data segment, the values must be scaled down by (1.41). This will allow a signed value of maximum size 127.
   \subsubsection{Orientation Data}
   \paragraph{Roll (1 byte)}
-  The Roll section of the Orientation data group will store the Roll from range -180 to 180 (0 to 360 degrees).
+  The Roll section of the Orientation data group will store the Roll from range -180(scaled) to 180(scaled) (0 to 360 degrees).
   \paragraph{Pitch (1 byte)}
-  The Pitch section of the Orientation data group will store the Pitch from range -180 to 180 (0 to 360 degrees).  
+  The Pitch section of the Orientation data group will store the Pitch from range -90(scaled) to 90(scaled) (0 to 180 degrees).  
   \paragraph{Yaw (1 byte)}
-  The Yaw section of the Orientation data group will store the Yaw from range -180 to 180 (0 to 360 degrees).  
+  The Yaw section of the Orientation data group will store the Yaw from range -180(scaled) to 180(scaled) (0 to 360 degrees).  
   
   \subsubsection{Visualization}
   \begin{table}[H]
