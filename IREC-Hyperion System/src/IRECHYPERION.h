@@ -149,12 +149,15 @@ void      R_mission_constraints(); // Check mission constrignts
 void      R_deploy_parachute(); // Deploy parachute
 void      R_deploy_dampers(); // Deploy impact damper
 void      R_maintain_dampers(); // Maintaion airbag pressure
-void      R_seq_LSM9DS1_data(); // Gather, log data to buffer and transmit
-void      R_seq_BME280_data(); // Gather, log data to buffer and transmit
-void      R_seq_CCS811_data(); // Gather, log data to buffer and transmit
+void      R_seq_LSM9DS1_data(); // Gather, log data to buffer
+void      R_seq_BME280_data(); // Gather, log data to buffer
+void      R_seq_CCS811_data(); // Gather, log data to buffer
+void	  R_seq_LIS331_data(); // Gather, log data to buffer
 void      R_trans_LSM9DS1(); // Tansmit LSM9DS1 data via the Hyperion Protocol
 void      R_trans_BME280(); // Transmit BME280 data via the Hyperion Protocol
 void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
+void      R_trans_LIS331(); // Transmit LIS331 data via the Hyperion Protocol
+void      R_trans_Orientation(); // Transmit Orentation data via the Hyperion Protocol
 
 // *********************************
 // IRECHYPERION_Data_Buffer
@@ -184,5 +187,6 @@ char*     form_BME280_str(); // Construct a string to be added into the data buf
 int       init_deploy_pins(); // Initilize the deployment switch pins
 uint32_t  deployed_delta(); // Delta time from deployment
 void      set_deployment(); // Setter function for deployment;
+float     rate_of_climb(); // Rate of climb 
 
 #endif

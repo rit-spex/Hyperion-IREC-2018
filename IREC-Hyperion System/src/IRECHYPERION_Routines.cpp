@@ -8,6 +8,8 @@
 
 #include "IRECHYPERION.h"
 
+#define DEPLOYMENT_ERROR_SPEED -20
+
 void R_Default(){
 	// TODO
 }
@@ -20,7 +22,9 @@ void R_Default(){
  * closed.
  * Handling:
  * Case 1: Deployment procedure
- * Case 2: Further checking for deployment //TODO
+ * Case 2: Further checking for deployment
+ *    If rate of climb (Negitive) is above DEPLOYMENT_ERROR_SPEED
+ *      Deployed
  */
 void R_check_deployment(){
 
@@ -39,12 +43,17 @@ void R_check_deployment(){
   } else if (open_cnt == 2){
     // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
+    if (rate_of_climb() < DEPLOYMENT_ERROR_SPEED){
 
-    //TODO
-    // Check rate of climb
-    //    if rate of climb fast (> 20 m/s) and negitive
-    //      set_deployment()
-    //      dsq.add_routine(0, 1, R_mission_constraints);
+      set_deployment(); // Set time deployed
+      dsq.add_routine(0, 1, R_mission_constraints);
+    } else {
+
+      dsq.add_routine(0, 1, R_check_deployment);
+    }
+  } else {
+
+    dsq.add_routine(0, 1, R_check_deployment);
   }
 }
 

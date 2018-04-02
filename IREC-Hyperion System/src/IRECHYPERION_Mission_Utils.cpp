@@ -9,6 +9,9 @@
 
 uint32_t deployment_time = 0;
 
+float height_sample = get_BME280_Alt(); // Use BME280 for now TODO change to Stratologger
+uint32_t time_sample = millis();
+
 /**
  * Init function for deployment routines
  */
@@ -38,4 +41,24 @@ uint32_t deployed_delta(){
 void set_deployment(){
 
   deployment_time = millis();
+}
+
+/**
+ * Calculate the rate of clib in m/s
+ * Return
+ *    Positive for increase in altitude
+ *    Negitive for decrease in altitude
+ */
+float rate_of_climb(){
+
+  float delta_time = millis() - time_sample;
+  delta_time = delta_time / 100; // Convert milliseconds to seconds
+
+  float alt_temp = get_BME280_Alt();
+  float delta_alt = alt_temp - height_sample;
+
+  time_sample = millis();
+  height_sample = alt_temp;
+
+  return delta_alt / delta_time; // result in m/s
 }
