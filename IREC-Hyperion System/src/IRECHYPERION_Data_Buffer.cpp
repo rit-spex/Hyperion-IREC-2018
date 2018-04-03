@@ -20,14 +20,22 @@ char *data_buffer[BUFFER_CAP] = {0};
 int init_SD(){
 
   SD.begin();
+  data_file = SD.open(FILE_NAME, FILE_WRITE);
 
   return 0;
+}
+
+void close_file(){
+
+  data_file.close();
 }
 
 /**
  * Resets the buffer size, previous values in the buffer will be overwritten
  */
 void flush_buffer(){
+
+  data_file.flush(); // Force write to file
 
   for(size_t i = 0; i < buff_size; i++){
     free(data_buffer[i]);
@@ -81,15 +89,11 @@ int get_size() {
  */
 int write_buffer() {
 
-  data_file = SD.open(FILE_NAME, FILE_WRITE);
-
   if (data_file){
     for (size_t i = 0; i < buff_size; i++) {
       data_file.write(data_buffer[i]);
     }
   }
-
-  data_file.close();
 
   flush_buffer();
   return 0;

@@ -177,6 +177,7 @@ int       add_to_buffer(char data[]); // Add null terminated string to buffer
 int       get_size(); // Get size of buffer
 int       write_buffer(); //TODO
 char*     create_string(int str_size); // Create a string using dynamic allocation
+void      close_file(); // Close file on system suspension.
 
 // *********************************
 // IRECHYPERION_Transmit
