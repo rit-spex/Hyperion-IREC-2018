@@ -10,8 +10,6 @@
 
 #include "IRECHYPERION.h"
 
-#define FILE_NAME "TEST_01"
-
 size_t buff_size = 0;
 
 File data_file;
