@@ -95,6 +95,7 @@ extern Adafruit_LIS3DH lis; // LIS331
 /// Enums ///
 ////////////
 
+// Used to define "no data" buffer writes
 enum NoData_Type{
   DEPLOYMENT,
   PARACHUTE_DEPLOY,

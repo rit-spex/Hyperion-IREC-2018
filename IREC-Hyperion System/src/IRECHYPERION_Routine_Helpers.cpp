@@ -7,6 +7,15 @@
 
 #include "IRECHYPERION.h"
 
+/**
+ * Helper function for no data buffer strings,
+ * Args
+ * type: enum to describe the string to be created.
+ * Return
+ * DEPLOYMENT: 00,[time],DEPLOYMENT
+ * PARACHUTE_DEPLOY: 00,[time],PARACHUTE DEPLOYMENT
+ * DAMPER_DEPLOY: 00,[time],IMPACT DAMPER DEPLOYMENT
+ */
 char *form_NoData_str(NoData_Type type){
   // Create string
   char *data_str = create_string(DEFAULT_STR_LEN);
