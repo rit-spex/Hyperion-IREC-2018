@@ -22,16 +22,16 @@ int init_BME280() {
   // Check status
   status = bme.begin();
   if (!status) {
-      Serial.print("[BME280] - Init failed");
+      Serial.println("[BME280] - Init Failure");
       return 1; // Errors
   }
 
-  Serial.print("[BME280] - Init success");
+  Serial.println("[BME280] - Init Success");
   return 0; // Correctly started
 }
 
 void read_BME280_Sensors(){
-  
+
   BME280_Temperature = bme.readTemperature();
   BME280_Pressure = bme.readPressure() / 100.0F;
   BME280_Altitude = bme.readAltitude(bme.readAltitude(SEALEVELPRESSURE_HPA));

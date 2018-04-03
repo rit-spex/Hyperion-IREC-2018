@@ -171,7 +171,7 @@ char*     create_string(int str_size); // Create a string using dynamic allocati
 // *********************************
 // IRECHYPERION_Transmit
 
-void      init_LoRa(); // Initilize the LoRa RFM_9X module
+int       init_LoRa(); // Initilize the LoRa RFM_9X module
 void      transmit_data(uint8_t * data, int data_len); // Transmit
 int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 
@@ -187,6 +187,6 @@ char*     form_BME280_str(); // Construct a string to be added into the data buf
 int       init_deploy_pins(); // Initilize the deployment switch pins
 uint32_t  deployed_delta(); // Delta time from deployment
 void      set_deployment(); // Setter function for deployment;
-float     rate_of_climb(); // Rate of climb 
+float     rate_of_climb(); // Rate of climb
 
 #endif
