@@ -94,6 +94,7 @@ void R_seq_LSM9DS1_data(){
     if (data_str != NULL){
       // Insert data into the data buffer
       add_to_buffer(data_str);
+      Serial.println(data_str); // TODO REMOVE this only for testing
     }
 
     dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
@@ -114,6 +115,7 @@ void R_seq_BME280_data(){
   if (data_str != NULL){
     // Insert data into the data buffer
     add_to_buffer(data_str);
+    Serial.println(data_str); // TODO REMOVE this only for testing
   }
 
   dsq.add_routine(0, 20, R_seq_BME280_data);

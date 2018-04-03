@@ -10,6 +10,7 @@
 // Included libaries
 #include <Arduino.h>
 #include <string.h>
+#include <SD.h>
 
 #include <Wire.h>
 #include <SPI.h>
@@ -90,11 +91,15 @@ extern CCS811 ccs; // CCS811
 extern RH_RF95 rf95; // Singleton instance of the radio driver
 extern Adafruit_LIS3DH lis; // LIS331
 
-////////////////////////
-/// Data structures ///
-//////////////////////
+//////////////
+/// Enums ///
+////////////
 
-
+enum NoData_Type{
+  DEPLOYMENT,
+  PARACHUTE_DEPLOY,
+  DAMPER_DEPLOY
+};
 
 //////////////////////////
 // Function prototypes //
@@ -152,7 +157,7 @@ void      R_maintain_dampers(); // Maintaion airbag pressure
 void      R_seq_LSM9DS1_data(); // Gather, log data to buffer
 void      R_seq_BME280_data(); // Gather, log data to buffer
 void      R_seq_CCS811_data(); // Gather, log data to buffer
-void	  R_seq_LIS331_data(); // Gather, log data to buffer
+void	    R_seq_LIS331_data(); // Gather, log data to buffer
 void      R_trans_LSM9DS1(); // Tansmit LSM9DS1 data via the Hyperion Protocol
 void      R_trans_BME280(); // Transmit BME280 data via the Hyperion Protocol
 void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
@@ -161,7 +166,8 @@ void      R_trans_Orientation(); // Transmit Orentation data via the Hyperion Pr
 
 // *********************************
 // IRECHYPERION_Data_Buffer
-//TODO
+
+int       init_SD();
 void      flush_buffer(); // Clear buffer
 int       add_to_buffer(char data[]); // Add null terminated string to buffer
 int       get_size(); // Get size of buffer
@@ -180,6 +186,7 @@ int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 
 char*     form_LSM9DS1_str(); // Construct a string to be added into the data buffer
 char*     form_BME280_str(); // Construct a string to be added into the data buffer
+char*     form_NoData_str(NoData_Type type); // Construct a string to be added into the data buffer
 
 // *********************************
 // IRECHYPERION_Mission_Utils

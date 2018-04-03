@@ -10,17 +10,28 @@
 
 #include "IRECHYPERION.h"
 
-int buff_size = 0;
+#define FILE_NAME "TEST_01"
+
+size_t buff_size = 0;
+
+File data_file;
 
 // Main data buffer
 char *data_buffer[BUFFER_CAP] = {0};
+
+int init_SD(){
+
+  SD.begin();
+
+  return 0;
+}
 
 /**
  * Resets the buffer size, previous values in the buffer will be overwritten
  */
 void flush_buffer(){
 
-  for(int i = 0; i < buff_size; i++){
+  for(size_t i = 0; i < buff_size; i++){
     free(data_buffer[i]);
   }
 
@@ -72,7 +83,16 @@ int get_size() {
  */
 int write_buffer() {
 
-  // TODO write data_buffer to the SD card
+  data_file = SD.open(FILE_NAME, FILE_WRITE);
+
+  if (data_file){
+    for (size_t i = 0; i < buff_size; i++) {
+      data_file.write(data_buffer[i]);
+    }
+  }
+
+  data_file.close();
+
   flush_buffer();
   return 0;
 }

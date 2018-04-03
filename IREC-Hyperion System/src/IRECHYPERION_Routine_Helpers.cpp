@@ -7,6 +7,43 @@
 
 #include "IRECHYPERION.h"
 
+char *form_NoData_str(NoData_Type type){
+  // Create string
+  char *data_str = create_string(DEFAULT_STR_LEN);
+
+  if(data_str == NULL) return NULL;
+
+  char data_type[4] = {'0','0',',','\0'};
+  char time_str[12];
+
+  dtostrf(millis(), 1, 0, time_str);
+  strcat(time_str, ",");
+
+  strcat(data_str, data_type);
+  strcat(data_str, time_str);
+
+  switch (type) {
+    case DEPLOYMENT:
+      strcat(data_str, "DEPLOYMENT");
+      break;
+    case PARACHUTE_DEPLOY:
+      strcat(data_str, "PARACHUTE DEPLOYMENT");
+      break;
+    case DAMPER_DEPLOY:
+      strcat(data_str, "IMPACT DAMPER DEPLOYMENT");
+      break;
+  }
+
+  strcat(data_str, "\n");
+
+  // Reallocate to match the length of the actual string.
+  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+
+  if(data_str == NULL) return NULL;
+
+  return data_str;
+}
+
 /**
  * Helper function for the R_seq_LSM9DS1_data routine
  * Creates a string then populates it with data from the LSM9DS1 (imu) sensor.
@@ -45,8 +82,6 @@ char *form_LSM9DS1_str(){
 
   if(data_str == NULL) return NULL;
 
-  Serial.println(data_str); // REMOVE this only for testing
-
   return data_str;
 }
 
@@ -65,7 +100,7 @@ char* form_BME280_str(){
 
   dtostrf(millis(), 1, 0, time_str);
   strcat(time_str, ",");
-  
+
   strcat(data_str, data_type);
   strcat(data_str, time_str);
 
@@ -85,8 +120,6 @@ char* form_BME280_str(){
   data_str = (char*) realloc(data_str, strlen(data_str)+1);
 
   if(data_str == NULL) return NULL;
-
-  Serial.println(data_str); // REMOVE this only for testing
 
   return data_str;
 }

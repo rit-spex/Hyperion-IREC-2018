@@ -40,6 +40,14 @@ uint32_t deployed_delta(){
  */
 void set_deployment(){
 
+  char * data_str = form_NoData_str(DEPLOYMENT);
+
+  if (data_str != NULL){
+    // Insert data into the data buffer
+    add_to_buffer(data_str);
+    Serial.println(data_str); // TODO REMOVE this only for testing
+  }
+
   deployment_time = millis();
 }
 
