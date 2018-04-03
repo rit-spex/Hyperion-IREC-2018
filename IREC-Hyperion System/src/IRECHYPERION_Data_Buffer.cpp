@@ -73,7 +73,6 @@ int get_size() {
 int write_buffer() {
 
   // TODO write data_buffer to the SD card
-
   flush_buffer();
   return 0;
 }
