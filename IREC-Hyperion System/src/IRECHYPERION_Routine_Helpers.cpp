@@ -18,7 +18,10 @@ char *form_LSM9DS1_str(){
   if(data_str == NULL) return NULL;
 
   char data_type[4] = {'0','1',',','\0'};
-  char time_str[12] = {'0','0','0','0',',','\0'}; // CHANGE TODO
+  char time_str[12];
+
+  dtostrf(millis(), 1, 0, time_str);
+  strcat(time_str, ",");
 
   strcat(data_str, data_type);
   strcat(data_str, time_str);
@@ -58,8 +61,11 @@ char* form_BME280_str(){
   if(data_str == NULL) return NULL;
 
   char data_type[4] = {'0','2',',','\0'};
-  char time_str[12] = {'0','0','0','0',',','\0'}; // CHANGE TODO
+  char time_str[12];
 
+  dtostrf(millis(), 1, 0, time_str);
+  strcat(time_str, ",");
+  
   strcat(data_str, data_type);
   strcat(data_str, time_str);
 

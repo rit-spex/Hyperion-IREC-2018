@@ -116,7 +116,7 @@ void R_seq_BME280_data(){
     add_to_buffer(data_str);
   }
 
-  dsq.add_routine(0, 3, R_seq_BME280_data);
+  dsq.add_routine(0, 20, R_seq_BME280_data);
 }
 
 /**
