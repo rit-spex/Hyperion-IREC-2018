@@ -6,18 +6,25 @@
  *	    Priority Queue implementation using a min-heap.
  */
 
+#include <stdlib.h>
+
 #define LCHILD(x) 2 * x
 #define RCHILD(x) 2 * x + 1
 #define PARENT(x) (int) x / 2
 #define START 1
 
-template <class T, unsigned int capacity, class Compare>
+template <class T, class Compare>
 class priority_queue {
 public:
 
-	/**
-	 * Remove first element from the priority queue
-	 */
+    explicit priority_queue(unsigned int cap) : capacity(cap){
+
+        heap_array = (T*) calloc(capacity, sizeof(T));
+    }
+
+    /**
+     * Remove first element from the priority queue
+     */
 	T pop(){
         if(!queue_size) return heap_array[0]; // If array is empty return default
 
@@ -112,8 +119,10 @@ private:
     // Number of current elements in the queue.
     unsigned int queue_size = 0;
 
+    unsigned int capacity;
+
     // Min-Heap array
-    T heap_array[capacity];
+    T *heap_array;
 
     // Compare object for two objects
     Compare compare;

@@ -7,7 +7,34 @@
 
 #include "IRECHYPERION.h"
 
-DSQ dsq; // Dynamic Scheduling Queue(DSQ)
+#define DSQ_MAIN_CAP 250
+#define DSQ_SUSPENDED_CAP 50
+
+// Main DSQ to be used when armed
+DSQ main_DSQ(DSQ_MAIN_CAP);
+// Suspended DSQ used when idle
+DSQ sus_DSQ(DSQ_SUSPENDED_CAP);
+
+// Current DSQ in use
+DSQ *dsq = &main_DSQ; // Dynamic Scheduling Queue(DSQ)
+
+void fill_mainDSQ_startup(){
+  // Add Default routine to the dsq
+  main_DSQ.set_default(1, R_Default);
+
+  // Add startup routines into the dsq
+  main_DSQ.add_routine(0, 3, R_trans_LSM9DS1);
+  main_DSQ.add_routine(0, 20, R_trans_BME280);
+  main_DSQ.add_routine(0, 3, R_seq_LSM9DS1_data);
+  main_DSQ.add_routine(0, 20, R_seq_BME280_data);
+}
+
+void fill_susDSQ_startup(){
+
+  // Add Default routine to the dsq
+  sus_DSQ.set_default(1, R_Default);
+
+}
 
 void setup() {
   Serial.begin(9600);
@@ -28,17 +55,11 @@ void setup() {
   init_SD();
   //init_deploy_pins(); // Initilize pins which deployment switches are attached.
 
-  // Add Default routine to the dsq
-  dsq.set_default(1, R_Default);
-
-  // Add startup routines into the dsq
-  dsq.add_routine(0, 3, R_trans_LSM9DS1);
-  dsq.add_routine(0, 20, R_trans_BME280);
-  dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
-  dsq.add_routine(0, 20, R_seq_BME280_data);
+  fill_mainDSQ_startup();
+  fill_susDSQ_startup();
 }
 
 void loop() {
   // Execute routine placed into the DSQ
-  dsq.execute();
+  dsq->execute();
 }

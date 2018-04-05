@@ -38,7 +38,7 @@ void R_check_deployment(){
   if(open_cnt > 2){
     // Deployed
     set_deployment(); // Set time deployed
-    dsq.add_routine(0, 1, R_mission_constraints);
+    dsq->add_routine(0, 1, R_mission_constraints);
 
   } else if (open_cnt == 2){
     // Anomaly case where 2 switches are open and 2 switches are still
@@ -46,14 +46,14 @@ void R_check_deployment(){
     if (rate_of_climb() < DEPLOYMENT_ERROR_SPEED){
 
       set_deployment(); // Set time deployed
-      dsq.add_routine(0, 1, R_mission_constraints);
+      dsq->add_routine(0, 1, R_mission_constraints);
     } else {
 
-      dsq.add_routine(0, 1, R_check_deployment);
+      dsq->add_routine(0, 1, R_check_deployment);
     }
   } else {
 
-    dsq.add_routine(0, 1, R_check_deployment);
+    dsq->add_routine(0, 1, R_check_deployment);
   }
 }
 
@@ -97,7 +97,7 @@ void R_seq_LSM9DS1_data(){
       Serial.println(data_str); // TODO REMOVE this only for testing
     }
 
-    dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+    dsq->add_routine(0, 3, R_seq_LSM9DS1_data);
 }
 
 /**
@@ -118,7 +118,7 @@ void R_seq_BME280_data(){
     Serial.println(data_str); // TODO REMOVE this only for testing
   }
 
-  dsq.add_routine(0, 20, R_seq_BME280_data);
+  dsq->add_routine(0, 20, R_seq_BME280_data);
 }
 
 /**
@@ -142,7 +142,7 @@ void R_trans_LSM9DS1(){
     // REMOVE
     Serial.print("Transmitted LSM9DS1 data in "); Serial.println(deltat);
 
-    dsq.add_routine(0, 3, R_trans_LSM9DS1);
+    dsq->add_routine(0, 3, R_trans_LSM9DS1);
 }
 
 /**
@@ -167,5 +167,5 @@ void R_trans_BME280(){
     Serial.print("Transmitted BME280 data in "); Serial.println(deltat);
 
     // Add routine back into the DSQ
-    dsq.add_routine(0, 20, R_trans_BME280);
+    dsq->add_routine(0, 20, R_trans_BME280);
 }

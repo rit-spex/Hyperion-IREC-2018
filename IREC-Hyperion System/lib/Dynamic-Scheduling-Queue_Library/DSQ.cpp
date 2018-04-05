@@ -9,7 +9,7 @@
 
 #include "DSQ.h"
 
-DSQ::DSQ() {
+DSQ::DSQ(unsigned int capacity) : sch_queue(capacity) {
     priority_cnt = 0;
 }
 

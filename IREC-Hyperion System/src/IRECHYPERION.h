@@ -35,7 +35,7 @@
 //////////////////
 
 // File to be created and written
-#define FILE_NAME "TEST_01"
+#define FILE_NAME "TEST_01.log"
 
 #define LED 13 // LED pin
 
@@ -77,17 +77,17 @@
 #define DEPLOY_SWITCH_04 0 // change
 
 // Used for software SPI LIS331
-#define LIS3DH_CLK 13
-#define LIS3DH_MISO 12
-#define LIS3DH_MOSI 11
+#define LIS3DH_CLK 0
+#define LIS3DH_MISO 0
+#define LIS3DH_MOSI 0
 // Used for hardware & software SPI
-#define LIS3DH_CS 10
+#define LIS3DH_CS 0
 
 //////////////////////
 // Global Varables //
 ////////////////////
 
-extern DSQ dsq; // Dynamic Scheduling Queue(DSQ)
+extern DSQ* dsq; // Dynamic Scheduling Queue(DSQ)
 extern Adafruit_BME280 bme; // BME280
 extern LSM9DS1 imu; // LSM9DS1
 extern CCS811 ccs; // CCS811

@@ -51,12 +51,8 @@ int init_LoRa(){
  *    data_len: The length of the data to be sent
  */
 void transmit_data(uint8_t data[], int data_len){
-
-  digitalWrite(LED, HIGH);
   // Transmit the data
   rf95.send(data, data_len);
-
-  digitalWrite(LED, LOW);
 }
 
 int32_t convert_float_int32(float inputvalue) {

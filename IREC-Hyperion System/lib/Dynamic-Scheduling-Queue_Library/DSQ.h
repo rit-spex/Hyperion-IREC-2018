@@ -18,7 +18,6 @@
 // Change these values, platform specific
 // 4294967295 for 4 byte long 18446744073709551615 for 8 byte long
 #define MAX_SIZE_LONG 4294967295 // Platform Specific
-#define PRIORITY_CAP 250
 
 // struct Routine -- holds information regarding routines
 struct Routine{
@@ -38,9 +37,11 @@ public:
 
 class DSQ{
 private:
+
 	unsigned long int priority_cnt; // main priority counter
+
 	// min-heap
-	priority_queue<Routine, PRIORITY_CAP, Comparator> sch_queue;
+	priority_queue<Routine, Comparator> sch_queue;
 
     /**
      * creates a Routine struct on the stack, fills in the values
@@ -80,7 +81,7 @@ private:
 	
 public:
 
-    DSQ();
+    explicit DSQ(unsigned int capacity);
 
 	/**
      * Main method for submitting routines to the DEA

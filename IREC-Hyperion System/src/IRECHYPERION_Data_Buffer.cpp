@@ -94,7 +94,7 @@ int write_buffer() {
       data_file.write(data_buffer[i]);
     }
   }
-
+  
   flush_buffer();
   return 0;
 }
