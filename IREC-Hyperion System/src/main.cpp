@@ -10,30 +10,54 @@
 #define DSQ_MAIN_CAP 250
 #define DSQ_SUSPENDED_CAP 50
 
-// Main DSQ to be used when armed
-DSQ main_DSQ(DSQ_MAIN_CAP);
-// Suspended DSQ used when idle
-DSQ sus_DSQ(DSQ_SUSPENDED_CAP);
-
 // Current DSQ in use
-DSQ *dsq = &main_DSQ; // Dynamic Scheduling Queue(DSQ)
+DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue(DSQ)
 
-void fill_mainDSQ_startup(){
-  // Add Default routine to the dsq
-  main_DSQ.set_default(1, R_Default);
-
+/**
+ * add startup routines to the dsq for main phase
+ */
+void fill_main_startup(){
+  //TODO
   // Add startup routines into the dsq
-  main_DSQ.add_routine(0, 3, R_trans_LSM9DS1);
-  main_DSQ.add_routine(0, 20, R_trans_BME280);
-  main_DSQ.add_routine(0, 3, R_seq_LSM9DS1_data);
-  main_DSQ.add_routine(0, 20, R_seq_BME280_data);
+  dsq.add_routine(0, 3, R_trans_LSM9DS1);
+  dsq.add_routine(0, 20, R_trans_BME280);
+  dsq.add_routine(0, 30, R_trans_CCS811);
+  dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+  dsq.add_routine(0, 20, R_seq_BME280_data);
+  dsq.add_routine(0, 30, R_seq_CCS811_data);
 }
 
-void fill_susDSQ_startup(){
+/**
+ * add startup routines to the dsq for suspended phase
+ */
+void fill_sus_startup(){
+  //TODO
+  dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+}
 
-  // Add Default routine to the dsq
-  sus_DSQ.set_default(1, R_Default);
+/**
+ * add startup routines to the dsq for done phase
+ */
+void fill_done_startup(){
+  //TODO
+}
 
+/**
+ * Switches to the main flight phase, ARMED
+ */
+void switch_to_main(){
+
+  dsq.clear();
+  fill_main_startup();
+}
+
+/**
+ * Switches to done phase after mission success
+ */
+void switch_to_done(){
+
+  dsq.clear();
+  fill_sus_startup();
 }
 
 void setup() {
@@ -55,11 +79,13 @@ void setup() {
   init_SD();
   //init_deploy_pins(); // Initilize pins which deployment switches are attached.
 
-  fill_mainDSQ_startup();
-  fill_susDSQ_startup();
+  // Add Default routine to the dsq
+  dsq.set_default(1, R_Default);
+
+  fill_sus_startup();
 }
 
 void loop() {
   // Execute routine placed into the DSQ
-  dsq->execute();
+  dsq.execute();
 }

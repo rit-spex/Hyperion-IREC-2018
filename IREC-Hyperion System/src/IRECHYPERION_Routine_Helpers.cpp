@@ -54,6 +54,45 @@ char *form_NoData_str(NoData_Type type){
 }
 
 /**
+ * Helper function to construct a string of data for the CCS811 sensor to be
+ * placed into the data buffer.
+ */
+char *form_CCS811_str(){
+  // Create string
+  char *data_str = create_string(DEFAULT_STR_LEN);
+
+  if(data_str == NULL) return NULL;
+
+  char data_type[4] = {'0','3',',','\0'};
+  char time_str[12];
+
+  dtostrf(millis(), 1, 0, time_str);
+  strcat(time_str, ",");
+
+  strcat(data_str, data_type);
+  strcat(data_str, time_str);
+
+  char temp[10];
+
+  uint16_t data_array[2] = {get_TVOC(), get_CO2()};
+
+  for (int i = 0; i < 2; i++){
+  	itoa(data_array[i], temp, 10);
+    strcat(data_str, temp);
+    if(i < 2) strcat(data_str, ",");
+  }
+
+  strcat(data_str, "\n");
+
+  // Reallocate to match the length of the actual string.
+  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+
+  if(data_str == NULL) return NULL;
+
+  return data_str;
+}
+
+/**
  * Helper function for the R_seq_LSM9DS1_data routine
  * Creates a string then populates it with data from the LSM9DS1 (imu) sensor.
  */

@@ -60,7 +60,7 @@ void set_deployment(){
 float rate_of_climb(){
 
   float delta_time = millis() - time_sample;
-  delta_time = delta_time / 100; // Convert milliseconds to seconds
+  delta_time = delta_time / 1000; // Convert milliseconds to seconds
 
   float alt_temp = get_BME280_Alt();
   float delta_alt = alt_temp - height_sample;

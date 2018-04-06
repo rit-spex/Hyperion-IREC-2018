@@ -140,6 +140,7 @@ float calc_Roll_Deg(){
   return calc_Roll_Rad() * 180/PI;
 }
 
+float calc_Yaw_Deg(); // TODO
 
 // calc_Heading_Deg() -- Heading in Degrees
 // Returns:
@@ -173,6 +174,8 @@ float calc_Roll_Rad(){
 
   return atan2(ay, az);;
 }
+
+float calc_Yaw_Rad(); // TODO
 
 
 // calc_Heading_Rad() -- Heading in Radians

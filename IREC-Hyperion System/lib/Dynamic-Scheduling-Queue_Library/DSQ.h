@@ -116,6 +116,11 @@ public:
      */
     void set_default(int type, void (*routine_addr)());
 
+	/**
+	 * Remove all elements from the DSQ
+	 */
+    void clear();
+
 };
 
 #endif /* end of include guard: DSQ_H */

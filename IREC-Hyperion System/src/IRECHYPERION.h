@@ -87,7 +87,7 @@
 // Global Varables //
 ////////////////////
 
-extern DSQ* dsq; // Dynamic Scheduling Queue(DSQ)
+extern DSQ dsq; // Dynamic Scheduling Queue(DSQ)
 extern Adafruit_BME280 bme; // BME280
 extern LSM9DS1 imu; // LSM9DS1
 extern CCS811 ccs; // CCS811
@@ -110,6 +110,12 @@ enum NoData_Type{
 ////////////////////////
 
 // *********************************
+// main
+
+void switch_to_main();
+void switch_to_done();
+
+// *********************************
 // IRECHYPERION_LSM9DS1
 
 int       init_LSM9DS1(); // Init function for LSM9DS1 Sensor
@@ -119,9 +125,11 @@ float     get_Accel(lsm9ds1_axis axis); // Return value is in g's
 float     get_Mag(lsm9ds1_axis axis); // Return value is in Gauss
 float     calc_Pitch_Deg(); // Return is in Degrees
 float     calc_Roll_Deg(); // Return is in Degrees
+float     calc_Yaw_Deg(); // Return in Degrees
 float     calc_Heading_Deg(); // Return is in Degrees
 float     calc_Pitch_Rad(); // Return is in Radians
 float     calc_Roll_Rad(); // Return is in Radians
+float     calc_Yaw_Rad(); // Return is in Radians
 float     calc_Heading_Rad(); // Return is in Radians
 
 // *********************************
@@ -189,9 +197,10 @@ int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 // *********************************
 // IRECHYPERION_Routine_Helpers
 
-char*     form_LSM9DS1_str(); // Construct a string to be added into the data buffer
-char*     form_BME280_str(); // Construct a string to be added into the data buffer
-char*     form_NoData_str(NoData_Type type); // Construct a string to be added into the data buffer
+char*     form_LSM9DS1_str();
+char*     form_BME280_str();
+char*     form_CCS811_str();
+char*     form_NoData_str(NoData_Type type);
 
 // *********************************
 // IRECHYPERION_Mission_Utils

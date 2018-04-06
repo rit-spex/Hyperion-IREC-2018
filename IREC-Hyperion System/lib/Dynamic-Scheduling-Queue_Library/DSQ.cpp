@@ -79,6 +79,13 @@ void DSQ::priority_reset(){
     }
 }
 
+void DSQ::clear() {
+
+    while(sch_queue.size()){
+        sch_queue.pop();
+    }
+}
+
 bool Comparator::operator() (const Routine &lhs, const Routine &rhs){
 	return lhs.priority_value < rhs.priority_value;;
 }
