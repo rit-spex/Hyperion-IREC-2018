@@ -1,5 +1,5 @@
 /*
- * File: IRECHYPERION_Transmit.ino
+ * File: IRECHYPERION_Transmit.cpp
  * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions for the LoRa transmitter

@@ -3,6 +3,8 @@
 
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{float}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
 
 \title{RIT SPEX Hyperion Protocol}
 \date{February 1, 2018}
@@ -57,10 +59,10 @@
   1     & LSM9DS1     \\
   2     & BME280        \\
   3     & CCS811        \\
-  4     & PerfectFlite Strato Logger       \\
-  5     & Orientation   \\
-  6     &  ...        \\
-  7     &         \\
+  4     & LIS331      \\
+  5     & PerfectFlite Strato Logger       \\
+  6     & Orientation   \\
+  7     &  ...       \\
   8     &         \\
   9     &         \\
   10    &         \\
@@ -71,20 +73,8 @@
   15    &        
   \end{tabular}
   \end{table}
-
-  \subsubsection{Flag Mapping}
   
-  \begin{table}[H]
-  \centering
-  \caption{Flag Meanings}
-  \begin{tabular}{ll}
-  Bit Pos & Flag Meaning \\
-  0       & ...          \\
-  1       &              \\
-  2       &              \\
-  3       &             
-  \end{tabular}
-  \end{table}
+  \pagebreak
   
   \section{Data Groups}
   \subsection{LSM9DS1}
@@ -108,6 +98,8 @@
   \multicolumn{4}{|l|}{mx (4 bytes)} & \multicolumn{4}{l|}{my (4 bytes)} & \multicolumn{4}{l|}{mz (4 bytes)} \\ \hline
   \end{tabular}
   \end{table}
+
+  \pagebreak
 
   \subsection{BME280}
   This section will define the data frame for the BME280 data group. The BME280 data group contains information regarding atmospheric temperature, pressure and humidity. In total, this data frame will be 8 bytes in size.
@@ -133,6 +125,8 @@ Humidity (2 bytes)    & BME\_Altitude (2 bytes) \\ \hline
   \end{tabular}
   \end{table}
   
+  \pagebreak
+  
   \subsection{CCS811}
   This section will define the data frame for the the CCS811 data group. The CCS811 data group contains information regarding atmospheric composition. In,      total, this data frame will be 4 bytes in size.
   \subsubsection{CCS811 Data}
@@ -151,7 +145,28 @@ Humidity (2 bytes)    & BME\_Altitude (2 bytes) \\ \hline
 VOC (2 bytes) & ECD (2 bytes) \\ \hline 
   \end{tabular}
   \end{table}
-
+ 
+  \pagebreak
+ 
+ \subsection{LIS331}
+ This section will define the data frame for the the LIS331 data group. The LIS331 data group contains information acceleration in Gees. In,  total, this data frame will be 12 bytes in size.
+ \subsubsection{LIS331 Data}
+ \paragraph{X, Y, Z Acceleration (12 bytes)}
+ The Acceleration section of the LIS331 data frame will store the acceleration sensor readings in Gees. The X, Y, Z parts of this section will be 4 bytes each. In total, this data section will be 12 bytes.
+ \subsubsection{Visualization}
+ 
+ \begin{table}[H]
+ \centering
+ \caption{LIS331 Data Frame}
+ \label{my-label}
+ \begin{tabular}{|l|l|l|}
+ \hline
+Acceleration (X) & Acceleration (Y) & Acceleration (Z) \\ \hline
+ \end{tabular}
+ \end{table}
+ 
+ \pagebreak
+ 
   \subsection{PerfectFlite Strato Logger}
   This section will define the data frame for the Strato Logger data group. The Strato Logger data group provides accurate information regarding altitude. In total, this data group will be 2 bytes in size.
   \subsubsection{Strato Logger Data}
@@ -168,6 +183,8 @@ VOC (2 bytes) & ECD (2 bytes) \\ \hline
 Altitude (2 bytes) \\ \hline
  \end{tabular}
  \end{table}
+  
+ \pagebreak
   
   \subsection{Orientation}
   This section will define the data frame for the Orientation data group. The Orientation data group will contain calculations for Roll, Pitch and Yaw. In total, this data group will be 3 bytes in size. In order to achieve one byte per data segment, the values must be scaled down by (1.41). This will allow a signed value of maximum size 127.
@@ -189,5 +206,8 @@ Altitude (2 bytes) \\ \hline
 Roll(1 byte) & Pitch(1 byte) & Yaw(1 byte) \\ \hline
   \end{tabular}
   \end{table}
+  
+  \lfoot{Latest Revision: \today}
+  
   
   \end{document}

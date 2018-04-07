@@ -1,5 +1,5 @@
 /*
- * File: IRECHYPERION_Data_Buffer.ino
+ * File: IRECHYPERION_Data_Buffer.cpp
  * Organization: RIT Space Exploration
  * Description:
  *     Main data buffer for the hyperion system.
@@ -94,7 +94,7 @@ int write_buffer() {
       data_file.write(data_buffer[i]);
     }
   }
-  
+
   flush_buffer();
   return 0;
 }

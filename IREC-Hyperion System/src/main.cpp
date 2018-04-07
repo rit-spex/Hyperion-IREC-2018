@@ -8,7 +8,6 @@
 #include "IRECHYPERION.h"
 
 #define DSQ_MAIN_CAP 250
-#define DSQ_SUSPENDED_CAP 50
 
 // Current DSQ in use
 DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue(DSQ)
@@ -25,14 +24,17 @@ void fill_main_startup(){
   dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
   dsq.add_routine(0, 20, R_seq_BME280_data);
   dsq.add_routine(0, 30, R_seq_CCS811_data);
+  dsq.add_routine(0, 50, R_calc_RateOfClimb);
+  //dsq.add_routine(0, 1, R_check_deployment);
 }
 
 /**
  * add startup routines to the dsq for suspended phase
  */
-void fill_sus_startup(){
+void fill_safe_startup(){
   //TODO
-  dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+  //dsq.add_routine(0, 5, R_recv_Commands);
+  //dsq.add_routine(0, 1, R_Auto_Arm);
 }
 
 /**
@@ -57,7 +59,7 @@ void switch_to_main(){
 void switch_to_done(){
 
   dsq.clear();
-  fill_sus_startup();
+  fill_done_startup();
 }
 
 void setup() {
@@ -76,13 +78,14 @@ void setup() {
   init_BME280();
   init_LSM9DS1();
   init_CCS811();
+  init_LIS331();
   init_SD();
   //init_deploy_pins(); // Initilize pins which deployment switches are attached.
 
   // Add Default routine to the dsq
   dsq.set_default(1, R_Default);
 
-  fill_sus_startup();
+  fill_safe_startup();
 }
 
 void loop() {

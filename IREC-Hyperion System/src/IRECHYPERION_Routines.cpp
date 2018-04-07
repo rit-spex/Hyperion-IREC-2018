@@ -1,6 +1,6 @@
 /*
  * IRECHYPERION_Routines
- * File: IRECHYPERION_Routines.ino
+ * File: IRECHYPERION_Routines.cpp
  * Organization: RIT Space Exploration
  * Desc:
  *    Routines to be included into the DSQ
@@ -8,7 +8,7 @@
 
 #include "IRECHYPERION.h"
 
-#define DEPLOYMENT_ERROR_SPEED -20
+#define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
 
 void R_Default(){
 	// TODO
@@ -44,7 +44,7 @@ void R_check_deployment(){
     // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
 
-    if (rate_of_climb() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
+    if (get_ROC() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
 
       set_deployment(); // Set time deployed
       dsq.add_routine(0, 1, R_mission_constraints);
@@ -78,6 +78,16 @@ void R_mission_constraints(){
   // If not parachute or not impact damper
   //    add R_mission_constraints to DSQ
   //
+}
+
+/**
+ * Calculate the rate of climb, then store this into a varable to be fetched when
+ * needed
+ */
+void R_calc_RateOfClimb(){
+
+    rate_of_climb(); // update rate of climb
+    dsq.add_routine(0, 50, R_calc_RateOfClimb);
 }
 
 /**

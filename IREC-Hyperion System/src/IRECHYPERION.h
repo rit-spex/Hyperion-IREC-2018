@@ -150,12 +150,13 @@ uint16_t  get_CO2(); // returns CO2 in ppm
 uint16_t  get_TVOC(); // volitile compounds in ppm
 
 // *********************************
-// IRECHYPERION_CCS811
+// IRECHYPERION_LIS331
 
 int       init_LIS331(); // Init function for LIS331
-float     get_lis331_accel_x(); // Acceleration in the x axis m/s
-float     get_lis331_accel_y(); // Acceleration in the y axis m/s
-float     get_lis331_accel_z(); // Acceleration in the z axis m/s
+void      read_LIS331(); // Read sensor
+float     get_lis331_accel_x(); // Acceleration in the x axis Gees
+float     get_lis331_accel_y(); // Acceleration in the y axis Gees
+float     get_lis331_accel_z(); // Acceleration in the z axis Gees
 
 // *********************************
 // IRECHYPERION_Routines
@@ -175,6 +176,9 @@ void      R_trans_BME280(); // Transmit BME280 data via the Hyperion Protocol
 void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
 void      R_trans_LIS331(); // Transmit LIS331 data via the Hyperion Protocol
 void      R_trans_Orientation(); // Transmit Orentation data via the Hyperion Protocol
+void      R_calc_RateOfClimb(); // Calculate the rate of climb over a more than short time.
+void      R_recv_Commands(); // Recieve commands from ground station
+void      R_Auto_Arm(); // Auto arm if launched
 
 // *********************************
 // IRECHYPERION_Data_Buffer
@@ -208,6 +212,7 @@ char*     form_NoData_str(NoData_Type type);
 int       init_deploy_pins(); // Initilize the deployment switch pins
 uint32_t  deployed_delta(); // Delta time from deployment
 void      set_deployment(); // Setter function for deployment;
-float     rate_of_climb(); // Rate of climb
+void      rate_of_climb(); // Rate of climb
+float     get_ROC(); // Getter for rate of climb
 
 #endif
