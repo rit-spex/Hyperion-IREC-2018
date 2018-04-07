@@ -151,6 +151,24 @@ void R_seq_CCS811_data(){
 }
 
 /**
+ * Creates a data string for the LIS331 sensor, then places it into the BUFFER
+ */
+void R_seq_LIS331_data(){
+
+  // Create string
+  // Pack string with data from the sensors
+  char * data_str = form_LIS331_str();
+
+  if (data_str != NULL){
+    // Insert data into the data buffer
+    add_to_buffer(data_str);
+    Serial.println(data_str); // TODO REMOVE this only for testing
+  }
+
+  dsq.add_routine(0, 3, R_seq_LIS331_data);
+}
+
+/**
  * Transmit routine for the LSM9DS1 data frame.
  */
 void R_trans_LSM9DS1(){

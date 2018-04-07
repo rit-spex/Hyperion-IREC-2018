@@ -2,7 +2,7 @@
  * main.cpp
  * Organization: RIT Space Exploration
  * Desc:
- *    Code included in loop() will run execute in a loop.
+ *    Main entry point into the Hyperion system.
  */
 
 #include "IRECHYPERION.h"
@@ -24,6 +24,7 @@ void fill_main_startup(){
   dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
   dsq.add_routine(0, 20, R_seq_BME280_data);
   dsq.add_routine(0, 30, R_seq_CCS811_data);
+  dsq.add_routine(0, 3, R_seq_LIS331_data);
   dsq.add_routine(0, 50, R_calc_RateOfClimb);
   //dsq.add_routine(0, 1, R_check_deployment);
 }

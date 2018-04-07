@@ -12,9 +12,9 @@
  * Args
  * type: enum to describe the string to be created.
  * Return
- * DEPLOYMENT: 00,[time],DEPLOYMENT
- * PARACHUTE_DEPLOY: 00,[time],PARACHUTE DEPLOYMENT
- * DAMPER_DEPLOY: 00,[time],IMPACT DAMPER DEPLOYMENT
+ * DEPLOYMENT: "00,[time],DEPLOYMENT"
+ * PARACHUTE_DEPLOY: "00,[time],PARACHUTE DEPLOYMENT"
+ * DAMPER_DEPLOY: "00,[time],IMPACT DAMPER DEPLOYMENT"
  */
 char *form_NoData_str(NoData_Type type){
   // Create string
@@ -56,6 +56,8 @@ char *form_NoData_str(NoData_Type type){
 /**
  * Helper function to construct a string of data for the CCS811 sensor to be
  * placed into the data buffer.
+ * String created
+ *    "03,[Time],[TVOC],[C02]"
  */
 char *form_CCS811_str(){
   // Create string
@@ -95,6 +97,8 @@ char *form_CCS811_str(){
 /**
  * Helper function for the R_seq_LSM9DS1_data routine
  * Creates a string then populates it with data from the LSM9DS1 (imu) sensor.
+ * String created:
+ *    "01,[Time],[AccelX],[AccelY],[AccelZ],[GyroX],[GyroY],[GyroZ],[MagX],[MagY],[MagZ]"
  */
 char *form_LSM9DS1_str(){
   // Create string
@@ -136,6 +140,8 @@ char *form_LSM9DS1_str(){
 /**
  * Helper funtion for the R_seq_BME280_data routine, creates a data string
  * with data from the BME280 and returns it.
+ * String created
+ *    "02,[TIME],[TempC],[Pressure],[Hum],[Alt_BME280]"
  */
 char* form_BME280_str(){
   // Create string
@@ -160,6 +166,46 @@ char* form_BME280_str(){
   	dtostrf(data_array[i], 1, 3, temp);
     strcat(data_str, temp);
     if(i < 3) strcat(data_str, ",");
+  }
+
+  strcat(data_str, "\n");
+
+  // Reallocate to match the length of the actual string.
+  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+
+  if(data_str == NULL) return NULL;
+
+  return data_str;
+}
+
+/**
+ * Helper function to construct a string from the R_seq_LIS331_data routine.
+ * String created
+ *    "04,[TIME],[AccelX],[AccelY],[AccelZ]"
+ */
+char* form_LIS331_str(){
+  // Create string
+  char *data_str = create_string(DEFAULT_STR_LEN);
+
+  if(data_str == NULL) return NULL;
+
+  char data_type[4] = {'0','4',',','\0'};
+  char time_str[12];
+
+  dtostrf(millis(), 1, 0, time_str);
+  strcat(time_str, ",");
+
+  strcat(data_str, data_type);
+  strcat(data_str, time_str);
+
+  char temp[10];
+
+  float data_array[3] = {get_lis331_accel_x(), get_lis331_accel_y(), get_lis331_accel_z()};
+
+  for (int i = 0; i < 3; i++){
+    dtostrf(data_array[i], 1, 3, temp);
+    strcat(data_str, temp);
+    if(i < 2) strcat(data_str, ",");
   }
 
   strcat(data_str, "\n");
