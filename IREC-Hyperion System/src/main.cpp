@@ -36,6 +36,7 @@ void fill_safe_startup(){
   //TODO
   //dsq.add_routine(0, 5, R_recv_Commands);
   //dsq.add_routine(0, 1, R_Auto_Arm);
+  dsq.add_routine(0, 50, R_calc_RateOfClimb);
 }
 
 /**
