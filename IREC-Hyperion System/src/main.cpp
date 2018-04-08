@@ -10,7 +10,7 @@
 #define DSQ_MAIN_CAP 250
 
 // Current DSQ in use
-DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue(DSQ)
+DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)
 
 /**
  * add startup routines to the dsq for main phase
@@ -83,6 +83,7 @@ void setup() {
   init_LSM9DS1();
   init_CCS811();
   init_LIS331();
+  init_StratoLogger();
   init_SD();
   //init_deploy_pins(); // Initilize pins which deployment switches are attached.
 

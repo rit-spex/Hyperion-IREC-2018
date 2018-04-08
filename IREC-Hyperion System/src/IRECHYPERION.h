@@ -162,9 +162,9 @@ float     get_lis331_accel_z(); // Acceleration in the z axis Gees
 // IRECHYPERION_StratoLogger
 
 int       init_StratoLogger(); // Init function for stratologger
-float   convert_feet_meters(float val_temp); // Convert feet to meters
+float     convert_feet_meters(float val_temp); // Convert feet to meters
 int       read_HWSERIAL_Strato(); // Reads the UART buffer
-float   get_Altitude(); // Get altitude
+float     get_Altitude(); // Get altitude
 void      set_old_altitude();
 bool      get_new_altitude();
 
