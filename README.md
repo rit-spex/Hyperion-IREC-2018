@@ -11,7 +11,7 @@ Every year Spaceport America host the Intercollegiate Rocket and Engineering Com
 * ***/IREC-Hyperion HABnet Data Feeder*** - Ground station software which collects data transmitted from payload
 * ***/IREC-Hyperion Protocol*** - The Hyperion protocol software library
 * ***/IREC-Hyperion System*** - System source files and libraries for the Hyperion payload
-* ***/IREC-HYPERION Tests*** - Hyperion test resources 
+* ***/IREC-Hyperion Tests*** - Hyperion test resources 
 
 
 ###### Arduino Modules
