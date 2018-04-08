@@ -7,8 +7,12 @@
 
 #include <IRECHYPERION.h>
 
+#define MAX_G 16
+
 // Software SPI
-Adafruit_LIS3DH lis = Adafruit_LIS3DH(LIS3DH_CS, LIS3DH_MOSI, LIS3DH_MISO, LIS3DH_CLK);
+LIS331 lis;
+
+int16_t x, y, z;
 
 /**
  * Init function for the LIS331
@@ -18,18 +22,17 @@ Adafruit_LIS3DH lis = Adafruit_LIS3DH(LIS3DH_CS, LIS3DH_MOSI, LIS3DH_MISO, LIS3D
  */
 int init_LIS331(){
 
-  if (!lis.begin()) {   // change this to 0x19 for alternative i2c address
-    Serial.println("[LIS331] Init Failure");
-    return 1;
-  }
+  pinMode(LIS3DH_CS, OUTPUT);    // CS for SPI
+  digitalWrite(LIS3DH_CS, HIGH); // Make CS high
+  pinMode(LIS3DH_MOSI, OUTPUT);    // MOSI for SPI
+  pinMode(LIS3DH_MISO, INPUT);     // MISO for SPI
+  pinMode(LIS3DH_CLK, OUTPUT);    // SCK for SPI
+  SPI.begin();
 
-  Serial.println("[LIS331] Init Success");
-  delay(100);
+  lis.setSPICSPin(LIS3DH_CS);
+  lis.begin(LIS331::USE_SPI);
 
-  lis.setRange(LIS3DH_RANGE_16_G);   // 2, 4, 8 or 16 G!
-
-  Serial.print("[LIS331] Range = "); Serial.print(2 << lis.getRange());
-  Serial.println("G");
+  Serial.println("[LIS331] Init");
 
   return 0;
 }
@@ -38,17 +41,17 @@ int init_LIS331(){
  * Read the sensor
  */
 void read_LIS331(){
-  lis.read();
+  lis.readAxes(x, y, z);
 }
 
 float get_lis331_accel_x(){
-  return lis.x_g;
+  return lis.convertToG(MAX_G,x);
 }
 
 float get_lis331_accel_y(){
-  return lis.y_g;
+  return lis.convertToG(MAX_G,y);
 }
 
 float get_lis331_accel_z(){
-  return lis.z_g;
+  return lis.convertToG(MAX_G,z);
 }

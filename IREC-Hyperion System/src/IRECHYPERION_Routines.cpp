@@ -185,7 +185,7 @@ void R_trans_LSM9DS1(){
 
     transmit_data(buff, LSM9DS1_FRAME_SIZE+HEADER_SIZE);
 
-    Serial.print("Transmitted LSM9DS1 data");
+    Serial.println("Transmitted LSM9DS1 data");
 
     dsq.add_routine(0, 3, R_trans_LSM9DS1);
 }
@@ -206,7 +206,7 @@ void R_trans_BME280(){
 
     transmit_data(buff, BME280_FRAME_SIZE+HEADER_SIZE);
 
-    Serial.print("Transmitted BME280 data");
+    Serial.println("Transmitted BME280 data");
 
     // Add routine back into the DSQ
     dsq.add_routine(0, 20, R_trans_BME280);
@@ -226,7 +226,7 @@ void R_trans_CCS811(){
 
     transmit_data(buff, CCS811_FRAME_SIZE+HEADER_SIZE);
 
-    Serial.print("Transmitted BME280 data");
+    Serial.println("Transmitted BME280 data");
 
     // Add routine back into the DSQ
     dsq.add_routine(0, 30, R_trans_CCS811);

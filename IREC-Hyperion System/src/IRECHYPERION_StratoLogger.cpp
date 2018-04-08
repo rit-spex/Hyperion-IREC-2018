@@ -7,7 +7,7 @@
 
 #include "IRECHYPERION.h"
 
-#define HWSERIAL Serial1
+#define HWSERIAL Serial5
 
 char buff_HWSERIAL[20] = {'\0'};
 
@@ -27,7 +27,7 @@ void alt_update(){
   // Convert buff_HWSERIAL into a singed int
   // Assign to alt varable
 
-  Serial.println(buff_HWSERIAL); // TODO remove testing only 
+  Serial.println(buff_HWSERIAL); // TODO remove testing only
   buff_HWSERIAL[0] = '\0'; // Clear buffer
 }
 

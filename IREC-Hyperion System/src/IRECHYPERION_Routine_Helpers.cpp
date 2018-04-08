@@ -81,7 +81,7 @@ char *form_CCS811_str(){
   for (int i = 0; i < 2; i++){
   	itoa(data_array[i], temp, 10);
     strcat(data_str, temp);
-    if(i < 2) strcat(data_str, ",");
+    if(i < 1) strcat(data_str, ",");
   }
 
   strcat(data_str, "\n");

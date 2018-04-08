@@ -22,10 +22,10 @@
 #include <LSM9DS1_Registers.h>
 #include <SparkFunLSM9DS1.h>
 #include <SparkFunCCS811.h>
+#include <SparkFun_LIS331.h>
 
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#include <Adafruit_LIS3DH.h>
 
 #include <RH_RF95.h>
 
@@ -42,8 +42,8 @@
 #define DEFAULT_STR_LEN 200
 
 // Pin Macros
-#define LSM9DS1_M_CS  36 // Can be any digital pin
-#define LSM9DS1_AG_CS 35  // Can be any other digital pin
+#define LSM9DS1_M_CS 10  // Can be any digital pin
+#define LSM9DS1_AG_CS 24  // Can be any other digital pin
 
 // WARNING CHANGE BASED LOCATION
 #define DECLINATION 11.27 // Declination (degrees) in Rochester, NY
@@ -59,8 +59,8 @@
 #define BUFFER_CAP 500
 
 // SPI pins
-#define RFM95_RST     9   // "A"
-#define RFM95_CS      10   // "B"
+#define RFM95_RST     6   // "A"
+#define RFM95_CS      5   // "B"
 #define RFM95_INT     4    // "C"
 
 // Change to 434.0 or other frequency, must match RX's freq!
@@ -92,7 +92,7 @@ extern Adafruit_BME280 bme; // BME280
 extern LSM9DS1 imu; // LSM9DS1
 extern CCS811 ccs; // CCS811
 extern RH_RF95 rf95; // Singleton instance of the radio driver
-extern Adafruit_LIS3DH lis; // LIS331
+extern LIS331 lis; // LIS331
 
 //////////////
 /// Enums ///
