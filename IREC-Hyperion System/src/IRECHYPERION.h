@@ -162,9 +162,9 @@ float     get_lis331_accel_z(); // Acceleration in the z axis Gees
 // IRECHYPERION_StratoLogger
 
 int       init_StratoLogger(); // Init function for stratologger
-int32_t   convert_feet_meters(int32_t val_temp); // Convert feet to meters
-int       read_HWSERIAL(); // Reads the UART buffer
-int32_t   get_Altitude(); // Get altitude
+float   convert_feet_meters(float val_temp); // Convert feet to meters
+int       read_HWSERIAL_Strato(); // Reads the UART buffer
+float   get_Altitude(); // Get altitude
 void      set_old_altitude();
 bool      get_new_altitude();
 
@@ -189,6 +189,7 @@ void      R_trans_Orientation(); // Transmit Orentation data via the Hyperion Pr
 void      R_calc_RateOfClimb(); // Calculate the rate of climb over a more than short time.
 void      R_recv_Commands(); // Recieve commands from ground station
 void      R_Auto_Arm(); // Auto arm if launched
+void      R_StratoLogger_data(); // Data routine for the strato logger
 
 // *********************************
 // IRECHYPERION_Data_Buffer
@@ -216,6 +217,7 @@ char*     form_BME280_str();
 char*     form_CCS811_str();
 char*     form_NoData_str(NoData_Type type);
 char*     form_LIS331_str();
+char*     form_StratoLogger_str();
 
 // *********************************
 // IRECHYPERION_Mission_Utils

@@ -10,6 +10,9 @@
 
 #define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
 
+#define STRATOLOGGER_MIN_PRI 1
+#define STRATOLOGGER_MAX_PRI 100
+
 void R_Default(){
 	// TODO
 }
@@ -166,6 +169,35 @@ void R_seq_LIS331_data(){
   }
 
   dsq.add_routine(0, 3, R_seq_LIS331_data);
+}
+
+/**
+ * Gather information from the Stratologger and log the data
+ */
+void R_StratoLogger_data(){
+  static unsigned int dynamic_pri = 10;
+
+  int bytes_read = read_HWSERIAL_Strato();
+
+  if (bytes_read > 5){
+    if(dynamic_pri > STRATOLOGGER_MIN_PRI) dynamic_pri -= 1;
+  } else if(bytes_read < 2){
+    if(dynamic_pri < STRATOLOGGER_MAX_PRI) dynamic_pri += 1;
+  }
+
+  if(get_new_altitude()){
+
+    char * data_str = form_StratoLogger_str();
+
+    if (data_str != NULL){
+      // Insert data into the data buffer
+      add_to_buffer(data_str);
+      Serial.println(data_str); // TODO REMOVE this only for testing
+    }
+    set_old_altitude();
+  }
+
+  dsq.add_routine(0, dynamic_pri, R_StratoLogger_data);
 }
 
 /**

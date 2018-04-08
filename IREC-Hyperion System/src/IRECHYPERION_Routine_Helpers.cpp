@@ -217,3 +217,38 @@ char* form_LIS331_str(){
 
   return data_str;
 }
+
+/**
+ * Construct a string for the Stratologger data frame.
+ * String created:
+ *      "05,[TIME],[Altitude]"
+ */
+char * form_StratoLogger_str(){
+  // Create string
+  char *data_str = create_string(DEFAULT_STR_LEN);
+
+  if(data_str == NULL) return NULL;
+
+  char data_type[4] = {'0','5',',','\0'};
+  char time_str[12];
+
+  dtostrf(millis(), 1, 0, time_str);
+  strcat(time_str, ",");
+
+  strcat(data_str, data_type);
+  strcat(data_str, time_str);
+
+  char temp[10];
+
+  dtostrf(get_Altitude(), 1, 3, temp);
+  strcat(data_str, temp);
+
+  strcat(data_str, "\n");
+
+  // Reallocate to match the length of the actual string.
+  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+
+  if(data_str == NULL) return NULL;
+
+  return data_str;
+}

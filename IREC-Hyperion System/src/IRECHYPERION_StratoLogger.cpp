@@ -10,7 +10,8 @@
 #define HWSERIAL Serial5
 
 // Altitude in meters
-int32_t altitude = -9999; // -9999 init value
+float altitude = -9999; // -9999 init value
+
 bool new_altitude = false; // New data flag
 
 char buff_HWSERIAL[20] = {'\0'};
@@ -37,7 +38,7 @@ int init_StratoLogger(){
  * Returns
  *    val in meters
  */
-int32_t convert_feet_meters(int32_t val_temp){
+float convert_feet_meters(float val_temp){
   return val_temp * 0.3048;
 }
 
@@ -47,7 +48,7 @@ int32_t convert_feet_meters(int32_t val_temp){
 void alt_update(){
   // Convert buff_HWSERIAL into a singed int
   // Assign to alt varable
-  int32_t alt_temp = strtol(buff_HWSERIAL, NULL, 10); // TODO check this
+  float alt_temp = strtof(buff_HWSERIAL, NULL); // TODO check this
 
   altitude = convert_feet_meters(alt_temp);
 
@@ -60,7 +61,7 @@ void alt_update(){
 /**
  * Grab chars from the UART buffer, ignoring '\r' and trigging a update on a "\n"
  */
-int read_HWSERIAL(){
+int read_HWSERIAL_Strato(){
   int cnt = 0; // Bytes read
 
   while(HWSERIAL.available()){
@@ -82,7 +83,7 @@ int read_HWSERIAL(){
 /**
  * Getter function for altitude
  */
-int32_t get_Altitude(){
+float get_Altitude(){
   return altitude;
 }
 
