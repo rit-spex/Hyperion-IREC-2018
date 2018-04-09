@@ -112,8 +112,8 @@ enum NoData_Type{
 // *********************************
 // main
 
-void switch_to_main();
-void switch_to_done();
+void      switch_to_main();
+void      switch_to_done();
 
 // *********************************
 // IRECHYPERION_LSM9DS1
@@ -226,6 +226,6 @@ int       init_deploy_pins(); // Initilize the deployment switch pins
 uint32_t  deployed_delta(); // Delta time from deployment
 void      set_deployment(); // Setter function for deployment;
 void      rate_of_climb(); // Rate of climb
-float     get_ROC(); // Getter for rate of climb
+float     get_rate_of_climb(); // Getter for rate of climb
 
 #endif

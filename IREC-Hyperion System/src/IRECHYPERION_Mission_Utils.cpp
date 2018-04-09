@@ -76,6 +76,6 @@ void rate_of_climb(){
 /**
  * Getter function for rate of rate_of_climb
  */
-float get_ROC(){
+float get_rate_of_climb(){
   return ROC_var;
 }

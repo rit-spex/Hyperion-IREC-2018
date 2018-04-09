@@ -13,6 +13,9 @@
 #define STRATOLOGGER_MIN_PRI 1
 #define STRATOLOGGER_MAX_PRI 100
 
+#define ACCEL_AUTO_ARM_THRES 2 // In gees
+#define ROC_AUTO_ARM_THRES 30 // m/s
+
 void R_Default(){
 	// TODO
 }
@@ -46,7 +49,7 @@ void R_check_deployment(){
   } else if (open_cnt == 2){
     // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
-    if (get_ROC() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
+    if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
 
       set_deployment(); // Set time deployed
       dsq.add_routine(0, 1, R_mission_constraints);
@@ -74,8 +77,10 @@ void R_mission_constraints(){
   //      set impact damper
   //      add R_deploy_dampers() to DSQ
   //
-  // If not parachute or not impact damper
-  //    add R_mission_constraints to DSQ
+  // if rate of climb is within -2m/s to 2m/s for 5000 counts
+  //    switch to done phase (Which stops logging)
+  //
+  // add R_mission_constraints to DSQ
   //
 }
 
@@ -165,6 +170,35 @@ void R_seq_LIS331_data(){
   }
 
   dsq.add_routine(0, 3, R_seq_LIS331_data);
+}
+
+/**
+ * Auto arm payload, used if payload fails to receive Arm command
+ */
+void R_Auto_Arm(){
+
+  bool arm;
+  bool check_ROC = false;
+  bool check_x, check_y, check_z = false;
+
+  read_LIS331();
+
+  //TODO verify this with sensor output
+  // accelation greater than the set threshold
+  if(get_lis331_accel_x() > ACCEL_AUTO_ARM_THRES) check_x = true;
+  if(get_lis331_accel_y() > ACCEL_AUTO_ARM_THRES) check_y = true;
+  if(get_lis331_accel_z() > ACCEL_AUTO_ARM_THRES) check_z = true;
+
+  if(get_rate_of_climb() > ROC_AUTO_ARM_THRES) check_ROC = true;
+
+  arm = check_ROC && (check_x || check_y || check_z);
+
+  if(arm){ // Arm the payload
+    switch_to_main();
+    return;
+  }
+
+  dsq.add_routine(0, 1, R_Auto_Arm);
 }
 
 /**
