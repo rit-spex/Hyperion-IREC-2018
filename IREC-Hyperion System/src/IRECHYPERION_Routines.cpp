@@ -42,23 +42,19 @@ void R_check_deployment(){
     // Deployed
     set_deployment(); // Set time deployed
     dsq.add_routine(0, 1, R_mission_constraints);
-
+    return;
   } else if (open_cnt == 2){
     // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
-
     if (get_ROC() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
 
       set_deployment(); // Set time deployed
       dsq.add_routine(0, 1, R_mission_constraints);
-    } else {
-
-      dsq.add_routine(0, 1, R_check_deployment);
+      return;
     }
-  } else {
-
-    dsq.add_routine(0, 1, R_check_deployment);
   }
+  
+  dsq.add_routine(0, 1, R_check_deployment);
 }
 
 void R_mission_constraints(){
