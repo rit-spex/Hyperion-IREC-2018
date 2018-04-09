@@ -14,13 +14,16 @@ Every year Spaceport America host the Intercollegiate Rocket and Engineering Com
 * ***/IREC-Hyperion Tests*** - Hyperion test resources 
 
 ###### Mission Patch
-![Hyperion Mission Patch](https://imgur.com/a/0WYhq)
+![Hyperion Mission Patch](https://i.imgur.com/6J0gNal.png)
 
-###### Arduino Modules
+###### Hardware Modules
 - Teensy 3.6
 - Sparkfun LIS331
 - Sparkfun LSM9DS1
-- Sparkfun BME280
+- Adafruit BME280
+- Sparkfun CCS811
+- RFM_9X LoRa
+- PerfectFlite StratoLogger CF
 
 ###### Contributors
 Name Here
