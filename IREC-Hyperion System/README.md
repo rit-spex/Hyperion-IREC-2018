@@ -6,4 +6,4 @@ This sub-directory contains libraries, source files and tests pertaining to the 
 ######  Contents
 * ***/lib*** - Collection of Libraries used within the system
 * ***/src*** - Source files for the Hyperion system
-* ***/test** - Collection of tests
+* ***/test*** - Collection of tests
