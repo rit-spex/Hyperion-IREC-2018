@@ -9,7 +9,7 @@
 
 uint32_t deployment_time = 0;
 
-float height_sample = get_BME280_Alt(); // Use BME280 for now TODO change to Stratologger
+float height_sample = get_Altitude(); //Stratologger
 uint32_t time_sample = millis();
 
 float ROC_var = 0; // Rate of climb
@@ -64,7 +64,7 @@ void rate_of_climb(){
   float delta_time = millis() - time_sample;
   delta_time = delta_time / 1000; // Convert milliseconds to seconds
 
-  float alt_temp = get_BME280_Alt();
+  float alt_temp = get_Altitude();
   float delta_alt = alt_temp - height_sample;
 
   time_sample = millis();

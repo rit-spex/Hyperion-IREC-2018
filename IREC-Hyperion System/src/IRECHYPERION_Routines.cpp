@@ -33,10 +33,10 @@ void R_check_deployment(){
 
   int open_cnt = 0;
 
-  if(digitalRead(DEPLOY_SWITCH_01) == HIGH) open_cnt += 1;
-  if(digitalRead(DEPLOY_SWITCH_02) == HIGH) open_cnt += 1;
-  if(digitalRead(DEPLOY_SWITCH_03) == HIGH) open_cnt += 1;
-  if(digitalRead(DEPLOY_SWITCH_04) == HIGH) open_cnt += 1;
+  if(digitalReadFast(DEPLOY_SWITCH_01) == HIGH) open_cnt += 1;
+  if(digitalReadFast(DEPLOY_SWITCH_02) == HIGH) open_cnt += 1;
+  if(digitalReadFast(DEPLOY_SWITCH_03) == HIGH) open_cnt += 1;
+  if(digitalReadFast(DEPLOY_SWITCH_04) == HIGH) open_cnt += 1;
 
   if(open_cnt > 2){
     // Deployed
@@ -53,7 +53,7 @@ void R_check_deployment(){
       return;
     }
   }
-  
+
   dsq.add_routine(0, 1, R_check_deployment);
 }
 
@@ -86,7 +86,7 @@ void R_mission_constraints(){
 void R_calc_RateOfClimb(){
 
     rate_of_climb(); // update rate of climb
-    dsq.add_routine(0, 50, R_calc_RateOfClimb);
+    dsq.add_routine(0, 100, R_calc_RateOfClimb);
 }
 
 /**
