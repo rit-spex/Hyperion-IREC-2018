@@ -13,6 +13,8 @@ Every year Spaceport America host the Intercollegiate Rocket and Engineering Com
 * ***/IREC-Hyperion System*** - System source files and libraries for the Hyperion payload
 * ***/IREC-Hyperion Tests*** - Hyperion test resources 
 
+###### Mission Patch
+![Hyperion Mission Patch](https://imgur.com/a/0WYhq)
 
 ###### Arduino Modules
 - Teensy 3.6
