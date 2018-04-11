@@ -1,7 +1,7 @@
 // RH_RF22.cpp
 //
 // Copyright (C) 2011 Mike McCauley
-// $Id: RH_RF22.cpp,v 1.27 2017/01/12 23:58:00 mikem Exp $
+// $Id: RH_RF22.cpp,v 1.26 2016/04/04 01:40:12 mikem Exp $
 
 #include <RH_RF22.h>
 
@@ -587,10 +587,6 @@ bool RH_RF22::send(const uint8_t* data, uint8_t len)
 {
     bool ret = true;
     waitPacketSent();
-
-    if (!waitCAD()) 
-	return false;  // Check channel activity
-
     ATOMIC_BLOCK_START;
     spiWrite(RH_RF22_REG_3A_TRANSMIT_HEADER3, _txHeaderTo);
     spiWrite(RH_RF22_REG_3B_TRANSMIT_HEADER2, _txHeaderFrom);

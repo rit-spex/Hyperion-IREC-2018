@@ -1,7 +1,7 @@
 // RH_RF22.h
 // Author: Mike McCauley (mikem@airspayce.com)
 // Copyright (C) 2011 Mike McCauley
-// $Id: RH_RF22.h,v 1.32 2017/03/04 00:59:41 mikem Exp $
+// $Id: RH_RF22.h,v 1.30 2016/07/07 00:02:53 mikem Exp mikem $
 //
 
 #ifndef RH_RF22_h
@@ -486,8 +486,6 @@
 /// The physical connection between the RF22B and the Arduino requires 3.3V,
 /// the 3 x SPI pins (SCK, SDI, SDO), a Slave Select pin and an interrupt pin.
 ///
-/// Note: some devices may need a pullup resister on the SDO line.
-///
 /// Note also that on the RFM22B (but not the RFM23B), it is required to control the TX_ANT and
 /// RX_ANT pins of the RFM22 in order to control the antenna connection properly. The RH_RF22
 /// driver is configured by default so that GPIO0 and GPIO1 outputs can
@@ -581,6 +579,7 @@
 /// \endcode
 /// and use the default constructor:
 /// RH_RF22 driver;
+
 /// For connecting an Arduino to an RFM23BP module. Note that the antenna control pins are reversed 
 /// compared to the RF22.
 /// \code

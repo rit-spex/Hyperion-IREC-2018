@@ -1,7 +1,7 @@
 // RHGenericDriver.h
 // Author: Mike McCauley (mikem@airspayce.com)
 // Copyright (C) 2014 Mike McCauley
-// $Id: RHGenericDriver.h,v 1.19 2017/03/08 09:30:47 mikem Exp mikem $
+// $Id: RHGenericDriver.h,v 1.17 2016/04/04 01:40:12 mikem Exp $
 
 #ifndef RHGenericDriver_h
 #define RHGenericDriver_h
@@ -13,9 +13,6 @@
 #define RH_FLAGS_RESERVED                 0xf0
 #define RH_FLAGS_APPLICATION_SPECIFIC     0x0f
 #define RH_FLAGS_NONE                     0
-
-// Default timeout for waitCAD() in ms
-#define RH_CAD_DEFAULT_TIMEOUT            10000
 
 /////////////////////////////////////////////////////////////////////
 /// \class RHGenericDriver RHGenericDriver.h <RHGenericDriver.h>
@@ -51,8 +48,7 @@ public:
 	RHModeSleep,            ///< Transport hardware is in low power sleep mode (if supported)
 	RHModeIdle,             ///< Transport is idle.
 	RHModeTx,               ///< Transport is in the process of transmitting a message.
-	RHModeRx,               ///< Transport is in the process of receiving a message.
-	RHModeCad               ///< Transport is in the process of detecting channel activity (if supported)
+	RHModeRx                ///< Transport is in the process of receiving a message.
     } RHMode;
 
     /// Constructor
@@ -84,16 +80,12 @@ public:
     virtual bool recv(uint8_t* buf, uint8_t* len) = 0;
 
     /// Waits until any previous transmit packet is finished being transmitted with waitPacketSent().
-    /// Then optionally waits for Channel Activity Detection (CAD) 
-    /// to show the channnel is clear (if the radio supports CAD) by calling waitCAD().
     /// Then loads a message into the transmitter and starts the transmitter. Note that a message length
     /// of 0 is NOT permitted. If the message is too long for the underlying radio technology, send() will
     /// return false and will not send the message.
     /// \param[in] data Array of data to be sent
     /// \param[in] len Number of bytes of data to send (> 0)
-    /// specify the maximum time in ms to wait. If 0 (the default) do not wait for CAD before transmitting.
-    /// \return true if the message length was valid and it was correctly queued for transmit. Return false
-    /// if CAD was requested and the CAD timeout timed out before clear channel was detected.
+    /// \return true if the message length was valid and it was correctly queued for transmit
     virtual bool send(const uint8_t* data, uint8_t len) = 0;
 
     /// Returns the maximum message length 
@@ -112,42 +104,13 @@ public:
     /// Blocks until the transmitter is no longer transmitting.
     /// or until the timeout occuers, whichever happens first
     /// \param[in] timeout Maximum time to wait in milliseconds.
-    /// \return true if the radio completed transmission within the timeout period. False if it timed out.
+    /// \return true if the RF22 completed transmission within the timeout period. False if it timed out.
     virtual bool            waitPacketSent(uint16_t timeout);
 
     /// Starts the receiver and blocks until a received message is available or a timeout
     /// \param[in] timeout Maximum time to wait in milliseconds.
     /// \return true if a message is available
     virtual bool            waitAvailableTimeout(uint16_t timeout);
-
-    // Bent G Christensen (bentor@gmail.com), 08/15/2016
-    /// Channel Activity Detection (CAD).
-    /// Blocks until channel activity is finished or CAD timeout occurs.
-    /// Uses the radio's CAD function (if supported) to detect channel activity.
-    /// Implements random delays of 100 to 1000ms while activity is detected and until timeout.
-    /// Caution: the random() function is not seeded. If you want non-deterministic behaviour, consider
-    /// using something like randomSeed(analogRead(A0)); in your sketch.
-    /// Permits the implementation of listen-before-talk mechanism (Collision Avoidance).
-    /// Calls the isChannelActive() member function for the radio (if supported) 
-    /// to determine if the channel is active. If the radio does not support isChannelActive(),
-    /// always returns true immediately
-    /// \return true if the radio-specific CAD (as returned by isChannelActive())
-    /// shows the channel is clear within the timeout period (or the timeout period is 0), else returns false.
-    virtual bool            waitCAD();
-
-    /// Sets the Channel Activity Detection timeout in milliseconds to be used by waitCAD().
-    /// The default is 0, which means do not wait for CAD detection.
-    /// CAD detection depends on support for isChannelActive() by your particular radio.
-    void setCADTimeout(unsigned long cad_timeout);
-
-    /// Determine if the currently selected radio channel is active.
-    /// This is expected to be subclassed by specific radios to implement their Channel Activity Detection
-    /// if supported. If the radio does not support CAD, returns true immediately. If a RadioHead radio 
-    /// supports isChannelActive() it will be documented in the radio specific documentation.
-    /// This is called automatically by waitCAD().
-    /// \return true if the radio-specific CAD (as returned by override of isChannelActive()) shows the
-    /// current radio channel as active, else false. If there is no radio-specific CAD, returns false.
-    virtual bool            isChannelActive();
 
     /// Sets the address of this node. Defaults to 0xFF. Subclasses or the user may want to change this.
     /// This will be used to test the adddress in incoming messages. In non-promiscuous mode,
@@ -294,12 +257,6 @@ protected:
     /// Count of the number of bad messages (correct checksum etc) received
     volatile uint16_t   _txGood;
     
-    /// Channel activity detected
-    volatile bool       _cad;
-
-    /// Channel activity timeout in ms
-    unsigned int        _cad_timeout;
-
 private:
 
 };

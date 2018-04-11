@@ -1,7 +1,7 @@
 // NRF24.cpp
 //
 // Copyright (C) 2012 Mike McCauley
-// $Id: RH_NRF24.cpp,v 1.23 2017/01/12 23:58:00 mikem Exp $
+// $Id: RH_NRF24.cpp,v 1.22 2016/04/04 01:40:12 mikem Exp $
 
 #include <RH_NRF24.h>
 
@@ -187,10 +187,6 @@ bool RH_NRF24::send(const uint8_t* data, uint8_t len)
 {
     if (len > RH_NRF24_MAX_MESSAGE_LEN)
 	return false;
-
-    if (!waitCAD()) 
-	return false;  // Check channel activity
-
     // Set up the headers
     _buf[0] = _txHeaderTo;
     _buf[1] = _txHeaderFrom;

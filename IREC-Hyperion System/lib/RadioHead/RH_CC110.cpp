@@ -3,7 +3,7 @@
 // Driver for Texas Instruments CC110L transceiver.
 //
 // Copyright (C) 2016 Mike McCauley
-// $Id: RH_CC110.cpp,v 1.5 2017/01/12 23:58:00 mikem Exp $
+// $Id: RH_CC110.cpp,v 1.4 2016/01/02 01:46:34 mikem Exp $
 
 #include <RH_CC110.h>
 
@@ -300,9 +300,6 @@ bool RH_CC110::send(const uint8_t* data, uint8_t len)
 
     waitPacketSent(); // Make sure we dont interrupt an outgoing message
     setModeIdle();
-
-    if (!waitCAD()) 
-	return false;  // Check channel activity
 
     spiWriteRegister(RH_CC110_REG_3F_FIFO, len + RH_CC110_HEADER_LEN);
     spiWriteRegister(RH_CC110_REG_3F_FIFO,_txHeaderTo);

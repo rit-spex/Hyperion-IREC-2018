@@ -3,8 +3,8 @@
 #include <SPI.h>
 
 // SPI pins
-#define RFM95_RST     9   // "A"
-#define RFM95_CS      10   // "B"
+#define RFM95_RST     6   // "A"
+#define RFM95_CS      5   // "B"
 #define RFM95_INT     4    // "C"
 
 // Change to 434.0 or other frequency, must match RX's freq!

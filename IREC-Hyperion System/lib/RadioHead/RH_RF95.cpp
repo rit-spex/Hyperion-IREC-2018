@@ -1,7 +1,7 @@
 // RH_RF95.cpp
 //
 // Copyright (C) 2011 Mike McCauley
-// $Id: RH_RF95.cpp,v 1.14 2017/03/04 00:59:41 mikem Exp $
+// $Id: RH_RF95.cpp,v 1.11 2016/04/04 01:40:12 mikem Exp $
 
 #include <RH_RF95.h>
 
@@ -36,7 +36,7 @@ bool RH_RF95::init()
 {
     if (!RHSPIDriver::init())
 	return false;
-
+    //Serial.println("RHSPIDriver::init completed");
     // Determine the interrupt number that corresponds to the interruptPin
     int interruptNumber = digitalPinToInterrupt(_interruptPin);
     if (interruptNumber == NOT_AN_INTERRUPT)
@@ -44,6 +44,7 @@ bool RH_RF95::init()
 #ifdef RH_ATTACHINTERRUPT_TAKES_PIN_NUMBER
     interruptNumber = _interruptPin;
 #endif
+    //Serial.println("Attach Interrupt completed");
 
     // No way to check the device type :-(
     
@@ -53,8 +54,8 @@ bool RH_RF95::init()
     // Check we are in sleep mode, with LORA set
     if (spiRead(RH_RF95_REG_01_OP_MODE) != (RH_RF95_MODE_SLEEP | RH_RF95_LONG_RANGE_MODE))
     {
-	Serial.println(spiRead(RH_RF95_REG_01_OP_MODE), HEX);
-	return false; // No device present?
+	   //Serial.println(spiRead(RH_RF95_REG_01_OP_MODE), HEX);
+	   return false; // No device present?
     }
 
     // Add by Adrien van den Bossche <vandenbo@univ-tlse2.fr> for Teensy
@@ -83,8 +84,11 @@ bool RH_RF95::init()
 	attachInterrupt(interruptNumber, isr1, HIGH);
     else if (_myInterruptIndex == 2)
 	attachInterrupt(interruptNumber, isr2, HIGH);
-    else
-	return false; // Too many devices, not enough interrupt vectors
+    else 
+    {
+        //Serial.println("Interrupt vector too many vectors");
+        return false; // Too many devices, not enough interrupt vectors
+    }
 
     // Set up FIFO
     // We configure so that we can use the entire 256 byte FIFO for either receive
@@ -121,6 +125,7 @@ bool RH_RF95::init()
 void RH_RF95::handleInterrupt()
 {
     // Read the interrupt register
+    //Serial.println("HandleInterrupt");
     uint8_t irq_flags = spiRead(RH_RF95_REG_12_IRQ_FLAGS);
     if (_mode == RHModeRx && irq_flags & (RH_RF95_RX_TIMEOUT | RH_RF95_PAYLOAD_CRC_ERROR))
     {
@@ -137,24 +142,11 @@ void RH_RF95::handleInterrupt()
 	_bufLen = len;
 	spiWrite(RH_RF95_REG_12_IRQ_FLAGS, 0xff); // Clear all IRQ flags
 
-	// Remember the last signal to noise ratio, LORA mode
-	// Per page 111, SX1276/77/78/79 datasheet
-	_lastSNR = (int8_t)spiRead(RH_RF95_REG_19_PKT_SNR_VALUE) / 4;
-
-	// Remember the RSSI of this packet, LORA mode
+	// Remember the RSSI of this packet
 	// this is according to the doc, but is it really correct?
 	// weakest receiveable signals are reported RSSI at about -66
-	_lastRssi = spiRead(RH_RF95_REG_1A_PKT_RSSI_VALUE);
-	// Adjust the RSSI, datasheet page 87
-	if (_lastSNR < 0)
-	    _lastRssi = _lastRssi + _lastSNR;
-	else
-	    _lastRssi = (int)_lastRssi * 16 / 15;
-	if (_usingHFport)
-	    _lastRssi -= 157;
-	else
-	    _lastRssi -= 164;
-	    
+	_lastRssi = spiRead(RH_RF95_REG_1A_PKT_RSSI_VALUE) - 137;
+
 	// We have received a message.
 	validateRxBuf(); 
 	if (_rxBufValid)
@@ -164,11 +156,6 @@ void RH_RF95::handleInterrupt()
     {
 	_txGood++;
 	setModeIdle();
-    }
-    else if (_mode == RHModeCad && irq_flags & RH_RF95_CAD_DONE)
-    {
-        _cad = irq_flags & RH_RF95_CAD_DETECTED;
-        setModeIdle();
     }
     
     spiWrite(RH_RF95_REG_12_IRQ_FLAGS, 0xff); // Clear all IRQ flags
@@ -197,8 +184,9 @@ void RH_RF95::isr2()
 void RH_RF95::validateRxBuf()
 {
     if (_bufLen < 4)
-	return; // Too short to be a real message
+	   return; // Too short to be a real message
     // Extract the 4 headers
+    //Serial.println("validateRxBuf >= 4");
     _rxHeaderTo    = _buf[0];
     _rxHeaderFrom  = _buf[1];
     _rxHeaderId    = _buf[2];
@@ -250,11 +238,11 @@ bool RH_RF95::send(const uint8_t* data, uint8_t len)
     if (len > RH_RF95_MAX_MESSAGE_LEN)
 	return false;
 
-	// Drops packet if busy
+    //waitPacketSent(); // Make sure we dont interrupt an outgoing message
+    //setModeIdle();
+    	// Drops packet if busy
     if(_mode != RHModeIdle) return false;
 
-    if (!waitCAD()) 
-	return false;  // Check channel activity
 
     // Position at the beginning of the FIFO
     spiWrite(RH_RF95_REG_0D_FIFO_ADDR_PTR, 0);
@@ -300,7 +288,6 @@ bool RH_RF95::setFrequency(float centre)
     spiWrite(RH_RF95_REG_06_FRF_MSB, (frf >> 16) & 0xff);
     spiWrite(RH_RF95_REG_07_FRF_MID, (frf >> 8) & 0xff);
     spiWrite(RH_RF95_REG_08_FRF_LSB, frf & 0xff);
-    _usingHFport = (centre >= 779.0);
 
     return true;
 }
@@ -328,9 +315,10 @@ void RH_RF95::setModeRx()
 {
     if (_mode != RHModeRx)
     {
-	spiWrite(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_RXCONTINUOUS);
-	spiWrite(RH_RF95_REG_40_DIO_MAPPING1, 0x00); // Interrupt on RxDone
-	_mode = RHModeRx;
+       //Serial.println("SetModeRx");
+       _mode = RHModeRx;
+	   spiWrite(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_RXCONTINUOUS);
+	   spiWrite(RH_RF95_REG_40_DIO_MAPPING1, 0x00); // Interrupt on RxDone
     }
 }
 
@@ -338,9 +326,9 @@ void RH_RF95::setModeTx()
 {
     if (_mode != RHModeTx)
     {
+    _mode = RHModeTx;       // set first to avoid possible race condition
 	spiWrite(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_TX);
 	spiWrite(RH_RF95_REG_40_DIO_MAPPING1, 0x40); // Interrupt on TxDone
-	_mode = RHModeTx;
     }
 }
 
@@ -414,56 +402,3 @@ void RH_RF95::setPreambleLength(uint16_t bytes)
     spiWrite(RH_RF95_REG_21_PREAMBLE_LSB, bytes & 0xff);
 }
 
-bool RH_RF95::isChannelActive()
-{
-    // Set mode RHModeCad
-    if (_mode != RHModeCad)
-    {
-        spiWrite(RH_RF95_REG_01_OP_MODE, RH_RF95_MODE_CAD);
-        spiWrite(RH_RF95_REG_40_DIO_MAPPING1, 0x80); // Interrupt on CadDone
-        _mode = RHModeCad;
-    }
-
-    while (_mode == RHModeCad)
-        YIELD;
-
-    return _cad;
-}
-
-void RH_RF95::enableTCXO()
-{
-    while ((spiRead(RH_RF95_REG_4B_TCXO) & RH_RF95_TCXO_TCXO_INPUT_ON) != RH_RF95_TCXO_TCXO_INPUT_ON)
-    {
-	sleep();
-	spiWrite(RH_RF95_REG_4B_TCXO, (spiRead(RH_RF95_REG_4B_TCXO) | RH_RF95_TCXO_TCXO_INPUT_ON));
-    } 
-}
-
-// From section 4.1.5 of SX1276/77/78/79
-// Ferror = FreqError * 2**24 * BW / Fxtal / 500
-int RH_RF95::frequencyError()
-{
-    int32_t freqerror = 0;
-
-    // Convert 2.5 bytes (5 nibbles, 20 bits) to 32 bit signed int
-    freqerror = spiRead(RH_RF95_REG_28_FEI_MSB) << 16;
-    freqerror |= spiRead(RH_RF95_REG_29_FEI_MID) << 8;
-    freqerror |= spiRead(RH_RF95_REG_2A_FEI_LSB);
-    // Sign extension into top 3 nibbles
-    if (freqerror & 0x80000)
-	freqerror |= 0xfff00000;
-
-    int error = 0; // In hertz
-    float bw_tab[] = {7.8, 10.4, 15.6, 20.8, 31.25, 41.7, 62.5, 125, 250, 500};
-    uint8_t bwindex = spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) >> 4;
-    if (bwindex < (sizeof(bw_tab) / sizeof(float)))
-	error = (float)freqerror * bw_tab[bwindex] * ((float)(1L << 24) / (float)RH_RF95_FXOSC / 500.0);
-    // else not defined
-
-    return error;
-}
-
-int RH_RF95::lastSNR()
-{
-    return _lastSNR;
-}

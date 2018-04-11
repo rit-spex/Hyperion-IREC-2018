@@ -1,7 +1,7 @@
 // RH_ASK.cpp
 //
 // Copyright (C) 2014 Mike McCauley
-// $Id: RH_ASK.cpp,v 1.20 2017/01/12 23:58:00 mikem Exp $
+// $Id: RH_ASK.cpp,v 1.18 2016/07/07 00:02:53 mikem Exp mikem $
 
 #include <RH_ASK.h>
 #include <RHCRC.h>
@@ -47,8 +47,7 @@ RH_ASK::RH_ASK(uint16_t speed, uint8_t rxPin, uint8_t txPin, uint8_t pttPin, boo
     _rxPin(rxPin),
     _txPin(txPin),
     _pttPin(pttPin),
-    _pttInverted(pttInverted),
-    _rxInverted(false)
+    _pttInverted(pttInverted)
 {
     // Initialise the first 8 nibbles of the tx buffer to be the standard
     // preamble. We will append messages after that. 0x38, 0x2c is the start symbol before
@@ -176,9 +175,10 @@ void RH_ASK::timerSetup()
     TA0CCTL0 |= CCIE;               // CCR0 interrupt enabled
 
 #elif (RH_PLATFORM == RH_PLATFORM_ARDUINO) // Arduino specific
+ #if !(defined(__arm__) && defined(CORE_TEENSY) )
     uint16_t nticks; // number of prescaled ticks needed
     uint8_t prescaler; // Bit values for CS0[2:0]
-
+ #endif
  #ifdef RH_PLATFORM_ATTINY
     // figure out prescaler value and counter match value
     // REVISIT: does not correctly handle 1MHz clock speeds, only works with 8MHz clocks
@@ -481,9 +481,6 @@ bool RH_ASK::send(const uint8_t* data, uint8_t len)
 
     // Wait for transmitter to become available
     waitPacketSent();
-
-    if (!waitCAD()) 
-	return false;  // Check channel activity
 
     // Encode the message length
     crc = RHcrc_ccitt_update(crc, count);

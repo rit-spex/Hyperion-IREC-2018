@@ -7,8 +7,11 @@
 #ifndef RHGenericSPI_h
 #define RHGenericSPI_h
 
-#include <SPI.h> // for SPI_HAS_TRANSACTION and SPISettings
 #include <RadioHead.h>
+
+#if (RH_PLATFORM == RH_PLATFORM_ARDUINO)
+#include <SPI.h> // for SPI_HAS_TRANSACTION and SPISettings
+#endif
 
 /////////////////////////////////////////////////////////////////////
 /// \class RHGenericSPI RHGenericSPI.h <RHGenericSPI.h>
@@ -125,6 +128,10 @@ public:
     /// \param[in] frequency The data rate to use: one of RHGenericSPI::Frequency
     virtual void setFrequency(Frequency frequency);
 
+    // Try to add SPI Transaction support
+    // Note: Maybe add some way to set SPISettings?
+    virtual void beginTransaction() {};
+    virtual void endTransaction() {};
 protected:
     /// The configure SPI Bus frequency, one of RHGenericSPI::Frequency
     Frequency    _frequency; // Bus frequency, one of RHGenericSPI::Frequency
@@ -135,14 +142,5 @@ protected:
     /// SPI bus mode, one of RHGenericSPI::DataMode
     DataMode     _dataMode;  
 
-
-public:
-#if defined(SPI_HAS_TRANSACTION)
-    // An ugly hack... this probably belongs in RHHardwareSPI.cpp, but
-    // beginTransaction() needs to be called at a higher level which does
-    // not know if the underlying SPI is hardware or software.  This hack
-    // is merely for testing.
-    SPISettings  _settings;
-#endif
 };
 #endif

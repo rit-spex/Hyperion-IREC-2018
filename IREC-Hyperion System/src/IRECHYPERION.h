@@ -41,10 +41,6 @@
 
 #define DEFAULT_STR_LEN 200
 
-// Pin Macros
-#define LSM9DS1_M_CS 10  // Can be any digital pin
-#define LSM9DS1_AG_CS 24  // Can be any other digital pin
-
 // WARNING CHANGE BASED LOCATION
 #define DECLINATION 11.27 // Declination (degrees) in Rochester, NY
 
@@ -52,36 +48,13 @@
 /// Data is Pressure at Sea Level in hPa
 #define SEALEVELPRESSURE_HPA (1023.23)
 
-#define CCS811_ADDR 0x5B //Default I2C Address
-//#define CCS811_ADDR 0x5A //Alternate I2C Address
-
 // Maximum buffer capacity
 #define BUFFER_CAP 500
-
-// SPI pins
-#define RFM95_RST     6   // "A"
-#define RFM95_CS      5   // "B"
-#define RFM95_INT     4    // "C"
-
-// Change to 434.0 or other frequency, must match RX's freq!
-#define RF95_FREQ 915.0
-
-#define CCS811_ADDR 0x5B //Default I2C Address
-//#define CCS811_ADDR 0x5A //Alternate I2C Address
-
-#define CCS811_NORMAL_MODE 3
 
 #define DEPLOY_SWITCH_01 0 // change
 #define DEPLOY_SWITCH_02 0 // change
 #define DEPLOY_SWITCH_03 0 // change
 #define DEPLOY_SWITCH_04 0 // change
-
-// Used for software SPI LIS331
-#define LIS3DH_CLK 0
-#define LIS3DH_MISO 0
-#define LIS3DH_MOSI 0
-// Used for hardware & software SPI
-#define LIS3DH_CS 0
 
 //////////////////////
 // Global Varables //

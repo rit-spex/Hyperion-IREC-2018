@@ -39,6 +39,7 @@ void fill_safe_startup(){
   dsq.add_routine(0, 1, R_Auto_Arm);
   dsq.add_routine(0, 100, R_calc_RateOfClimb);
   dsq.add_routine(0, 10, R_StratoLogger_data);
+  dsq.add_routine(0, 3, R_seq_LIS331_data);
 }
 
 /**
@@ -90,7 +91,7 @@ void setup() {
   // Add Default routine to the dsq
   dsq.set_default(1, R_Default);
 
-  fill_safe_startup();
+  fill_main_startup();
 }
 
 void loop() {
