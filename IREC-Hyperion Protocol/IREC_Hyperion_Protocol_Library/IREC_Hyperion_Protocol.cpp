@@ -118,6 +118,33 @@ void IRECHYPERP::createCCS811Frame(uint8_t buff[], char *flags, uint32_t time, i
     }
 }
 
+void IRECHYPERP::createLIS311Frame(uint8_t buff[], char *flags, uint32_t time, int32_t ax, int32_t ay, int32_t az) {
+
+    uint8_t buff_header[HEADER_SIZE] = {0};
+    createHeader(buff_header, LIS311t, flags, time);
+
+    int cnt = 0;
+
+    // Pack header into buffer
+    for (int i = 0; i < HEADER_SIZE; ++i) {
+        cnt = i;
+        buff[cnt] = buff_header[cnt];
+    }
+
+    cnt += 1;
+
+    int16_t val_arry[3] = {ax, ay, az};
+
+    for (int j = 0; j < 3; ++j) {
+        for (int k = 0; k < sizeof(int16_t); ++k) {
+            buff[cnt+k] <<= sizeof(uint8_t)*8; // Clear the buffer
+
+            buff[cnt+k] = (uint8_t)((val_arry[j] >> (sizeof(int16_t) - k - 1)*8) & BYTE_MASK);
+        }
+        cnt += sizeof(int16_t);
+    }
+}
+
 unpk_header IRECHYPERP::unpack_header(const uint8_t buff[]) {
     unpk_header header={0};
 
@@ -194,7 +221,7 @@ BME280_Packet IRECHYPERP::unpack_BME280(const uint8_t *buff) {
 BME280_Data IRECHYPERP::unpack_BME280_Data(const uint8_t *buff) {
     BME280_Data data={0};
 
-    int32_t *val_buff[9] = {&data.temperature, &data.pressure, &data.humidity, &data.altitude};
+    int32_t *val_buff[4] = {&data.temperature, &data.pressure, &data.humidity, &data.altitude};
 
     int cnt = 0;
 
@@ -209,4 +236,37 @@ BME280_Data IRECHYPERP::unpack_BME280_Data(const uint8_t *buff) {
     return data;
 }
 
+CCS811_Packet IRECHYPERP::unpack_CCS811(const uint8_t *buff) {
+    CCS811_Packet packet = {0};
+    
+    packet.header = unpack_header(buff);
 
+    uint8_t sliced_arry[CCS811_FRAME_SIZE] = {};
+
+    int cnt = 0;
+    for (int i = HEADER_SIZE; i < HEADER_SIZE+CCS811_FRAME_SIZE; i++) {
+        sliced_arry[cnt] = buff[i];
+        cnt += 1;
+    }
+
+    packet.data = unpack_CCS811_Data(sliced_arry);
+    return packet;
+}
+
+CCS811_Data IRECHYPERP::unpack_CCS811_Data(const uint8_t *buff) {
+    CCS811_Data data={0};
+
+    int32_t *val_buff[2] = {&data.co2, &data.TVOC};
+
+    int cnt = 0;
+
+    for (int i = 0; i < 2; ++i){
+        for (int j = 0; j < sizeof(int32_t); ++j) {
+            *val_buff[i] = *val_buff[i] << sizeof(uint8_t)*8;
+            *val_buff[i] |= buff[j+cnt];
+        }
+        cnt += sizeof(int32_t);
+    }
+
+    return data;
+}

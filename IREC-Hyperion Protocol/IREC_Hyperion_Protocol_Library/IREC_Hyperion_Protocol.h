@@ -59,6 +59,13 @@ typedef struct CCS811_Data{
 } CCS811_Data;
 
 /**
+ * Data struct for the LIS311 data frame
+ */
+typedef struct LIS311_Data{
+    int32_t ax, ay, az
+} LIS311_Data;
+
+/**
  * Packet struct containing LSM9DS1 data and header.
  */
 typedef struct LSM9DS1_Packet{
@@ -81,6 +88,15 @@ typedef struct CCS811_Packet{
     unpk_header header;
     CCS811_Data data;
 } CCS811_Packet;
+
+/**
+ * Packet struct containing LIS311 data and header.
+ */
+typedef struct LIS311_Packet{
+    unpk_header header;
+    LIS311_Data data;
+} LIS311_Packet;
+
 
 /**
  * Data Type Enums
@@ -180,6 +196,23 @@ public:
      */
     static void createCCS811Frame(uint8_t buff[], char flags[], uint32_t time,
                                    int16_t co2, int16_t TVOC);
+    /**
+     * Main packer function for the LIS311 data frame.
+     * @param flags
+     *      Header flags
+     * @param time
+     *      Time in seconds (Epoch)
+     * @param ax
+     *      Acceleration value on the X axis
+     * @param ay
+     *      Acceleration value on the Y axis
+     * @param az
+     *      Acceleration value on the Z axis
+     * @return
+     *      A fully complete data frame with header
+     */
+    static void createLIS311Frame(uint8_t buff[], char flags[], uint32_t time,
+                                   int32_t ax, int32_t ay, int32_t az);
 
     /**
      * Unpack function for the LSM9DS1 data frame
@@ -206,7 +239,18 @@ public:
      * @return
      *      A CCS811 packet
      */
-    //static CCS811_Packet unpack_CCS811(const uint8_t buff[]);
+    static CCS811_Packet unpack_CCS811(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the LIS311 packet
+     * @param buff
+     *      A array containing a packed LIS311 packet
+     * @return
+     *      A LIS311 packet
+     */
+    static LIS311_Packet unpack_LIS311(const uint8_t buff[]);
+
+    
 
 private:
     /**
@@ -249,7 +293,6 @@ private:
      */
     static BME280_Data unpack_BME280_Data(const uint8_t buff[]);
 
-
     /**
      * Unpack function for the CCS811 data segment
      * @param buff
@@ -257,6 +300,15 @@ private:
      * @return
      *      A packed CCS811 Data struct
      */
-    //static CCS811_Data unpack_CCS811_Data(const uint8_t buff[]);
+    static CCS811_Data unpack_CCS811_Data(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the LIS311 data segment
+     * @param buff
+     *      Array of LIS311 data values
+     * @return
+     *      A packed CCS811 Data struct
+     */
+    static LIS311_Data unpack_LIS311_Data(const uint8_t buff[]);
 };
 #endif
