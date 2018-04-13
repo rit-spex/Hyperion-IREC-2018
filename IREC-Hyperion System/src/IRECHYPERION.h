@@ -51,10 +51,10 @@
 // Maximum buffer capacity
 #define BUFFER_CAP 500
 
-#define DEPLOY_SWITCH_01 0 // change
-#define DEPLOY_SWITCH_02 0 // change
-#define DEPLOY_SWITCH_03 0 // change
-#define DEPLOY_SWITCH_04 0 // change
+#define DEPLOY_SWITCH_01 25 // change
+#define DEPLOY_SWITCH_02 26 // change
+#define DEPLOY_SWITCH_03 27 // change
+#define DEPLOY_SWITCH_04 28 // change
 
 //////////////////////
 // Global Varables //

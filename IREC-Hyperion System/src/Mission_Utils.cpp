@@ -19,10 +19,10 @@ float ROC_var = 0; // Rate of climb
  */
 int init_deploy_pins(){
 
-  pinMode(DEPLOY_SWITCH_01, OUTPUT);
-  pinMode(DEPLOY_SWITCH_02, OUTPUT);
-  pinMode(DEPLOY_SWITCH_03, OUTPUT);
-  pinMode(DEPLOY_SWITCH_04, OUTPUT);
+  pinMode(DEPLOY_SWITCH_01, INPUT);
+  pinMode(DEPLOY_SWITCH_02, INPUT);
+  pinMode(DEPLOY_SWITCH_03, INPUT);
+  pinMode(DEPLOY_SWITCH_04, INPUT);
 
   return 0; // Success
 }

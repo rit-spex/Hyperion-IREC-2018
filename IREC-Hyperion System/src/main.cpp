@@ -18,16 +18,16 @@ DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)
 void fill_main_startup(){
   //TODO
   // Add startup routines into the dsq
-  dsq.add_routine(0, 3, R_trans_LSM9DS1);
-  dsq.add_routine(0, 20, R_trans_BME280);
-  dsq.add_routine(0, 30, R_trans_CCS811);
-  dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
-  dsq.add_routine(0, 20, R_seq_BME280_data);
-  dsq.add_routine(0, 30, R_seq_CCS811_data);
-  dsq.add_routine(0, 3, R_seq_LIS331_data);
-  dsq.add_routine(0, 100, R_calc_RateOfClimb);
-  dsq.add_routine(0, 10, R_StratoLogger_data);
-  //dsq.add_routine(0, 1, R_check_deployment);
+  //dsq.add_routine(0, 3, R_trans_LSM9DS1);
+  //dsq.add_routine(0, 20, R_trans_BME280);
+  //dsq.add_routine(0, 30, R_trans_CCS811);
+  //dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+  //dsq.add_routine(0, 20, R_seq_BME280_data);
+  //dsq.add_routine(0, 30, R_seq_CCS811_data);
+  //dsq.add_routine(0, 3, R_seq_LIS331_data);
+  //dsq.add_routine(0, 100, R_calc_RateOfClimb);
+  //dsq.add_routine(0, 10, R_StratoLogger_data);
+  dsq.add_routine(0, 1, R_check_deployment);
 }
 
 /**
@@ -36,10 +36,10 @@ void fill_main_startup(){
 void fill_safe_startup(){
   //TODO
   //dsq.add_routine(0, 5, R_recv_Commands);
-  dsq.add_routine(0, 1, R_Auto_Arm);
-  dsq.add_routine(0, 100, R_calc_RateOfClimb);
+  //dsq.add_routine(0, 1, R_Auto_Arm);
+  //dsq.add_routine(0, 100, R_calc_RateOfClimb);
   dsq.add_routine(0, 10, R_StratoLogger_data);
-  dsq.add_routine(0, 3, R_seq_LIS331_data);
+  //dsq.add_routine(0, 3, R_seq_LIS331_data);
 }
 
 /**
@@ -86,7 +86,7 @@ void setup() {
   init_LIS331();
   init_StratoLogger();
   init_SD();
-  //init_deploy_pins(); // Initilize pins which deployment switches are attached.
+  init_deploy_pins(); // Initilize pins which deployment switches are attached.
 
   // Add Default routine to the dsq
   dsq.set_default(1, R_Default);
