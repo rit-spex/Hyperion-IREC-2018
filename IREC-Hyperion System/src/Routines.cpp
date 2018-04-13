@@ -49,7 +49,6 @@ void R_check_deployment(){
   } else if (open_cnt == 2){
     // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
-    Serial.println(get_rate_of_climb());
     if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
 
       set_deployment(); // Set time deployed
