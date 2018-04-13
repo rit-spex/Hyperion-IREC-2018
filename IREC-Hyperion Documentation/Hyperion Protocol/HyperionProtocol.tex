@@ -62,7 +62,7 @@
   4     & LIS331      \\
   5     & PerfectFlite Strato Logger       \\
   6     & Orientation   \\
-  7     &  ...       \\
+  7     &  Commands  \\
   8     &         \\
   9     &         \\
   10    &         \\
@@ -204,6 +204,24 @@ Altitude (2 bytes) \\ \hline
   \begin{tabular}{|l|l|l|}
   \hline
 Roll(1 byte) & Pitch(1 byte) & Yaw(1 byte) \\ \hline
+  \end{tabular}
+  \end{table}
+  
+ \pagebreak  
+  
+  \subsection{Commands/Command Info}
+  This section will outline the header configurations for separate commands to and from the payload. This Group will hold no data, thus this data frame is 0 bytes in size. Header flags will be used in place of a data frame.
+  \subsubsection{Flags}
+
+  \begin{table}[h]
+  \centering
+  \caption{Flag Meanings}
+  \begin{tabular}{ll}
+    Bit Pos(Most significant) & Meaning \\
+  0     & Arm Payload \\
+  1     & Disarm Payload     \\
+  2     & Payload Armed        \\
+  3     & Payload Disarmed       \\
   \end{tabular}
   \end{table}
   
