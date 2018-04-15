@@ -14,13 +14,13 @@ bool trigger = false;
 bool switchs = true;
 
 void setup() {
-  // put your setup code here, to run once:
+
   pinMode(PARA_POP, OUTPUT);
   pinMode(LED, OUTPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+
   sensorValue = analogRead(PARA_ANG);
 
   if(sensorValue > ANG_THRES && trigger == false){
@@ -28,7 +28,7 @@ void loop() {
     trigger = true;
   }
   
-  if(millis()-deltaTime > 10000 && trigger && deltaTimePop-millis() < 2000){
+  if(millis()-deltaTime > 10000 && trigger && millis()-deltaTimePop < 2000){
     digitalWrite(PARA_POP, HIGH);
     
     if(switchs){
@@ -37,7 +37,7 @@ void loop() {
     }
   }
   
-  if(trigger){
+  if(millis()-deltaTimePop < 2000 && !switchs){
     digitalWrite(LED, HIGH);
   }
 }
