@@ -160,9 +160,13 @@ void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
 void      R_trans_LIS331(); // Transmit LIS331 data via the Hyperion Protocol
 void      R_trans_Orientation(); // Transmit Orentation data via the Hyperion Protocol
 void      R_calc_RateOfClimb(); // Calculate the rate of climb over a more than short time.
-void      R_recv_Commands(); // Recieve commands from ground station
+void      R_recv_Disarm();
+void      R_recv_Arm();
 void      R_Auto_Arm(); // Auto arm if launched
-void      R_StratoLogger_data(); // Data routine for the strato logger
+void      R_Altitude_data(); // Data routine for the strato logger
+void      R_gath_LSM9DS1_data();
+void      R_gath_BME280_data();
+void      R_gath_LIS331_data();
 
 // *********************************
 // IRECHYPERION_Data_Buffer

@@ -16,6 +16,8 @@
 #define ACCEL_AUTO_ARM_THRES 2 // In gees
 #define ROC_AUTO_ARM_THRES 30 // m/s
 
+#define SWITCH_DEBUFF 1000
+
 void R_Default(){
 	// TODO
 }
@@ -35,6 +37,7 @@ void R_Default(){
 void R_check_deployment(){
 
   int open_cnt = 0;
+  static int switch_debuff = 0;
 
   if(digitalReadFast(DEPLOY_SWITCH_01) == HIGH) open_cnt += 1;
   if(digitalReadFast(DEPLOY_SWITCH_02) == HIGH) open_cnt += 1;
@@ -43,18 +46,23 @@ void R_check_deployment(){
 
   if(open_cnt > 2){
     // Deployed
-    set_deployment(); // Set time deployed
-    dsq.add_routine(0, 1, R_mission_constraints);
+    switch_debuff += 1;
     return;
   } else if (open_cnt == 2){
     // Anomaly case where 2 switches are open and 2 switches are still
     // closed.
     if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
 
-      set_deployment(); // Set time deployed
-      dsq.add_routine(0, 1, R_mission_constraints);
-      return;
+      switch_debuff += 1;
     }
+  } else {
+    switch_debuff = 0;
+  }
+
+  if(switch_debuff >= SWITCH_DEBUFF){
+    set_deployment(); // Set time deployed
+    dsq.add_routine(0, 1, R_mission_constraints);
+    return;
   }
 
   dsq.add_routine(0, 1, R_check_deployment);
@@ -204,7 +212,7 @@ void R_Auto_Arm(){
 /**
  * Gather information from the Stratologger and log the data
  */
-void R_StratoLogger_data(){
+void R_Altitude_data(){
   static unsigned int dynamic_pri = 10;
 
   int bytes_read = read_HWSERIAL_Strato();
@@ -227,7 +235,7 @@ void R_StratoLogger_data(){
     set_old_altitude();
   }
 
-  dsq.add_routine(0, dynamic_pri, R_StratoLogger_data);
+  dsq.add_routine(0, dynamic_pri, R_Altitude_data);
 }
 
 /**
