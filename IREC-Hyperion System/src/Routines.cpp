@@ -10,13 +10,15 @@
 
 #define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
 
-#define STRATOLOGGER_MIN_PRI 1
-#define STRATOLOGGER_MAX_PRI 200
+#define ALTITUDE_MIN_PRI 1
+#define ALTITUDE_MAX_PRI 400
 
 #define ACCEL_AUTO_ARM_THRES 2 // In gees
 #define ROC_AUTO_ARM_THRES 30 // m/s
 
 #define SWITCH_DEBUFF 1000
+
+#define ALT_DEBUFF 200
 
 void R_Default(){
 	// TODO
@@ -102,13 +104,48 @@ void R_calc_RateOfClimb(){
     dsq.add_routine(0, 100, R_calc_RateOfClimb);
 }
 
+void R_recv_Disarm(){
+  //TODO
+}
+
+/**
+ * Routine transmits status of payload to ground station, then listen for an arm command.
+ */
+void R_recv_Arm(){
+  //TODO
+}
+
+/**
+ * Reads sensor LSM9DS1 output and stores it in programs memory space
+ */
+void R_gath_LSM9DS1_data(){
+    // Read data from sensors
+  read_LSM9DS1_Sensors();
+  dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
+}
+
+/**
+ * Reads sensor BME280 output and stores it in programs memory space
+ */
+void R_gath_BME280_data(){
+
+  read_BME280_Sensors();
+  dsq.add_routine(0, 20, R_gath_BME280_data);
+}
+
+/**
+ * Reads sensor LIS331 output and stores it in programs memory space
+ */
+void R_gath_LIS331_data(){
+
+  read_LIS331();
+  dsq.add_routine(0, 3, R_gath_LIS331_data);
+}
+
 /**
  * Gathers data then creates a data string to be added into the data buffer
  */
 void R_seq_LSM9DS1_data(){
-
-    // Read data from sensors
-    read_LSM9DS1_Sensors();
 
     // Create string
     // Pack string with data from the sensors
@@ -128,8 +165,6 @@ void R_seq_LSM9DS1_data(){
  * into the data buffer.
  */
 void R_seq_BME280_data(){
-
-  read_BME280_Sensors();
 
   // Create string
   // Pack string with data from the sensors
@@ -167,7 +202,6 @@ void R_seq_CCS811_data(){
  */
 void R_seq_LIS331_data(){
   
-  read_LIS331();
   // Create string
   // Pack string with data from the sensors
   char * data_str = form_LIS331_str();
@@ -183,7 +217,7 @@ void R_seq_LIS331_data(){
 
 /**
  * Auto arm payload, used if payload fails to receive Arm command
- */
+ * TODO: move to disarm routine
 void R_Auto_Arm(){
 
   bool check_RateOfClimb = false;
@@ -208,20 +242,45 @@ void R_Auto_Arm(){
 
   dsq.add_routine(0, 1, R_Auto_Arm);
 }
+*/
 
 /**
  * Gather information from the Stratologger and log the data
  */
 void R_Altitude_data(){
   static unsigned int dynamic_pri = 10;
+  static unsigned int not_read_cnt = 0;
 
   int bytes_read = read_HWSERIAL_Strato();
 
+  // Adjust dynamic priority mult based on byes read
   if (bytes_read > 5){
-    if(dynamic_pri > STRATOLOGGER_MIN_PRI) dynamic_pri -= 1;
+    if(dynamic_pri > ALTITUDE_MIN_PRI) dynamic_pri -= 1;
   } else if(bytes_read < 2){
-    if(dynamic_pri < STRATOLOGGER_MAX_PRI) dynamic_pri += 1;
+    if(dynamic_pri < ALTITUDE_MAX_PRI) dynamic_pri += 1;
   }
+
+  if(bytes_read == 0){
+    not_read_cnt += 1;
+  } else {
+    not_read_cnt = 0; // Reset
+  }
+
+  // Use alt from BME280 if stratologger is offline
+  if(not_read_cnt >= ALT_DEBUFF) {
+    update_alt_BME280();
+    dsq.add_routine(0, 200, R_Altitude_data);
+    return;
+  }
+
+  dsq.add_routine(0, dynamic_pri, R_Altitude_data);
+}
+
+/**
+ * Altitude logging routine
+ */
+void R_seq_Altitude_data(){
+  static unsigned int dynamic_pri = 10;
 
   if(get_new_altitude()){
 
@@ -233,9 +292,14 @@ void R_Altitude_data(){
       Serial.println(data_str); // TODO REMOVE this only for testing
     }
     set_old_altitude();
+
+    if(dynamic_pri < ALTITUDE_MAX_PRI) dynamic_pri += 1;
+  } else {
+
+    if(dynamic_pri > ALTITUDE_MIN_PRI) dynamic_pri -= 1;
   }
 
-  dsq.add_routine(0, dynamic_pri, R_Altitude_data);
+  dsq.add_routine(0, dynamic_pri, R_seq_Altitude_data);
 }
 
 /**

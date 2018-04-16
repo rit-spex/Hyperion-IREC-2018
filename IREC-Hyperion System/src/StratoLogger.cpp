@@ -97,3 +97,8 @@ void set_old_altitude(){
 bool get_new_altitude(){
   return new_altitude;
 }
+
+void update_alt_BME280(){
+  altitude = get_BME280_Alt();
+  new_altitude = true;
+}
