@@ -64,6 +64,7 @@ int init_LoRa(){
  */
 void transmit_data(uint8_t data[], int data_len){
   // Transmit the data
+  // TODO Work on transmit scaling 
   rf95.send(data, data_len);
 }
 

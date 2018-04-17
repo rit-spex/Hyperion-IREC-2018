@@ -14,6 +14,9 @@ uint32_t time_sample = millis();
 
 float ROC_var = 0; // Rate of climb
 
+bool parachute_deploy = false;
+bool imp_damper_deploy = false;
+
 /**
  * Init function for deployment routines
  */
@@ -25,6 +28,44 @@ int init_deploy_pins(){
   pinMode(DEPLOY_SWITCH_04, INPUT);
 
   return 0; // Success
+}
+
+/**
+ * Set parachute deployment, logs event into buffer
+ */
+void set_parachute_deploy(){
+  char * data_str = form_NoData_str(PARACHUTE_DEPLOY);
+
+  if (data_str != NULL){
+    // Insert data into the data buffer
+    add_to_buffer(data_str);
+    Serial.println(data_str); // TODO REMOVE this only for testing
+  }
+
+  parachute_deploy = true;
+}
+
+/**
+ * Set impact damper deployment, logs event into buffer
+ */
+void set_imp_damper_deploy(){
+  char * data_str = form_NoData_str(DAMPER_DEPLOY);
+
+  if (data_str != NULL){
+    // Insert data into the data buffer
+    add_to_buffer(data_str);
+    Serial.println(data_str); // TODO REMOVE this only for testing
+  }
+
+  imp_damper_deploy = true;
+}
+
+bool get_parachute_deploy(){
+  return parachute_deploy;
+}
+
+bool get_imp_damper_deploy(){
+  return imp_damper_deploy;
 }
 
 /**
@@ -78,4 +119,9 @@ void rate_of_climb(){
  */
 float get_rate_of_climb(){
   return ROC_var;
+}
+
+//TODO
+bool correct_orentation_para(){
+  return false;
 }

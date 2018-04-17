@@ -20,6 +20,8 @@
 
 #define ALT_DEBUFF 200
 
+#define PARA_TIMEOUT 5000
+
 void R_Default(){
 	// TODO
 }
@@ -71,10 +73,9 @@ void R_check_deployment(){
 }
 
 void R_mission_constraints(){
-  Serial.println("Deployed");
   // TODO
   // if not parachute
-  // Check to see if deployment delta is > 3000 (3 seconds)
+  // Check to see if deployment delta is > 5000 (5 seconds)
   //    if deplyment delta > 3000:
   //        check orentation
   //        if orentation is within acceptable orentation range
@@ -87,11 +88,32 @@ void R_mission_constraints(){
   //      set impact damper
   //      add R_deploy_dampers() to DSQ
   //
-  // if rate of climb is within -2m/s to 2m/s for 5000 counts
+  // if rate of climb is within -2m/s to 2m/s for 20000 counts
   //    switch to done phase (Which stops logging)
   //
   // add R_mission_constraints to DSQ
   //
+
+  // Parachute not deployed
+  if(!get_parachute_deploy()){
+    if((deployed_delta() > PARA_TIMEOUT) && correct_orentation_para()){
+      set_parachute_deploy();
+      dsq.add_routine(0, 0, R_deploy_parachute);
+    }
+  }
+
+  // Impact damper not deployed
+  if(!get_imp_damper_deploy()){
+
+  }
+}
+
+void R_deploy_parachute(){
+
+}
+
+void R_deploy_dampers(){
+  
 }
 
 /**

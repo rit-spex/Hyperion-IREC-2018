@@ -208,5 +208,10 @@ uint32_t  deployed_delta(); // Delta time from deployment
 void      set_deployment(); // Setter function for deployment;
 void      rate_of_climb(); // Rate of climb
 float     get_rate_of_climb(); // Getter for rate of climb
+void      set_parachute_deploy();
+void      set_imp_damper_deploy();
+bool      get_parachute_deploy();
+bool      get_imp_damper_deploy();
+bool      correct_orentation_para(); // Check if orentation is okay before deploying parachute
 
 #endif
