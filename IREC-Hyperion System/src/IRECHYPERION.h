@@ -35,7 +35,7 @@
 //////////////////
 
 // File to be created and written
-#define FILE_NAME "TEST_01.log"
+#define FILE_NAME "TEST_01"
 
 #define LED 13 // LED pin
 
@@ -180,6 +180,8 @@ int       get_size(); // Get size of buffer
 int       write_buffer(); //TODO
 char*     create_string(int str_size); // Create a string using dynamic allocation
 void      close_file(); // Close file on system suspension.
+bool      set_new_file();
+void      new_file();
 
 // *********************************
 // IRECHYPERION_Transmit

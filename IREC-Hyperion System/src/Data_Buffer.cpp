@@ -10,7 +10,13 @@
 
 #include "IRECHYPERION.h"
 
+#define FILE_WRITE_LIMIT 10000
+
 size_t buff_size = 0;
+
+unsigned int num_files = 0;
+
+unsigned int write_cnt = 0;
 
 File data_file;
 
@@ -26,7 +32,7 @@ int init_SD(){
     Serial.println("[SD] Init Success");
   }
 
-  data_file = SD.open(FILE_NAME, FILE_WRITE);
+  set_new_file();
   //TODO
   return 0;
 }
@@ -34,6 +40,38 @@ int init_SD(){
 void close_file(){
 
   data_file.close();
+}
+
+/**
+ * Close old file and create a new one
+ */
+void new_file(){
+
+  data_file.close(); // Close existing file first
+  set_new_file();
+}
+
+/**
+ * Create a new file and set the file to current file
+ */
+bool set_new_file(){
+  char buff[40] = {'\0'};
+
+  strcat(buff, FILE_NAME);
+
+  char temp[20] = {'\0'};
+  itoa(num_files, temp, 10);
+
+  strcat(buff, temp);
+  strcat(buff, ".log");
+
+  data_file = SD.open(buff, FILE_WRITE);
+
+  if(!data_file) return false;
+
+  num_files += 1;
+
+  return true;
 }
 
 /**
@@ -95,11 +133,17 @@ int get_size() {
  */
 int write_buffer() {
 
+  if(write_cnt >= FILE_WRITE_LIMIT){
+    new_file();
+  }
+
   if (data_file){
     for (size_t i = 0; i < buff_size; i++) {
       data_file.write(data_buffer[i]);
     }
   }
+
+  write_cnt += 1;
 
   flush_buffer();
   return 0;
