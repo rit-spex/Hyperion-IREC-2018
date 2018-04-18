@@ -85,7 +85,7 @@ void setup() {
 
   Serial.println("-----Initializing Hyperion-----");
   // TODO
-  // Initilize hardware modules
+  // Initialize hardware modules
   init_LoRa();
   init_BME280();
   init_LSM9DS1();
@@ -93,7 +93,7 @@ void setup() {
   init_LIS331();
   init_StratoLogger();
   init_SD();
-  init_deploy_pins(); // Initilize pins which deployment switches are attached.
+  init_deploy_pins(); // Initialize pins which deployment switches are attached.
 
   // Add Default routine to the dsq
   dsq.set_default(1, R_Default);

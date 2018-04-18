@@ -1,7 +1,8 @@
 /*
  * IREC - Hyperion
  * Organization: RIT Space Exploration
- * ...
+ * Desc
+ *    Main header file for the Hyperion system
  */
 
 #ifndef IRECHYPERION
@@ -122,7 +123,7 @@ float     get_Humidity(); // Humidity in %
 
 int       init_CCS811(); // Init function for CCS811
 uint16_t  get_CO2(); // returns CO2 in ppm
-uint16_t  get_TVOC(); // volitile compounds in ppm
+uint16_t  get_TVOC(); // volatile compounds in ppm
 
 // *********************************
 // IRECHYPERION_LIS331
@@ -149,10 +150,10 @@ void      update_alt_BME280();
 // TODO
 void      R_Default(); // Default routine TODO
 void      R_check_deployment(); // Check if deployed
-void      R_mission_constraints(); // Check mission constrignts TODO
+void      R_mission_constraints(); // Check mission constraints
 void      R_deploy_parachute(); // Deploy parachute TODO
 void      R_deploy_dampers(); // Deploy impact damper TODO
-void      R_maintain_dampers(); // Maintaion airbag pressure TODO
+void      R_maintain_dampers(); // Maintain airbag pressure TODO
 void      R_seq_LSM9DS1_data(); // log data to buffer
 void      R_seq_BME280_data(); // log data to buffer
 void      R_seq_CCS811_data(); // Gather, log data to buffer
@@ -163,7 +164,7 @@ void      R_trans_BME280(); // Transmit BME280 data via the Hyperion Protocol
 void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
 void      R_trans_LIS331(); // Transmit LIS331 data via the Hyperion Protocol TODO
 void      R_trans_Altitude(); // Transmit Altitude data via the Hyperion Protocol TODO
-void      R_trans_Orientation(); // Transmit Orentation data via the Hyperion Protocol TODO
+void      R_trans_Orientation(); // Transmit Orientation data via the Hyperion Protocol TODO
 void      R_calc_RateOfClimb(); // Calculate the rate of climb over a more than short time.
 void      R_recv_Disarm(); // Disarm the payload TODO
 void      R_recv_Arm(); // Arm the payload TODO
@@ -188,7 +189,7 @@ void      new_file();
 // *********************************
 // IRECHYPERION_Transmit
 
-int       init_LoRa(); // Initilize the LoRa RFM_9X module
+int       init_LoRa(); // Initialize the LoRa RFM_9X module
 void      transmit_data(uint8_t * data, int data_len); // Transmit
 int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 
@@ -205,7 +206,7 @@ char*     form_StratoLogger_str();
 // *********************************
 // IRECHYPERION_Mission_Utils
 
-int       init_deploy_pins(); // Initilize the deployment switch pins
+int       init_deploy_pins(); // Initialize the deployment switch pins
 uint32_t  deployed_delta(); // Delta time from deployment
 void      set_deployment(); // Setter function for deployment;
 void      rate_of_climb(); // Rate of climb
@@ -214,6 +215,6 @@ void      set_parachute_deploy();
 void      set_imp_damper_deploy();
 bool      get_parachute_deploy();
 bool      get_imp_damper_deploy();
-bool      correct_orentation_para(); // Check if orentation is okay before deploying parachute
+bool      correct_orientation_para(); // Check if orentation is okay before deploying parachute
 
 #endif

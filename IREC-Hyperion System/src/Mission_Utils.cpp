@@ -1,5 +1,5 @@
 /*
- * File: IRECHYPERION_Mission_Utils.cpp
+ * File: Mission_Utils.cpp
  * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions mission events
@@ -122,6 +122,6 @@ float get_rate_of_climb(){
 }
 
 //TODO
-bool correct_orentation_para(){
+bool correct_orientation_para(){
   return false;
 }

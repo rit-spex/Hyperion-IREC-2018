@@ -1,6 +1,6 @@
 /*
- * IRECHYPERION_Routines
- * File: IRECHYPERION_Routines.cpp
+ * Routines
+ * File: Routines.cpp
  * Organization: RIT Space Exploration
  * Desc:
  *    Routines to be included into the DSQ
@@ -76,31 +76,18 @@ void R_check_deployment(){
   dsq.add_routine(0, 1, R_check_deployment);
 }
 
+/**
+ * Main routine to trigger mission events, routine is responsible for adding
+ * routines: R_deploy_parachute and R_deploy_dampers.
+ * Routine is also responsible for handling phase shiftting from armed(main)
+ * phase to done state. 
+ */
 void R_mission_constraints(){
-  // TODO
-  // if not parachute
-  // Check to see if deployment delta is > 5000 (5 seconds)
-  //    if deplyment delta > 3000:
-  //        check orentation
-  //        if orentation is within acceptable orentation range
-  //            set parachute
-  //            add deploy R_deploy_parachute() to DSQ
-  //
-  // if not impact damper
-  // Check rate of climb and deployment detla
-  //    if (rate of climb range(0 to -15m/s) and parachute) or deplyment delta > 40,000
-  //      set impact damper
-  //      add R_deploy_dampers() to DSQ
-  //
-  // if rate of climb is within 0m/s for 20000 counts
-  //    switch to done phase (Which stops logging)
-  //
-  // add R_mission_constraints to DSQ
-  //
-
   // Parachute not deployed
   if(!get_parachute_deploy()){
-    if(((deployed_delta() > PARA_TIMEOUT) && correct_orentation_para())
+    // Deployment triggers if greater than five seconds from deployment and in
+    // correct orientation or if timeout occurs.
+    if(((deployed_delta() > PARA_TIMEOUT) && correct_orientation_para())
     || deployed_delta() > PARA_TIMEOUT_FIN){
 
       set_parachute_deploy();
@@ -128,6 +115,7 @@ void R_mission_constraints(){
   dsq.add_routine(0, 1, R_mission_constraints);
 }
 
+// Toggle GPIO pin to deploy parachute. GPIO pin is on for 2 seconds
 void R_deploy_parachute(){
 
 }

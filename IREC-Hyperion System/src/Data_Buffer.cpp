@@ -1,5 +1,5 @@
 /*
- * File: IRECHYPERION_Data_Buffer.cpp
+ * File: Data_Buffer.cpp
  * Organization: RIT Space Exploration
  * Description:
  *     Main data buffer for the hyperion system.

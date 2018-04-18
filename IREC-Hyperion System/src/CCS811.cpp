@@ -1,5 +1,5 @@
 /*
- * File: IRECHYPERION_CCS811.cpp
+ * File: CCS811.cpp
  * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions for the SparkFun CCS811 sensor.

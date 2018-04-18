@@ -1,5 +1,5 @@
 /*
- * File: IRECHYPERION_BME280.cpp
+ * File: BME280.cpp
  * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions for the SparkFun BME280 sensor.

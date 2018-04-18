@@ -1,5 +1,5 @@
 /*
- * File: IRECHYPERION_LSM9DS1.cpp
+ * File: LSM9DS1.cpp
  * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions for the SparkFun LSM9DS1 sensor.
