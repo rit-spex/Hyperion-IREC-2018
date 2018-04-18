@@ -56,6 +56,8 @@
 #define DEPLOY_SWITCH_03 27 // change
 #define DEPLOY_SWITCH_04 28 // change
 
+#define DONE_PHASE_TRANS_TIME 1200000 // 20 minutes in milli seconds
+
 //////////////////////
 // Global Varables //
 ////////////////////

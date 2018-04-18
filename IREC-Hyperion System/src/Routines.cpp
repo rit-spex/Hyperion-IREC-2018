@@ -21,6 +21,10 @@
 #define ALT_DEBUFF 200
 
 #define PARA_TIMEOUT 5000
+#define PARA_TIMEOUT_FIN 10000
+
+#define DAMPER_DEPLOY_SPEED -15
+#define DAMPER_TIMEOUT 40000
 
 void R_Default(){
 	// TODO
@@ -84,11 +88,11 @@ void R_mission_constraints(){
   //
   // if not impact damper
   // Check rate of climb and deployment detla
-  //    if (rate of climb range(0 to -15m/s) and parachute) or deplyment delta > 30,000
+  //    if (rate of climb range(0 to -15m/s) and parachute) or deplyment delta > 40,000
   //      set impact damper
   //      add R_deploy_dampers() to DSQ
   //
-  // if rate of climb is within -2m/s to 2m/s for 20000 counts
+  // if rate of climb is within 0m/s for 20000 counts
   //    switch to done phase (Which stops logging)
   //
   // add R_mission_constraints to DSQ
@@ -96,7 +100,9 @@ void R_mission_constraints(){
 
   // Parachute not deployed
   if(!get_parachute_deploy()){
-    if((deployed_delta() > PARA_TIMEOUT) && correct_orentation_para()){
+    if(((deployed_delta() > PARA_TIMEOUT) && correct_orentation_para())
+    || deployed_delta() > PARA_TIMEOUT_FIN){
+
       set_parachute_deploy();
       dsq.add_routine(0, 0, R_deploy_parachute);
     }
@@ -104,8 +110,22 @@ void R_mission_constraints(){
 
   // Impact damper not deployed
   if(!get_imp_damper_deploy()){
+    float roc = get_rate_of_climb();
 
+    if((roc > DAMPER_DEPLOY_SPEED && roc < 0 && get_parachute_deploy())\
+    || deployed_delta() > DAMPER_TIMEOUT){
+
+      set_imp_damper_deploy();
+      dsq.add_routine(0, 0, R_deploy_dampers);
+    }
   }
+
+  if(deployed_delta() > DONE_PHASE_TRANS_TIME){
+    switch_to_done();
+    return;
+  }
+
+  dsq.add_routine(0, 1, R_mission_constraints);
 }
 
 void R_deploy_parachute(){
