@@ -19,7 +19,7 @@
 RH_RF95 rf95(RFM95_CS, RFM95_INT, hardware_spi1);
 
 /**
- * Initilize the LoRa transmitter.
+ * Initialize the LoRa transmitter.
  */
 int init_LoRa(){
 

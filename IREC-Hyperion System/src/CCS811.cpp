@@ -45,7 +45,7 @@ uint16_t get_CO2(){
 /**
  * Getter function for TVOC
  */
-uint16_t  get_TVOC(){
+uint16_t get_TVOC(){
 
   float humidity = get_Humidity();
   float tempC = get_Temp();

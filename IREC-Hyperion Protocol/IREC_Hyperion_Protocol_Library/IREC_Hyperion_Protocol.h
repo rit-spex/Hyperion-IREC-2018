@@ -13,10 +13,14 @@
 
 #include <stdint.h>
 
-#define HEADER_SIZE 5
+// Size in Bytes
+#define HEADER_SIZE 3
 #define LSM9DS1_FRAME_SIZE 36
 #define BME280_FRAME_SIZE 16
 #define CCS811_FRAME_SIZE 4
+#define LIS331_FRAME_SIZE 12
+#define PFSL_FRAME_SIZE 4
+#define OREN_FRAME_SIZE 3
 
 /////////////////////
 /// Data Structs ///
@@ -28,7 +32,7 @@
 typedef struct unpk_header{
     uint8_t data_type;
     uint8_t flags;
-    uint32_t time;
+    uint16_t time;
 } unpk_header;
 
 /**
@@ -62,8 +66,15 @@ typedef struct CCS811_Data{
  * Data struct for the LIS311 data frame
  */
 typedef struct LIS311_Data{
-    int32_t ax, ay, az
+    int32_t ax, ay, az;
 } LIS311_Data;
+
+/**
+ * Data struct for the PFSL data frame
+ */
+typedef struct PFSL_Data{
+    int32_t alt;
+} PFSL_Data;
 
 /**
  * Packet struct containing LSM9DS1 data and header.
@@ -97,6 +108,13 @@ typedef struct LIS311_Packet{
     LIS311_Data data;
 } LIS311_Packet;
 
+/**
+ * Packet struct containing PFSL data and header.
+ */
+typedef struct PFSL_Packet{
+    unpk_header header;
+    PFSL_Data data;
+} PFSL_Packet;
 
 /**
  * Data Type Enums
@@ -106,7 +124,10 @@ enum DataFrameType{
     LSM9DS1t,
     BME280t,
     CCS811t,
-    PFSLt
+    LIS331t,
+    PFSLt,
+    Orent,
+    CMMNDt
 };
 
 // TODO add unpacking functionality
@@ -156,7 +177,7 @@ public:
      * @return
      *      A fully complete data frame with header
      */
-    static void createLSM9DS1Frame(uint8_t buff[], char *flags, uint32_t time,
+    static void createLSM9DS1Frame(uint8_t buff[], char *flags, uint16_t time,
                        int32_t ax, int32_t ay, int32_t az,
                        int32_t gx, int32_t gy, int32_t gz,
                        int32_t mx, int32_t my, int32_t mz);
@@ -178,7 +199,7 @@ public:
      * @return
      *      A fully complete data frame with header
      */
-    static void createBME280Frame(uint8_t buff[], char flags[], uint32_t time,
+    static void createBME280Frame(uint8_t buff[], char flags[], uint16_t time,
                                    int32_t temp, int32_t humidity, int32_t pressure, int32_t altitude);
 
     /**
@@ -194,7 +215,7 @@ public:
      * @return
      *      A fully complete data frame with header
      */
-    static void createCCS811Frame(uint8_t buff[], char flags[], uint32_t time,
+    static void createCCS811Frame(uint8_t buff[], char flags[], uint16_t time,
                                    int16_t co2, int16_t TVOC);
     /**
      * Main packer function for the LIS311 data frame.
@@ -211,8 +232,17 @@ public:
      * @return
      *      A fully complete data frame with header
      */
-    static void createLIS311Frame(uint8_t buff[], char flags[], uint32_t time,
+    static void createLIS311Frame(uint8_t buff[], char flags[], uint16_t time,
                                    int32_t ax, int32_t ay, int32_t az);
+
+    /**
+     * Main packer function for the PFSL data frame
+     * @param buff
+     * @param flags
+     * @param time
+     * @param altitude
+     */
+    static void createPFSLFrame(uint8_t buff[], char flags[], uint16_t time, int32_t altitude);
 
     /**
      * Unpack function for the LSM9DS1 data frame
@@ -250,7 +280,12 @@ public:
      */
     static LIS311_Packet unpack_LIS311(const uint8_t buff[]);
 
-    
+    /**
+     * Unpack function for the PFSL packet.
+     * @param buff
+     * @return
+     */
+    static PFSL_Packet unpack_PFSL(const uint8_t buff[]);
 
 private:
     /**
@@ -264,7 +299,7 @@ private:
      * @return
      *      A null terminated string
      */
-    static void createHeader(uint8_t buff[], DataFrameType type, const char *flags, uint32_t time);
+    static void createHeader(uint8_t buff[], DataFrameType type, const char *flags, uint16_t time);
 
     /**
      * Unpacks function for a hyperion header.
@@ -310,5 +345,12 @@ private:
      *      A packed CCS811 Data struct
      */
     static LIS311_Data unpack_LIS311_Data(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the PFSL data segment
+     * @param buff
+     * @return
+     */
+    static PFSL_Data unpack_PFSL_Data(const uint8_t buff[]);
 };
 #endif

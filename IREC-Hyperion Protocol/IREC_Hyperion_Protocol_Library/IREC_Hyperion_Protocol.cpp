@@ -7,7 +7,7 @@
 
 #include "IREC_Hyperion_Protocol.h"
 
-void IRECHYPERP::createHeader(uint8_t buff[], DataFrameType type, const char *flags, uint32_t time) {
+void IRECHYPERP::createHeader(uint8_t buff[], DataFrameType type, const char *flags, uint16_t time) {
     int cnt = 0;
 
     // Load type into first four bits
@@ -26,14 +26,14 @@ void IRECHYPERP::createHeader(uint8_t buff[], DataFrameType type, const char *fl
     cnt += 1;
 
     // Load the time into the buffer
-    for (int j = 0; j < sizeof(uint32_t); ++j) {
+    for (int j = 0; j < sizeof(uint16_t); ++j) {
         buff[cnt+j] <<= sizeof(uint8_t)*8; // Clear the buffer
 
-        buff[cnt+j] = (uint8_t)((time >> (sizeof(unsigned long) - j - 1)*8) & BYTE_MASK);
+        buff[cnt+j] = (uint8_t)((time >> (sizeof(u_int16_t) - j - 1)*8) & BYTE_MASK);
     }
 }
 
-void IRECHYPERP::createLSM9DS1Frame(uint8_t buff[], char *flags, uint32_t time,
+void IRECHYPERP::createLSM9DS1Frame(uint8_t buff[], char *flags, uint16_t time,
                                      int32_t ax, int32_t ay, int32_t az,
                                      int32_t gx, int32_t gy, int32_t gz,
                                      int32_t mx, int32_t my, int32_t mz) {
@@ -62,7 +62,7 @@ void IRECHYPERP::createLSM9DS1Frame(uint8_t buff[], char *flags, uint32_t time,
     }
 }
 
-void IRECHYPERP::createBME280Frame(uint8_t buff[], char *flags, uint32_t time, int32_t temp, int32_t pressure, int32_t humidity,
+void IRECHYPERP::createBME280Frame(uint8_t buff[], char *flags, uint16_t time, int32_t temp, int32_t pressure, int32_t humidity,
                                     int32_t altitude) {
 
     uint8_t buff_header[HEADER_SIZE] = {0};
@@ -91,7 +91,7 @@ void IRECHYPERP::createBME280Frame(uint8_t buff[], char *flags, uint32_t time, i
 
 }
 
-void IRECHYPERP::createCCS811Frame(uint8_t buff[], char *flags, uint32_t time, int16_t co2, int16_t TVOC) {
+void IRECHYPERP::createCCS811Frame(uint8_t buff[], char *flags, uint16_t time, int16_t co2, int16_t TVOC) {
 
     uint8_t buff_header[HEADER_SIZE] = {0};
     createHeader(buff_header, CCS811t, flags, time);
@@ -118,10 +118,10 @@ void IRECHYPERP::createCCS811Frame(uint8_t buff[], char *flags, uint32_t time, i
     }
 }
 
-void IRECHYPERP::createLIS311Frame(uint8_t buff[], char *flags, uint32_t time, int32_t ax, int32_t ay, int32_t az) {
+void IRECHYPERP::createLIS311Frame(uint8_t buff[], char *flags, uint16_t time, int32_t ax, int32_t ay, int32_t az) {
 
     uint8_t buff_header[HEADER_SIZE] = {0};
-    createHeader(buff_header, LIS311t, flags, time);
+    createHeader(buff_header, LIS331t, flags, time);
 
     int cnt = 0;
 
@@ -133,15 +133,37 @@ void IRECHYPERP::createLIS311Frame(uint8_t buff[], char *flags, uint32_t time, i
 
     cnt += 1;
 
-    int16_t val_arry[3] = {ax, ay, az};
+    int32_t val_arry[3] = {ax, ay, az};
 
     for (int j = 0; j < 3; ++j) {
-        for (int k = 0; k < sizeof(int16_t); ++k) {
+        for (int k = 0; k < sizeof(int32_t); ++k) {
             buff[cnt+k] <<= sizeof(uint8_t)*8; // Clear the buffer
 
-            buff[cnt+k] = (uint8_t)((val_arry[j] >> (sizeof(int16_t) - k - 1)*8) & BYTE_MASK);
+            buff[cnt+k] = (uint8_t)((val_arry[j] >> (sizeof(int32_t) - k - 1)*8) & BYTE_MASK);
         }
-        cnt += sizeof(int16_t);
+        cnt += sizeof(int32_t);
+    }
+}
+
+void IRECHYPERP::createPFSLFrame(uint8_t *buff, char *flags, uint16_t time, int32_t altitude) {
+
+    uint8_t buff_header[HEADER_SIZE] = {0};
+    createHeader(buff_header, PFSLt, flags, time);
+
+    int cnt = 0;
+
+    // Pack header into buffer
+    for (int i = 0; i < HEADER_SIZE; ++i) {
+        cnt = i;
+        buff[cnt] = buff_header[cnt];
+    }
+
+    cnt += 1;
+
+    for (int k = 0; k < sizeof(int32_t); ++k) {
+        buff[cnt+k] <<= sizeof(uint8_t)*8; // Clear the buffer
+
+        buff[cnt+k] = (uint8_t)((altitude >> (sizeof(int32_t) - k - 1)*8) & BYTE_MASK);
     }
 }
 
@@ -256,16 +278,80 @@ CCS811_Packet IRECHYPERP::unpack_CCS811(const uint8_t *buff) {
 CCS811_Data IRECHYPERP::unpack_CCS811_Data(const uint8_t *buff) {
     CCS811_Data data={0};
 
-    int32_t *val_buff[2] = {&data.co2, &data.TVOC};
+    int16_t *val_buff[2] = {&data.co2, &data.TVOC};
 
     int cnt = 0;
 
     for (int i = 0; i < 2; ++i){
+        for (int j = 0; j < sizeof(int16_t); ++j) {
+            *val_buff[i] = *val_buff[i] << sizeof(uint8_t)*8;
+            *val_buff[i] |= buff[j+cnt];
+        }
+        cnt += sizeof(int16_t);
+    }
+
+    return data;
+}
+
+LIS311_Packet IRECHYPERP::unpack_LIS311(const uint8_t *buff) {
+    LIS311_Packet packet = {0};
+
+    packet.header = unpack_header(buff);
+
+    uint8_t sliced_arry[LIS331_FRAME_SIZE] = {};
+
+    int cnt = 0;
+    for (int i = HEADER_SIZE; i < HEADER_SIZE+LIS331_FRAME_SIZE; i++) {
+        sliced_arry[cnt] = buff[i];
+        cnt += 1;
+    }
+
+    packet.data = unpack_LIS311_Data(sliced_arry);
+    return packet;
+}
+
+LIS311_Data IRECHYPERP::unpack_LIS311_Data(const uint8_t *buff) {
+    LIS311_Data data={0};
+
+    int32_t *val_buff[3] = {&data.ax, &data.ay, &data.az};
+
+    int cnt = 0;
+
+    for (int i = 0; i < 3; ++i){
         for (int j = 0; j < sizeof(int32_t); ++j) {
             *val_buff[i] = *val_buff[i] << sizeof(uint8_t)*8;
             *val_buff[i] |= buff[j+cnt];
         }
         cnt += sizeof(int32_t);
+    }
+
+    return data;
+}
+
+
+PFSL_Packet IRECHYPERP::unpack_PFSL(const uint8_t *buff) {
+    PFSL_Packet packet = {0};
+
+    packet.header = unpack_header(buff);
+
+    uint8_t sliced_arry[PFSL_FRAME_SIZE] = {};
+
+    int cnt = 0;
+    for (int i = HEADER_SIZE; i < HEADER_SIZE+PFSL_FRAME_SIZE; i++) {
+        sliced_arry[cnt] = buff[i];
+        cnt += 1;
+    }
+
+    packet.data = unpack_PFSL_Data(sliced_arry);
+    return packet;
+}
+
+PFSL_Data IRECHYPERP::unpack_PFSL_Data(const uint8_t *buff) {
+    PFSL_Data data={0};
+
+    for (int j = 0; j < sizeof(int32_t); ++j) {
+        data.alt = data.alt << sizeof(uint8_t)*8;
+        data.alt |= buff[j];
     }
 
     return data;
