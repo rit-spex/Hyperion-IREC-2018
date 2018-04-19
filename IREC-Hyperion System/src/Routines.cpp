@@ -143,6 +143,13 @@ void R_recv_Disarm(){
  */
 void R_recv_Arm(){
 	//TODO
+	// Wait packet sent
+	// Listen 300 ms for messages
+	// If message received, check if is arm command
+	//		If arm -> switch to main phase
+	//		return
+	// Transmit unarmed message to ground.
+	// add this routine back to dsq
 }
 
 /**
