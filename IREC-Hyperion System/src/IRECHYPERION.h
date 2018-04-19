@@ -162,8 +162,8 @@ void      R_seq_Altitude_data();  // log data to buffer
 void      R_trans_LSM9DS1(); // Tansmit LSM9DS1 data via the Hyperion Protocol
 void      R_trans_BME280(); // Transmit BME280 data via the Hyperion Protocol
 void      R_trans_CCS811(); // Transmit CCS811 data via the Hyperion Protocol
-void      R_trans_LIS331(); // Transmit LIS331 data via the Hyperion Protocol TODO
-void      R_trans_Altitude(); // Transmit Altitude data via the Hyperion Protocol TODO
+void      R_trans_LIS331(); // Transmit LIS331 data via the Hyperion Protocol
+void      R_trans_Altitude(); // Transmit Altitude data via the Hyperion Protocol
 void      R_trans_Orientation(); // Transmit Orientation data via the Hyperion Protocol TODO
 void      R_calc_RateOfClimb(); // Calculate the rate of climb over a more than short time.
 void      R_recv_Disarm(); // Disarm the payload TODO
