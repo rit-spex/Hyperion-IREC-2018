@@ -17,25 +17,25 @@ Adafruit_BME280 bme;
 // Init function for the BME280 sensor
 int init_BME280() {
 
-  bool status;
+	bool status;
 
-  // Check status
-  status = bme.begin();
-  if (!status) {
-      Serial.println("[BME280] - Init Failure");
-      return 1; // Errors
-  }
+	// Check status
+	status = bme.begin();
+	if (!status) {
+		Serial.println("[BME280] - Init Failure");
+		return 1; // Errors
+	}
 
-  Serial.println("[BME280] - Init Success");
-  return 0; // Correctly started
+	Serial.println("[BME280] - Init Success");
+	return 0; // Correctly started
 }
 
 void read_BME280_Sensors(){
 
-  BME280_Temperature = bme.readTemperature();
-  BME280_Pressure = bme.readPressure() / 100.0F;
-  BME280_Altitude = bme.readAltitude(bme.readAltitude(SEALEVELPRESSURE_HPA));
-  BME280_Humidity = bme.readHumidity();
+	BME280_Temperature = bme.readTemperature();
+	BME280_Pressure = bme.readPressure() / 100.0F;
+	BME280_Altitude = bme.readAltitude(bme.readAltitude(SEALEVELPRESSURE_HPA));
+	BME280_Humidity = bme.readHumidity();
 }
 
 // get_Temp() - Produces temperature reading from sensor
@@ -43,7 +43,7 @@ void read_BME280_Sensors(){
 //    Temperture in degrees C
 float get_Temp() {
 
-  return BME280_Temperature;
+	return BME280_Temperature;
 }
 
 // get_Pressure() - Produces pressure reading from sensor
@@ -51,7 +51,7 @@ float get_Temp() {
 //    Pressure in hPa
 float get_Pressure() {
 
-  return BME280_Pressure;
+	return BME280_Pressure;
 }
 
 
@@ -60,7 +60,7 @@ float get_Pressure() {
 //    Approx alt in meters
 float get_BME280_Alt() {
 
-  return BME280_Altitude;
+	return BME280_Altitude;
 }
 
 // get_Humidity() - produces humidity in percent
@@ -68,5 +68,5 @@ float get_BME280_Alt() {
 //    humidity in percent.
 float get_Humidity() {
 
-  return BME280_Humidity;
+	return BME280_Humidity;
 }

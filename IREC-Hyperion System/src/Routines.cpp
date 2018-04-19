@@ -354,9 +354,7 @@ void R_trans_LSM9DS1(){
 	convert_float_int32(get_Gyro(X_AXIS)), convert_float_int32(get_Gyro(Y_AXIS)), convert_float_int32(get_Gyro(Z_AXIS)),
 	convert_float_int32(get_Mag(X_AXIS)), convert_float_int32(get_Mag(Y_AXIS)), convert_float_int32(get_Mag(Z_AXIS)));
 
-	transmit_data(buff, LSM9DS1_FRAME_SIZE+HEADER_SIZE);
-
-	Serial.println("Transmitted LSM9DS1 data");
+	if(transmit_data(buff, LSM9DS1_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted LSM9DS1 data");
 
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 }
@@ -375,9 +373,7 @@ void R_trans_BME280(){
 	convert_float_int32(get_Temp()), convert_float_int32(get_Pressure()),
 	convert_float_int32(get_Humidity()), convert_float_int32(get_BME280_Alt()));
 
-	transmit_data(buff, BME280_FRAME_SIZE+HEADER_SIZE);
-
-	Serial.println("Transmitted BME280 data");
+	if(transmit_data(buff, BME280_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted BME280 data");
 
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 20, R_trans_BME280);
@@ -395,10 +391,7 @@ void R_trans_CCS811(){
 
 	IRECHYPERP::createCCS811Frame(buff, flags, time, get_TVOC(), get_CO2());
 
-	transmit_data(buff, CCS811_FRAME_SIZE+HEADER_SIZE);
-
-	Serial.println("Transmitted BME280 data"); // remove
-
+	if(transmit_data(buff, CCS811_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted BME280 data"); // remove
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 30, R_trans_CCS811);
 }
@@ -418,9 +411,7 @@ void R_trans_LIS331(){
 	convert_float_int32(get_lis331_accel_y()),
 	convert_float_int32(get_lis331_accel_z()));
 
-	transmit_data(buff, LIS331_FRAME_SIZE+HEADER_SIZE);
-
-	Serial.println("Transmitted LIS331 data"); // remove
+	if(transmit_data(buff, LIS331_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted LIS331 data"); // remove
 	
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 10, R_trans_LIS331);
@@ -439,9 +430,7 @@ void R_trans_Altitude(){
 	IRECHYPERP::createPFSLFrame(buff, flags, time, 
 	convert_float_int32(get_Altitude()));
 
-	Serial.println("Transmitted altitude data"); // remove
-
-	transmit_data(buff, PFSL_FRAME_SIZE+HEADER_SIZE);
+	if(transmit_data(buff, PFSL_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted altitude data");
 		
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 10, R_trans_Altitude);

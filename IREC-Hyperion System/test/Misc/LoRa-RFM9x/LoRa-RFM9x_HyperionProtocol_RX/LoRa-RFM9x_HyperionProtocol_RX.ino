@@ -4,8 +4,8 @@
 #include <IREC_Hyperion_Protocol.h>
 
 // SPI pins
-#define RFM95_RST     9   // "A"
-#define RFM95_CS      10   // "B"
+#define RFM95_RST     6   // "A"
+#define RFM95_CS      5   // "B"
 #define RFM95_INT     4    // "C"
 
 // Change to 434.0 or other frequency, must match RX's freq!
@@ -94,15 +94,15 @@ void loop() {
           {
             LIS311_Packet packed = IRECHYPERP::unpack_LIS311(buf);
             Serial.println("LIS331 DATA:");
-            Serial.print("AX: "); Serial.println(packed.data.ax);
-            Serial.print("AY: "); Serial.println(packed.data.ay);
-            Serial.print("AX: "); Serial.println(packed.data.az);
+            Serial.print("AX: "); Serial.println(convert(packed.data.ax));
+            Serial.print("AY: "); Serial.println(convert(packed.data.ay));
+            Serial.print("AX: "); Serial.println(convert(packed.data.az));
           }
         case 5:
           {
             PFSL_Packet packed = IRECHYPERP::unpack_PFSL(buf);
             Serial.println("PFSL DATA:");
-            Serial.print("Altitude: "); Serial.println(packed.data.alt);
+            Serial.print("Altitude: "); Serial.println(convert(packed.data.alt));
           }
       }
     }

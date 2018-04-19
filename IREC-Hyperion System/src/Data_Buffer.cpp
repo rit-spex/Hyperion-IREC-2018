@@ -25,21 +25,21 @@ char *data_buffer[BUFFER_CAP] = {0};
 
 int init_SD(){
 
-  if(!SD.begin(BUILTIN_SDCARD)){
-    Serial.println("[SD] Init Failure");
-    return 1;
-  } else {
-    Serial.println("[SD] Init Success");
-  }
+	if(!SD.begin(BUILTIN_SDCARD)){
+		Serial.println("[SD] Init Failure");
+		return 1;
+	} else {
+		Serial.println("[SD] Init Success");
+	}
 
-  set_new_file();
-  //TODO
-  return 0;
+	set_new_file();
+	//TODO
+	return 0;
 }
 
 void close_file(){
 
-  data_file.close();
+	data_file.close();
 }
 
 /**
@@ -47,31 +47,31 @@ void close_file(){
  */
 void new_file(){
 
-  data_file.close(); // Close existing file first
-  set_new_file();
+	data_file.close(); // Close existing file first
+	set_new_file();
 }
 
 /**
  * Create a new file and set the file to current file
  */
 bool set_new_file(){
-  char buff[40] = {'\0'};
+	char buff[40] = {'\0'};
 
-  strcat(buff, FILE_NAME);
+	strcat(buff, FILE_NAME);
 
-  char temp[20] = {'\0'};
-  itoa(num_files, temp, 10);
+	char temp[20] = {'\0'};
+	itoa(num_files, temp, 10);
 
-  strcat(buff, temp);
-  strcat(buff, ".log");
+	strcat(buff, temp);
+	strcat(buff, ".log");
 
-  data_file = SD.open(buff, FILE_WRITE);
+	data_file = SD.open(buff, FILE_WRITE);
 
-  if(!data_file) return false;
+	if(!data_file) return false;
 
-  num_files += 1;
+	num_files += 1;
 
-  return true;
+	return true;
 }
 
 /**
@@ -79,13 +79,13 @@ bool set_new_file(){
  */
 void flush_buffer(){
 
-  data_file.flush(); // Force write to file
+	data_file.flush(); // Force write to file
 
-  for(size_t i = 0; i < buff_size; i++){
-    free(data_buffer[i]);
-  }
+	for(size_t i = 0; i < buff_size; i++){
+		free(data_buffer[i]);
+	}
 
-  buff_size = 0;
+	buff_size = 0;
 }
 
 /**
@@ -94,13 +94,13 @@ void flush_buffer(){
  *    str_size: the size of the string to be allocated.
  */
 char * create_string(int str_size){
-  char *result_str = (char*) malloc(str_size + 1);
+	char *result_str = (char*) malloc(str_size + 1);
 
-  if (result_str == NULL) return NULL;
+	if (result_str == NULL) return NULL;
 
-  result_str[0] = '\0';
+	result_str[0] = '\0';
 
-  return result_str;
+	return result_str;
 }
 
 /**
@@ -125,7 +125,7 @@ int add_to_buffer(char * data_str){
  * Getter for buff_size
  */
 int get_size() {
-  return buff_size;
+	return buff_size;
 }
 
 /**
@@ -133,18 +133,18 @@ int get_size() {
  */
 int write_buffer() {
 
-  if(write_cnt >= FILE_WRITE_LIMIT){
-    new_file();
-  }
+	if(write_cnt >= FILE_WRITE_LIMIT){
+		new_file();
+	}
 
-  if (data_file){
-    for (size_t i = 0; i < buff_size; i++) {
-      data_file.write(data_buffer[i]);
-    }
-  }
+	if (data_file){
+		for (size_t i = 0; i < buff_size; i++) {
+			data_file.write(data_buffer[i]);
+		}
+	}
 
-  write_cnt += 1;
+	write_cnt += 1;
 
-  flush_buffer();
-  return 0;
+	flush_buffer();
+	return 0;
 }

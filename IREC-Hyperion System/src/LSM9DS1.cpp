@@ -18,23 +18,23 @@ LSM9DS1 imu;
 //Starts the LSM9DS1 with correct settings.
 int init_LSM9DS1(){
 
-  // Before initializing the IMU, there are a few settings
-  // we may need to adjust. Use the settings struct to set
-  // the device's communication mode and addresses:
-  imu.settings.device.commInterface = IMU_MODE_SPI;
-  imu.settings.device.mAddress = LSM9DS1_M_CS;
-  imu.settings.device.agAddress = LSM9DS1_AG_CS;
-  // The above lines will only take effect AFTER calling
-  // imu.begin(), which verifies communication with the IMU
-  // and turns it on.
-  if (!imu.begin())
-  {
-    Serial.println("[LSM9DS1] Init Failure");
-    return 1;
-  }
-  Serial.println("[LSM9DS1] Init Success");
+	// Before initializing the IMU, there are a few settings
+	// we may need to adjust. Use the settings struct to set
+	// the device's communication mode and addresses:
+	imu.settings.device.commInterface = IMU_MODE_SPI;
+	imu.settings.device.mAddress = LSM9DS1_M_CS;
+	imu.settings.device.agAddress = LSM9DS1_AG_CS;
+	// The above lines will only take effect AFTER calling
+	// imu.begin(), which verifies communication with the IMU
+	// and turns it on.
+	if (!imu.begin())
+	{
+		Serial.println("[LSM9DS1] Init Failure");
+		return 1;
+	}
+	Serial.println("[LSM9DS1] Init Success");
 
-  return 0;
+	return 0;
 }
 
 /**
@@ -42,9 +42,9 @@ int init_LSM9DS1(){
  */
 void read_LSM9DS1_Sensors(){
 
-  imu.readMag();
-  imu.readAccel();
-  imu.readGyro();
+	imu.readMag();
+	imu.readAccel();
+	imu.readGyro();
 }
 
 // get_Gyro() -- Grabs raw sensor data, converts into DPS
@@ -54,23 +54,23 @@ void read_LSM9DS1_Sensors(){
 //    Sensor data for given axis in DPS
 float get_Gyro(lsm9ds1_axis axis) {
 
-  int16_t raw_Data;
+	int16_t raw_Data;
 
-  switch(axis){
-    case X_AXIS:
-      raw_Data = imu.gx;
-      break;
-    case Y_AXIS:
-      raw_Data = imu.gy;
-      break;
-    case Z_AXIS:
-      raw_Data = imu.gz;
-      break;
-    default:
-      return 0; // Did not supply a vaild axis.
-  }
+	switch(axis){
+		case X_AXIS:
+			raw_Data = imu.gx;
+			break;
+		case Y_AXIS:
+			raw_Data = imu.gy;
+			break;
+		case Z_AXIS:
+			raw_Data = imu.gz;
+			break;
+		default:
+			return 0; // Did not supply a vaild axis.
+	}
 
-  return imu.calcGyro(raw_Data);
+	return imu.calcGyro(raw_Data);
 }
 
 
@@ -81,22 +81,22 @@ float get_Gyro(lsm9ds1_axis axis) {
 //    Sensor data for given axis in g's
 float get_Accel(lsm9ds1_axis axis) {
 
-  int16_t raw_Data;
+	int16_t raw_Data;
 
-  switch(axis){
-    case X_AXIS:
-      raw_Data = imu.ax;
-      break;
-    case Y_AXIS:
-      raw_Data = imu.ay;
-      break;
-    case Z_AXIS:
-      raw_Data = imu.az;
-      break;
-    default:
-      return 0; // Did not supply a vaild axis.
-  }
-  return imu.calcAccel(raw_Data);
+	switch(axis){
+		case X_AXIS:
+			raw_Data = imu.ax;
+			break;
+		case Y_AXIS:
+			raw_Data = imu.ay;
+			break;
+		case Z_AXIS:
+			raw_Data = imu.az;
+			break;
+		default:
+			return 0; // Did not supply a vaild axis.
+	}
+	return imu.calcAccel(raw_Data);
 }
 
 
@@ -107,23 +107,23 @@ float get_Accel(lsm9ds1_axis axis) {
 //    Sensor data for given axis in Gauss
 float get_Mag(lsm9ds1_axis axis) {
 
-  int16_t raw_Data;
+	int16_t raw_Data;
 
-  switch(axis){
-    case X_AXIS:
-      raw_Data = imu.mx;
-      break;
-    case Y_AXIS:
-      raw_Data = imu.my;
-      break;
-    case Z_AXIS:
-      raw_Data = imu.mz;
-      break;
-    default:
-      return 0; // Did not supply a vaild axis.
-  }
+	switch(axis){
+		case X_AXIS:
+			raw_Data = imu.mx;
+			break;
+		case Y_AXIS:
+			raw_Data = imu.my;
+			break;
+		case Z_AXIS:
+			raw_Data = imu.mz;
+			break;
+		default:
+			return 0; // Did not supply a vaild axis.
+	}
 
-  return imu.calcMag(raw_Data);
+	return imu.calcMag(raw_Data);
 }
 
 
@@ -132,7 +132,7 @@ float get_Mag(lsm9ds1_axis axis) {
 //    Pitch value in degrees
 float calc_Pitch_Deg() {
 
-  return calc_Pitch_Rad() * 180/PI;
+	return calc_Pitch_Rad() * 180/PI;
 }
 
 
@@ -141,7 +141,7 @@ float calc_Pitch_Deg() {
 //    Roll value in degrees
 float calc_Roll_Deg(){
 
-  return calc_Roll_Rad() * 180/PI;
+	return calc_Roll_Rad() * 180/PI;
 }
 
 float calc_Yaw_Deg(); // TODO
@@ -151,7 +151,7 @@ float calc_Yaw_Deg(); // TODO
 //    Heading value in degrees
 float calc_Heading_Deg() {
 
-  return calc_Heading_Rad() * 180/PI;
+	return calc_Heading_Rad() * 180/PI;
 }
 
 
@@ -160,11 +160,11 @@ float calc_Heading_Deg() {
 //    Pitch value in Radians
 float calc_Pitch_Rad() {
 
-  float ax = get_Accel(X_AXIS); // Grab X accel value
-  float ay = get_Accel(Y_AXIS); // Grab Y accel value
-  float az = get_Accel(Z_AXIS); // Grab Z accel value
+	float ax = get_Accel(X_AXIS); // Grab X accel value
+	float ay = get_Accel(Y_AXIS); // Grab Y accel value
+	float az = get_Accel(Z_AXIS); // Grab Z accel value
 
-  return atan2(-ax, sqrt(ay * ay + az * az));
+	return atan2(-ax, sqrt(ay * ay + az * az));
 }
 
 
@@ -173,10 +173,10 @@ float calc_Pitch_Rad() {
 //    Roll value in Radians
 float calc_Roll_Rad(){
 
-  float ay = get_Accel(Y_AXIS); // Grab Y accel value
-  float az = get_Accel(Z_AXIS); // Grab Z accel value
+	float ay = get_Accel(Y_AXIS); // Grab Y accel value
+	float az = get_Accel(Z_AXIS); // Grab Z accel value
 
-  return atan2(ay, az);;
+	return atan2(ay, az);;
 }
 
 float calc_Yaw_Rad(); // TODO
@@ -187,20 +187,20 @@ float calc_Yaw_Rad(); // TODO
 //    Heading value in Radians
 float calc_Heading_Rad() {
 
-  float mx = get_Mag(X_AXIS); // Grab X mag value
-  float my = get_Mag(Y_AXIS); // Grab Y mag value
-  float heading;
+	float mx = get_Mag(X_AXIS); // Grab X mag value
+	float my = get_Mag(Y_AXIS); // Grab Y mag value
+	float heading;
 
-  if (my == 0)
-    heading = (mx < 0) ? PI : 0;
-  else
-    heading = atan2(mx, my);
+	if (my == 0)
+		heading = (mx < 0) ? PI : 0;
+	else
+		heading = atan2(mx, my);
 
-  heading -= DECLINATION * PI / 180;
+	heading -= DECLINATION * PI / 180;
 
-  if (heading > PI) heading -= (2 * PI);
-  else if (heading < -PI) heading += (2 * PI);
-  else if (heading < 0) heading += 2 * PI;
+	if (heading > PI) heading -= (2 * PI);
+	else if (heading < -PI) heading += (2 * PI);
+	else if (heading < 0) heading += 2 * PI;
 
-  return heading;
+	return heading;
 }

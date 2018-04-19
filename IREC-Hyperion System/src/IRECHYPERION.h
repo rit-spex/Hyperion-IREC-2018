@@ -30,7 +30,6 @@
 
 #include <RH_RF95.h>
 
-
 ////////////////////
 // Define Macros //
 //////////////////
@@ -190,7 +189,7 @@ void      new_file();
 // IRECHYPERION_Transmit
 
 int       init_LoRa(); // Initialize the LoRa RFM_9X module
-void      transmit_data(uint8_t * data, int data_len); // Transmit
+bool      transmit_data(uint8_t * data, int data_len); // Transmit
 int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
 
 // *********************************

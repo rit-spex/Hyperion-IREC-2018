@@ -19,15 +19,15 @@ CCS811 ccs(CCS811_ADDR); // CCS811
  */
 int init_CCS811(){
 
-  CCS811Core::status returnCode = ccs.begin();
-  if (returnCode != CCS811Core::SENSOR_SUCCESS) {
-    Serial.println("[CCS811] Init Failure");
-    return 1; // Failure
-  }
+	CCS811Core::status returnCode = ccs.begin();
+	if (returnCode != CCS811Core::SENSOR_SUCCESS) {
+		Serial.println("[CCS811] Init Failure");
+		return 1; // Failure
+	}
 
-  Serial.println("[CCS811] Init Success");
+	Serial.println("[CCS811] Init Success");
 
-  return 0;
+	return 0;
 }
 
 /**
@@ -35,11 +35,11 @@ int init_CCS811(){
  */
 uint16_t get_CO2(){
 
-  float humidity = get_Humidity();
-  float tempC = get_Temp();
-  ccs.setEnvironmentalData(humidity,tempC);
+	float humidity = get_Humidity();
+	float tempC = get_Temp();
+	ccs.setEnvironmentalData(humidity,tempC);
 
-  return ccs.getCO2();
+	return ccs.getCO2();
 }
 
 /**
@@ -47,9 +47,9 @@ uint16_t get_CO2(){
  */
 uint16_t get_TVOC(){
 
-  float humidity = get_Humidity();
-  float tempC = get_Temp();
-  ccs.setEnvironmentalData(humidity,tempC);
+	float humidity = get_Humidity();
+	float tempC = get_Temp();
+	ccs.setEnvironmentalData(humidity,tempC);
 
-  return ccs.getCO2();
+	return ccs.getCO2();
 }

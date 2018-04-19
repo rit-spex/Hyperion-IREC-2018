@@ -17,40 +17,40 @@
  * DAMPER_DEPLOY: "00,[time],IMPACT DAMPER DEPLOYMENT"
  */
 char *form_NoData_str(NoData_Type type){
-  // Create string
-  char *data_str = create_string(DEFAULT_STR_LEN);
+	// Create string
+	char *data_str = create_string(DEFAULT_STR_LEN);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  char data_type[4] = {'0','0',',','\0'};
-  char time_str[12];
+	char data_type[4] = {'0','0',',','\0'};
+	char time_str[12];
 
-  dtostrf(millis(), 1, 0, time_str);
-  strcat(time_str, ",");
+	dtostrf(millis(), 1, 0, time_str);
+	strcat(time_str, ",");
 
-  strcat(data_str, data_type);
-  strcat(data_str, time_str);
+	strcat(data_str, data_type);
+	strcat(data_str, time_str);
 
-  switch (type) {
-    case DEPLOYMENT:
-      strcat(data_str, "DEPLOYMENT");
-      break;
-    case PARACHUTE_DEPLOY:
-      strcat(data_str, "PARACHUTE DEPLOYMENT");
-      break;
-    case DAMPER_DEPLOY:
-      strcat(data_str, "IMPACT DAMPER DEPLOYMENT");
-      break;
-  }
+	switch (type) {
+		case DEPLOYMENT:
+			strcat(data_str, "DEPLOYMENT");
+			break;
+		case PARACHUTE_DEPLOY:
+			strcat(data_str, "PARACHUTE DEPLOYMENT");
+			break;
+		case DAMPER_DEPLOY:
+			strcat(data_str, "IMPACT DAMPER DEPLOYMENT");
+			break;
+	}
 
-  strcat(data_str, "\n");
+	strcat(data_str, "\n");
 
-  // Reallocate to match the length of the actual string.
-  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+	// Reallocate to match the length of the actual string.
+	data_str = (char*) realloc(data_str, strlen(data_str)+1);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  return data_str;
+	return data_str;
 }
 
 /**
@@ -60,38 +60,38 @@ char *form_NoData_str(NoData_Type type){
  *    "03,[Time],[TVOC],[C02]"
  */
 char *form_CCS811_str(){
-  // Create string
-  char *data_str = create_string(DEFAULT_STR_LEN);
+	// Create string
+	char *data_str = create_string(DEFAULT_STR_LEN);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  char data_type[4] = {'0','3',',','\0'};
-  char time_str[12];
+	char data_type[4] = {'0','3',',','\0'};
+	char time_str[12];
 
-  dtostrf(millis(), 1, 0, time_str);
-  strcat(time_str, ",");
+	dtostrf(millis(), 1, 0, time_str);
+	strcat(time_str, ",");
 
-  strcat(data_str, data_type);
-  strcat(data_str, time_str);
+	strcat(data_str, data_type);
+	strcat(data_str, time_str);
 
-  char temp[10];
+	char temp[10];
 
-  uint16_t data_array[2] = {get_TVOC(), get_CO2()};
+	uint16_t data_array[2] = {get_TVOC(), get_CO2()};
 
-  for (int i = 0; i < 2; i++){
-  	itoa(data_array[i], temp, 10);
-    strcat(data_str, temp);
-    if(i < 1) strcat(data_str, ",");
-  }
+	for (int i = 0; i < 2; i++){
+		itoa(data_array[i], temp, 10);
+		strcat(data_str, temp);
+		if(i < 1) strcat(data_str, ",");
+	}
 
-  strcat(data_str, "\n");
+	strcat(data_str, "\n");
 
-  // Reallocate to match the length of the actual string.
-  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+	// Reallocate to match the length of the actual string.
+	data_str = (char*) realloc(data_str, strlen(data_str)+1);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  return data_str;
+	return data_str;
 }
 
 /**
@@ -101,40 +101,40 @@ char *form_CCS811_str(){
  *    "01,[Time],[AccelX],[AccelY],[AccelZ],[GyroX],[GyroY],[GyroZ],[MagX],[MagY],[MagZ]"
  */
 char *form_LSM9DS1_str(){
-  // Create string
-  char *data_str = create_string(DEFAULT_STR_LEN);
+	// Create string
+	char *data_str = create_string(DEFAULT_STR_LEN);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  char data_type[4] = {'0','1',',','\0'};
-  char time_str[12];
+	char data_type[4] = {'0','1',',','\0'};
+	char time_str[12];
 
-  dtostrf(millis(), 1, 0, time_str);
-  strcat(time_str, ",");
+	dtostrf(millis(), 1, 0, time_str);
+	strcat(time_str, ",");
 
-  strcat(data_str, data_type);
-  strcat(data_str, time_str);
+	strcat(data_str, data_type);
+	strcat(data_str, time_str);
 
-  char temp[10];
+	char temp[10];
 
-  float data_array[9] = {get_Accel(X_AXIS), get_Accel(Y_AXIS), get_Accel(Z_AXIS),
-  get_Gyro(X_AXIS), get_Gyro(Y_AXIS), get_Gyro(Z_AXIS),
-  get_Mag(X_AXIS), get_Mag(Y_AXIS), get_Mag(Z_AXIS)};
+	float data_array[9] = {get_Accel(X_AXIS), get_Accel(Y_AXIS), get_Accel(Z_AXIS),
+	get_Gyro(X_AXIS), get_Gyro(Y_AXIS), get_Gyro(Z_AXIS),
+	get_Mag(X_AXIS), get_Mag(Y_AXIS), get_Mag(Z_AXIS)};
 
-  for (int i = 0; i < 9; i++){
-  	dtostrf(data_array[i], 1, 3, temp);
-    strcat(data_str, temp);
-    if(i < 8) strcat(data_str, ",");
-  }
+	for (int i = 0; i < 9; i++){
+		dtostrf(data_array[i], 1, 3, temp);
+		strcat(data_str, temp);
+		if(i < 8) strcat(data_str, ",");
+	}
 
-  strcat(data_str, "\n");
+	strcat(data_str, "\n");
 
-  // Reallocate to match the length of the actual string.
-  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+	// Reallocate to match the length of the actual string.
+	data_str = (char*) realloc(data_str, strlen(data_str)+1);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  return data_str;
+	return data_str;
 }
 
 /**
@@ -144,38 +144,38 @@ char *form_LSM9DS1_str(){
  *    "02,[TIME],[TempC],[Pressure],[Hum],[Alt_BME280]"
  */
 char* form_BME280_str(){
-  // Create string
-  char *data_str = create_string(DEFAULT_STR_LEN);
+	// Create string
+	char *data_str = create_string(DEFAULT_STR_LEN);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  char data_type[4] = {'0','2',',','\0'};
-  char time_str[12];
+	char data_type[4] = {'0','2',',','\0'};
+	char time_str[12];
 
-  dtostrf(millis(), 1, 0, time_str);
-  strcat(time_str, ",");
+	dtostrf(millis(), 1, 0, time_str);
+	strcat(time_str, ",");
 
-  strcat(data_str, data_type);
-  strcat(data_str, time_str);
+	strcat(data_str, data_type);
+	strcat(data_str, time_str);
 
-  char temp[10];
+	char temp[10];
 
-  float data_array[4] = {get_Temp(), get_Pressure(), get_Humidity(), get_BME280_Alt()};
+	float data_array[4] = {get_Temp(), get_Pressure(), get_Humidity(), get_BME280_Alt()};
 
-  for (int i = 0; i < 4; i++){
-  	dtostrf(data_array[i], 1, 3, temp);
-    strcat(data_str, temp);
-    if(i < 3) strcat(data_str, ",");
-  }
+	for (int i = 0; i < 4; i++){
+		dtostrf(data_array[i], 1, 3, temp);
+		strcat(data_str, temp);
+		if(i < 3) strcat(data_str, ",");
+	}
 
-  strcat(data_str, "\n");
+	strcat(data_str, "\n");
 
-  // Reallocate to match the length of the actual string.
-  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+	// Reallocate to match the length of the actual string.
+	data_str = (char*) realloc(data_str, strlen(data_str)+1);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  return data_str;
+	return data_str;
 }
 
 /**
@@ -184,38 +184,38 @@ char* form_BME280_str(){
  *    "04,[TIME],[AccelX],[AccelY],[AccelZ]"
  */
 char* form_LIS331_str(){
-  // Create string
-  char *data_str = create_string(DEFAULT_STR_LEN);
+	// Create string
+	char *data_str = create_string(DEFAULT_STR_LEN);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  char data_type[4] = {'0','4',',','\0'};
-  char time_str[12];
+	char data_type[4] = {'0','4',',','\0'};
+	char time_str[12];
 
-  dtostrf(millis(), 1, 0, time_str);
-  strcat(time_str, ",");
+	dtostrf(millis(), 1, 0, time_str);
+	strcat(time_str, ",");
 
-  strcat(data_str, data_type);
-  strcat(data_str, time_str);
+	strcat(data_str, data_type);
+	strcat(data_str, time_str);
 
-  char temp[10];
+	char temp[10];
 
-  float data_array[3] = {get_lis331_accel_x(), get_lis331_accel_y(), get_lis331_accel_z()};
+	float data_array[3] = {get_lis331_accel_x(), get_lis331_accel_y(), get_lis331_accel_z()};
 
-  for (int i = 0; i < 3; i++){
-    dtostrf(data_array[i], 1, 3, temp);
-    strcat(data_str, temp);
-    if(i < 2) strcat(data_str, ",");
-  }
+	for (int i = 0; i < 3; i++){
+		dtostrf(data_array[i], 1, 3, temp);
+		strcat(data_str, temp);
+		if(i < 2) strcat(data_str, ",");
+	}
 
-  strcat(data_str, "\n");
+	strcat(data_str, "\n");
 
-  // Reallocate to match the length of the actual string.
-  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+	// Reallocate to match the length of the actual string.
+	data_str = (char*) realloc(data_str, strlen(data_str)+1);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  return data_str;
+	return data_str;
 }
 
 /**
@@ -224,31 +224,31 @@ char* form_LIS331_str(){
  *      "05,[TIME],[Altitude]"
  */
 char * form_StratoLogger_str(){
-  // Create string
-  char *data_str = create_string(DEFAULT_STR_LEN);
+	// Create string
+	char *data_str = create_string(DEFAULT_STR_LEN);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  char data_type[4] = {'0','5',',','\0'};
-  char time_str[12];
+	char data_type[4] = {'0','5',',','\0'};
+	char time_str[12];
 
-  dtostrf(millis(), 1, 0, time_str);
-  strcat(time_str, ",");
+	dtostrf(millis(), 1, 0, time_str);
+	strcat(time_str, ",");
 
-  strcat(data_str, data_type);
-  strcat(data_str, time_str);
+	strcat(data_str, data_type);
+	strcat(data_str, time_str);
 
-  char temp[10];
+	char temp[10];
 
-  dtostrf(get_Altitude(), 1, 3, temp);
-  strcat(data_str, temp);
+	dtostrf(get_Altitude(), 1, 3, temp);
+	strcat(data_str, temp);
 
-  strcat(data_str, "\n");
+	strcat(data_str, "\n");
 
-  // Reallocate to match the length of the actual string.
-  data_str = (char*) realloc(data_str, strlen(data_str)+1);
+	// Reallocate to match the length of the actual string.
+	data_str = (char*) realloc(data_str, strlen(data_str)+1);
 
-  if(data_str == NULL) return NULL;
+	if(data_str == NULL) return NULL;
 
-  return data_str;
+	return data_str;
 }

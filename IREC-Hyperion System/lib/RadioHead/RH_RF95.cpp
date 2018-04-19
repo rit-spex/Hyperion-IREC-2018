@@ -152,7 +152,7 @@ void RH_RF95::handleInterrupt()
 	if (_rxBufValid)
 	    setModeIdle(); // Got one 
     }
-    else if (_mode == RHModeTx && irq_flags & RH_RF95_TX_DONE)
+    else if (_mode == RHModeTx)// && irq_flags & RH_RF95_TX_DONE)
     {
 	_txGood++;
 	setModeIdle();
@@ -239,10 +239,10 @@ bool RH_RF95::send(const uint8_t* data, uint8_t len)
 	return false;
 
     //waitPacketSent(); // Make sure we dont interrupt an outgoing message
-    //setModeIdle();
-    	// Drops packet if busy
-    if(_mode != RHModeIdle) return false;
-
+    if (_mode == RHModeTx){
+        return false;
+    }
+    setModeIdle();
 
     // Position at the beginning of the FIFO
     spiWrite(RH_RF95_REG_0D_FIFO_ADDR_PTR, 0);

@@ -37,14 +37,14 @@ int init_LoRa(){
   SPI1.setSCK(32); 
 
   if (!rf95.init()) {
-      Serial.println("[LoRa] - Init Failure");
-      return 1;
+	  Serial.println("[LoRa] - Init Failure");
+	  return 1;
   }
 
   // Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM
   if (!rf95.setFrequency(RF95_FREQ)) {
-      Serial.println("[LoRa] - setFrequency failed");
-      return 1;
+	  Serial.println("[LoRa] - setFrequency failed");
+	  return 1;
   }
   Serial.print("[LoRa] - Set Freq to: "); Serial.println(RF95_FREQ);
 
@@ -62,14 +62,17 @@ int init_LoRa(){
  *    data: The data to be sent
  *    data_len: The length of the data to be sent
  */
-void transmit_data(uint8_t data[], int data_len){
+bool transmit_data(uint8_t data[], int data_len){
   // Transmit the data
   // TODO Work on transmit scaling 
-  rf95.send(data, data_len);
+  bool res = rf95.send(data, data_len);
+  if(res) delay(8);//TODO remove
+  
+  return res;
 }
 
 int32_t convert_float_int32(float inputvalue) {
-    int32_t f;
-    memcpy(&f, &inputvalue, sizeof(f));
-    return f;
+	int32_t f;
+	memcpy(&f, &inputvalue, sizeof(f));
+	return f;
 }

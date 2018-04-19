@@ -20,15 +20,15 @@ char buff_HWSERIAL[20] = {'\0'};
  * Init function for the stratologger
  */
 int init_StratoLogger(){
-  HWSERIAL.begin(9600);
+	HWSERIAL.begin(9600);
 
-  while (!HWSERIAL) {
-    delay(1);
-  }
+	while (!HWSERIAL) {
+		delay(1);
+	}
 
-  Serial.println("[Strato] Init Success");
+	Serial.println("[Strato] Init Success");
 
-  return 0;
+	return 0;
 }
 
 /**
@@ -39,66 +39,66 @@ int init_StratoLogger(){
  *    val in meters
  */
 float convert_feet_meters(float val_temp){
-  return val_temp * 0.3048;
+	return val_temp * 0.3048;
 }
 
 /**
  * Update altitude with the value stored in the buffer
  */
 void alt_update(){
-  // Convert buff_HWSERIAL into a singed int
-  // Assign to alt varable
-  float alt_temp = strtof(buff_HWSERIAL, NULL); // TODO check this
+	// Convert buff_HWSERIAL into a singed int
+	// Assign to alt varable
+	float alt_temp = strtof(buff_HWSERIAL, NULL); // TODO check this
 
-  altitude = convert_feet_meters(alt_temp);
+	altitude = convert_feet_meters(alt_temp);
 
-  new_altitude = true;
+	new_altitude = true;
 
-  Serial.println(buff_HWSERIAL); // TODO remove testing only
-  buff_HWSERIAL[0] = '\0'; // Clear buffer
+	Serial.println(buff_HWSERIAL); // TODO remove testing only
+	buff_HWSERIAL[0] = '\0'; // Clear buffer
 }
 
 /**
  * Grab chars from the UART buffer, ignoring '\r' and trigging a update on a "\n"
  */
 int read_HWSERIAL_Strato(){
-  int cnt = 0; // Bytes read
+	int cnt = 0; // Bytes read
 
-  while(HWSERIAL.available()){
-    char in = (char) HWSERIAL.read();
+	while(HWSERIAL.available()){
+		char in = (char) HWSERIAL.read();
 
-    if(in == '\n') alt_update();
-    else if (in != '\r'){
+		if(in == '\n') alt_update();
+		else if (in != '\r'){
 
-      char temp[10] = {in, '\0'};
-      strcat(buff_HWSERIAL, temp);
-    }
+			char temp[10] = {in, '\0'};
+			strcat(buff_HWSERIAL, temp);
+		}
 
-    cnt += 1;
-  }
+		cnt += 1;
+	}
 
-  return cnt;
+	return cnt;
 }
 
 /**
  * Getter function for altitude
  */
 float get_Altitude(){
-  return altitude;
+	return altitude;
 }
 
 /**
  * Set logged data
  */
 void set_old_altitude(){
-  new_altitude = false;
+	new_altitude = false;
 }
 
 bool get_new_altitude(){
-  return new_altitude;
+	return new_altitude;
 }
 
 void update_alt_BME280(){
-  altitude = get_BME280_Alt();
-  new_altitude = true;
+	altitude = get_BME280_Alt();
+	new_altitude = true;
 }

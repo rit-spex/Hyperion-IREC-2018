@@ -22,50 +22,50 @@ bool imp_damper_deploy = false;
  */
 int init_deploy_pins(){
 
-  pinMode(DEPLOY_SWITCH_01, INPUT);
-  pinMode(DEPLOY_SWITCH_02, INPUT);
-  pinMode(DEPLOY_SWITCH_03, INPUT);
-  pinMode(DEPLOY_SWITCH_04, INPUT);
+	pinMode(DEPLOY_SWITCH_01, INPUT);
+	pinMode(DEPLOY_SWITCH_02, INPUT);
+	pinMode(DEPLOY_SWITCH_03, INPUT);
+	pinMode(DEPLOY_SWITCH_04, INPUT);
 
-  return 0; // Success
+	return 0; // Success
 }
 
 /**
  * Set parachute deployment, logs event into buffer
  */
 void set_parachute_deploy(){
-  char * data_str = form_NoData_str(PARACHUTE_DEPLOY);
+	char * data_str = form_NoData_str(PARACHUTE_DEPLOY);
 
-  if (data_str != NULL){
-    // Insert data into the data buffer
-    add_to_buffer(data_str);
-    Serial.println(data_str); // TODO REMOVE this only for testing
-  }
+	if (data_str != NULL){
+		// Insert data into the data buffer
+		add_to_buffer(data_str);
+		Serial.println(data_str); // TODO REMOVE this only for testing
+	}
 
-  parachute_deploy = true;
+	parachute_deploy = true;
 }
 
 /**
  * Set impact damper deployment, logs event into buffer
  */
 void set_imp_damper_deploy(){
-  char * data_str = form_NoData_str(DAMPER_DEPLOY);
+	char * data_str = form_NoData_str(DAMPER_DEPLOY);
 
-  if (data_str != NULL){
-    // Insert data into the data buffer
-    add_to_buffer(data_str);
-    Serial.println(data_str); // TODO REMOVE this only for testing
-  }
+	if (data_str != NULL){
+		// Insert data into the data buffer
+		add_to_buffer(data_str);
+		Serial.println(data_str); // TODO REMOVE this only for testing
+	}
 
-  imp_damper_deploy = true;
+	imp_damper_deploy = true;
 }
 
 bool get_parachute_deploy(){
-  return parachute_deploy;
+	return parachute_deploy;
 }
 
 bool get_imp_damper_deploy(){
-  return imp_damper_deploy;
+	return imp_damper_deploy;
 }
 
 /**
@@ -75,7 +75,7 @@ bool get_imp_damper_deploy(){
  */
 uint32_t deployed_delta(){
 
-  return millis() - deployment_time;
+	return millis() - deployment_time;
 }
 
 /**
@@ -83,15 +83,15 @@ uint32_t deployed_delta(){
  */
 void set_deployment(){
 
-  char * data_str = form_NoData_str(DEPLOYMENT);
+	char * data_str = form_NoData_str(DEPLOYMENT);
 
-  if (data_str != NULL){
-    // Insert data into the data buffer
-    add_to_buffer(data_str);
-    Serial.println(data_str); // TODO REMOVE this only for testing
-  }
+	if (data_str != NULL){
+		// Insert data into the data buffer
+		add_to_buffer(data_str);
+		Serial.println(data_str); // TODO REMOVE this only for testing
+	}
 
-  deployment_time = millis();
+	deployment_time = millis();
 }
 
 /**
@@ -102,26 +102,26 @@ void set_deployment(){
  */
 void rate_of_climb(){
 
-  float delta_time = millis() - time_sample;
-  delta_time = delta_time / 1000; // Convert milliseconds to seconds
+	float delta_time = millis() - time_sample;
+	delta_time = delta_time / 1000; // Convert milliseconds to seconds
 
-  float alt_temp = get_Altitude();
-  float delta_alt = alt_temp - height_sample;
+	float alt_temp = get_Altitude();
+	float delta_alt = alt_temp - height_sample;
 
-  time_sample = millis();
-  height_sample = alt_temp;
+	time_sample = millis();
+	height_sample = alt_temp;
 
-  ROC_var = delta_alt / delta_time; // result in m/s
+	ROC_var = delta_alt / delta_time; // result in m/s
 }
 
 /**
  * Getter function for rate of rate_of_climb
  */
 float get_rate_of_climb(){
-  return ROC_var;
+	return ROC_var;
 }
 
 //TODO
 bool correct_orientation_para(){
-  return false;
+	return false;
 }
