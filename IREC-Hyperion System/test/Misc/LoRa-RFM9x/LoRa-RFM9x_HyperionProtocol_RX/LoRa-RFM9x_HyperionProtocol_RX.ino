@@ -80,7 +80,29 @@ void loop() {
             Serial.print("Pressure: "); Serial.println(convert(packed.data.pressure));
             Serial.print("Humidity: "); Serial.println(convert(packed.data.humidity));
             Serial.print("Altitude: "); Serial.println(convert(packed.data.altitude));
-            break;
+          }
+          break;
+        case 3:
+          {
+            CCS811_Packet packed = IRECHYPERP::unpack_CCS811(buf);
+            Serial.println("CCS811 DATA:");
+            Serial.print("CO2: "); Serial.println(packed.data.co2);
+            Serial.print("TVOC: "); Serial.println(packed.data.TVOC);
+          }
+          break;
+        case 4:
+          {
+            LIS311_Packet packed = IRECHYPERP::unpack_LIS311(buf);
+            Serial.println("LIS331 DATA:");
+            Serial.print("AX: "); Serial.println(packed.data.ax);
+            Serial.print("AY: "); Serial.println(packed.data.ay);
+            Serial.print("AX: "); Serial.println(packed.data.az);
+          }
+        case 5:
+          {
+            PFSL_Packet packed = IRECHYPERP::unpack_PFSL(buf);
+            Serial.println("PFSL DATA:");
+            Serial.print("Altitude: "); Serial.println(packed.data.alt);
           }
       }
     }
