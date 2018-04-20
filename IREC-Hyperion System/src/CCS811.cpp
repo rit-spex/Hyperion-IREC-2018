@@ -21,11 +21,8 @@ int init_CCS811(){
 
 	CCS811Core::status returnCode = ccs.begin();
 	if (returnCode != CCS811Core::SENSOR_SUCCESS) {
-		Serial.println("[CCS811] Init Failure");
 		return 1; // Failure
 	}
-
-	Serial.println("[CCS811] Init Success");
 
 	return 0;
 }

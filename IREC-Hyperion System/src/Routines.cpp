@@ -18,7 +18,7 @@
 
 #define SWITCH_DEBUFF 1000
 
-#define ALT_DEBUFF 200
+#define ALT_DEBUFF 1000
 
 #define PARA_TIMEOUT 5000
 #define PARA_TIMEOUT_FIN 10000
@@ -191,7 +191,6 @@ void R_seq_LSM9DS1_data(){
 		if (data_str != NULL){
 			// Insert data into the data buffer
 			add_to_buffer(data_str);
-			Serial.println(data_str); // TODO REMOVE this only for testing
 		}
 
 		dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
@@ -210,7 +209,6 @@ void R_seq_BME280_data(){
 	if (data_str != NULL){
 		// Insert data into the data buffer
 		add_to_buffer(data_str);
-		Serial.println(data_str); // TODO REMOVE this only for testing
 	}
 
 	dsq.add_routine(0, 20, R_seq_BME280_data);
@@ -228,7 +226,6 @@ void R_seq_CCS811_data(){
 	if (data_str != NULL){
 		// Insert data into the data buffer
 		add_to_buffer(data_str);
-		Serial.println(data_str); // TODO REMOVE this only for testing
 	}
 
 	dsq.add_routine(0, 20, R_seq_CCS811_data);
@@ -246,7 +243,6 @@ void R_seq_LIS331_data(){
 	if (data_str != NULL){
 		// Insert data into the data buffer
 		add_to_buffer(data_str);
-		Serial.println(data_str); // TODO REMOVE this only for testing
 	}
 
 	dsq.add_routine(0, 3, R_seq_LIS331_data);
@@ -285,17 +281,9 @@ void R_Auto_Arm(){
  * Gather information from the Stratologger and log the data
  */
 void R_Altitude_data(){
-	static unsigned int dynamic_pri = 10;
 	static unsigned int not_read_cnt = 0;
 
 	int bytes_read = read_HWSERIAL_Strato();
-
-	// Adjust dynamic priority mult based on byes read
-	if (bytes_read > 5){
-		if(dynamic_pri > ALTITUDE_MIN_PRI) dynamic_pri -= 1;
-	} else if(bytes_read < 2){
-		if(dynamic_pri < ALTITUDE_MAX_PRI) dynamic_pri += 1;
-	}
 
 	if(bytes_read == 0){
 		not_read_cnt += 1;
@@ -310,7 +298,7 @@ void R_Altitude_data(){
 		return;
 	}
 
-	dsq.add_routine(0, dynamic_pri, R_Altitude_data);
+	dsq.add_routine(0, 50, R_Altitude_data);
 }
 
 /**
@@ -326,7 +314,6 @@ void R_seq_Altitude_data(){
 		if (data_str != NULL){
 			// Insert data into the data buffer
 			add_to_buffer(data_str);
-			Serial.println(data_str); // TODO REMOVE this only for testing
 		}
 		set_old_altitude();
 
@@ -354,7 +341,7 @@ void R_trans_LSM9DS1(){
 	convert_float_int32(get_Gyro(X_AXIS)), convert_float_int32(get_Gyro(Y_AXIS)), convert_float_int32(get_Gyro(Z_AXIS)),
 	convert_float_int32(get_Mag(X_AXIS)), convert_float_int32(get_Mag(Y_AXIS)), convert_float_int32(get_Mag(Z_AXIS)));
 
-	if(transmit_data(buff, LSM9DS1_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted LSM9DS1 data");
+	transmit_data(buff, LSM9DS1_FRAME_SIZE+HEADER_SIZE);
 
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 }
@@ -373,7 +360,7 @@ void R_trans_BME280(){
 	convert_float_int32(get_Temp()), convert_float_int32(get_Pressure()),
 	convert_float_int32(get_Humidity()), convert_float_int32(get_BME280_Alt()));
 
-	if(transmit_data(buff, BME280_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted BME280 data");
+	transmit_data(buff, BME280_FRAME_SIZE+HEADER_SIZE);
 
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 20, R_trans_BME280);
@@ -391,7 +378,7 @@ void R_trans_CCS811(){
 
 	IRECHYPERP::createCCS811Frame(buff, flags, time, get_TVOC(), get_CO2());
 
-	if(transmit_data(buff, CCS811_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted BME280 data"); // remove
+	transmit_data(buff, CCS811_FRAME_SIZE+HEADER_SIZE);
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 30, R_trans_CCS811);
 }
@@ -411,7 +398,7 @@ void R_trans_LIS331(){
 	convert_float_int32(get_lis331_accel_y()),
 	convert_float_int32(get_lis331_accel_z()));
 
-	if(transmit_data(buff, LIS331_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted LIS331 data"); // remove
+	transmit_data(buff, LIS331_FRAME_SIZE+HEADER_SIZE);
 	
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 10, R_trans_LIS331);
@@ -430,7 +417,7 @@ void R_trans_Altitude(){
 	IRECHYPERP::createPFSLFrame(buff, flags, time, 
 	convert_float_int32(get_Altitude()));
 
-	if(transmit_data(buff, PFSL_FRAME_SIZE+HEADER_SIZE)) Serial.println("Transmitted altitude data");
+	transmit_data(buff, PFSL_FRAME_SIZE+HEADER_SIZE);
 		
 	// Add routine back into the DSQ
 	dsq.add_routine(0, 10, R_trans_Altitude);

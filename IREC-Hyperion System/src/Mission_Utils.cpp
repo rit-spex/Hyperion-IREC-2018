@@ -39,7 +39,6 @@ void set_parachute_deploy(){
 	if (data_str != NULL){
 		// Insert data into the data buffer
 		add_to_buffer(data_str);
-		Serial.println(data_str); // TODO REMOVE this only for testing
 	}
 
 	parachute_deploy = true;
@@ -54,7 +53,6 @@ void set_imp_damper_deploy(){
 	if (data_str != NULL){
 		// Insert data into the data buffer
 		add_to_buffer(data_str);
-		Serial.println(data_str); // TODO REMOVE this only for testing
 	}
 
 	imp_damper_deploy = true;
@@ -88,7 +86,6 @@ void set_deployment(){
 	if (data_str != NULL){
 		// Insert data into the data buffer
 		add_to_buffer(data_str);
-		Serial.println(data_str); // TODO REMOVE this only for testing
 	}
 
 	deployment_time = millis();

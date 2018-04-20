@@ -22,11 +22,8 @@ int init_BME280() {
 	// Check status
 	status = bme.begin();
 	if (!status) {
-		Serial.println("[BME280] - Init Failure");
 		return 1; // Errors
 	}
-
-	Serial.println("[BME280] - Init Success");
 	return 0; // Correctly started
 }
 

@@ -27,12 +27,7 @@ int init_LSM9DS1(){
 	// The above lines will only take effect AFTER calling
 	// imu.begin(), which verifies communication with the IMU
 	// and turns it on.
-	if (!imu.begin())
-	{
-		Serial.println("[LSM9DS1] Init Failure");
-		return 1;
-	}
-	Serial.println("[LSM9DS1] Init Success");
+	if (!imu.begin()) return 1;
 
 	return 0;
 }

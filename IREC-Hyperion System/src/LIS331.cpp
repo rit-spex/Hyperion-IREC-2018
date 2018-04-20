@@ -39,8 +39,6 @@ int init_LIS331(){
 	lis.setSPICSPin(LIS3DH_CS);
 	lis.begin(LIS331::USE_SPI);
 
-	Serial.println("[LIS331] Init");
-
 	return 0;
 }
 

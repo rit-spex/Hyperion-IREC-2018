@@ -35,7 +35,7 @@
 //////////////////
 
 // File to be created and written
-#define FILE_NAME "TEST_01"
+#define FILE_NAME "TEST"
 
 #define LED 13 // LED pin
 

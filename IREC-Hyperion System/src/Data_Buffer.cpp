@@ -10,7 +10,7 @@
 
 #include "IRECHYPERION.h"
 
-#define FILE_WRITE_LIMIT 10000
+#define FILE_WRITE_LIMIT 5000
 
 size_t buff_size = 0;
 
@@ -26,10 +26,7 @@ char *data_buffer[BUFFER_CAP] = {0};
 int init_SD(){
 
 	if(!SD.begin(BUILTIN_SDCARD)){
-		Serial.println("[SD] Init Failure");
 		return 1;
-	} else {
-		Serial.println("[SD] Init Success");
 	}
 
 	set_new_file();

@@ -26,8 +26,6 @@ int init_StratoLogger(){
 		delay(1);
 	}
 
-	Serial.println("[Strato] Init Success");
-
 	return 0;
 }
 
@@ -54,7 +52,6 @@ void alt_update(){
 
 	new_altitude = true;
 
-	Serial.println(buff_HWSERIAL); // TODO remove testing only
 	buff_HWSERIAL[0] = '\0'; // Clear buffer
 }
 
