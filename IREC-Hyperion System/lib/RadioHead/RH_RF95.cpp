@@ -152,7 +152,7 @@ void RH_RF95::handleInterrupt()
 	if (_rxBufValid)
 	    setModeIdle(); // Got one 
     }
-    else if (_mode == RHModeTx)// && irq_flags & RH_RF95_TX_DONE)
+    else if (_mode == RHModeTx)// && irq_flags & RH_RF95_TX_DONE) //TODO change for non-proto board
     {
 	_txGood++;
 	setModeIdle();

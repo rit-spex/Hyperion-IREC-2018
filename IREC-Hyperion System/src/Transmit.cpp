@@ -61,7 +61,6 @@ bool transmit_data(uint8_t data[], int data_len){
   // Transmit the data
   // TODO Work on transmit scaling 
   bool res = rf95.send(data, data_len);
-  //if(res) delay(8);//TODO remove
   
   return res;
 }

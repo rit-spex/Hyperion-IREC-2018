@@ -158,7 +158,7 @@ void R_recv_Arm(){
 void R_gath_LSM9DS1_data(){
 		// Read data from sensors
 	read_LSM9DS1_Sensors();
-	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
+	dsq.add_routine(0, 2, R_gath_LSM9DS1_data);
 }
 
 /**
@@ -176,7 +176,7 @@ void R_gath_BME280_data(){
 void R_gath_LIS331_data(){
 
 	read_LIS331();
-	dsq.add_routine(0, 3, R_gath_LIS331_data);
+	dsq.add_routine(0, 2, R_gath_LIS331_data);
 }
 
 /**
@@ -184,16 +184,16 @@ void R_gath_LIS331_data(){
  */
 void R_seq_LSM9DS1_data(){
 
-		// Create string
-		// Pack string with data from the sensors
-		char * data_str = form_LSM9DS1_str();
+	// Create string
+	// Pack string with data from the sensors
+	char * data_str = form_LSM9DS1_str();
 
-		if (data_str != NULL){
-			// Insert data into the data buffer
-			add_to_buffer(data_str);
-		}
+	if (data_str != NULL){
+		// Insert data into the data buffer
+		add_to_buffer(data_str);
+	}
 
-		dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
+	dsq.add_routine(0, 2, R_seq_LSM9DS1_data);
 }
 
 /**
@@ -245,7 +245,7 @@ void R_seq_LIS331_data(){
 		add_to_buffer(data_str);
 	}
 
-	dsq.add_routine(0, 3, R_seq_LIS331_data);
+	dsq.add_routine(0, 2, R_seq_LIS331_data);
 }
 
 /**
