@@ -25,7 +25,6 @@ int init_StratoLogger(){
 	while (!HWSERIAL) {
 		delay(1);
 	}
-
 	return 0;
 }
 
