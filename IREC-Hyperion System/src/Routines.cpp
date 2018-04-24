@@ -53,16 +53,13 @@ void R_check_deployment(){
 	if(digitalReadFast(DEPLOY_SWITCH_04) == HIGH) open_cnt += 1;
 
 	if(open_cnt > 2){
-		// Deployed
 		switch_debuff += 1;
-		return;
+		
 	} else if (open_cnt == 2){
 		// Anomaly case where 2 switches are open and 2 switches are still
 		// closed.
-		if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED){ // moving faster than 20 m/s down
+		if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED) switch_debuff += 1;
 
-			switch_debuff += 1;
-		}
 	} else {
 		switch_debuff = 0;
 	}

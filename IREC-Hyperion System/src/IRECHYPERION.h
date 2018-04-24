@@ -189,6 +189,7 @@ void      new_file();
 int       init_LoRa(); // Initialize the LoRa RFM_9X module
 bool      transmit_data(uint8_t * data, int data_len); // Transmit
 int32_t   convert_float_int32(float inputvalue); // Converts floats to int32_t
+unsigned int get_bandwidth_scaler();
 
 // *********************************
 // IRECHYPERION_Routine_Helpers

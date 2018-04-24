@@ -62,14 +62,19 @@ int init_LoRa(){
 bool transmit_data(uint8_t data[], int data_len){
   // Transmit the data
   // TODO Work on transmit scaling 
+
+  rf95.waitPacketSent();
+
   bool res = rf95.send(data, data_len);
 
   // Increase scaler value if can transmit, else wait longer
+  /**
   if(res){
     bandwidth_scaler -= 1;
+    cnt += 1;
   } else {
     bandwidth_scaler += 1;
-  }
+  }*/
   
   return res;
 }
