@@ -5,17 +5,13 @@
  *     Utilities functions for the SparkFun LSM9DS1 sensor.
  */
 
-#include "IRECHYPERION.h"
-
-// Pin Macros
-#define LSM9DS1_M_CS 10  // Can be any digital pin
-#define LSM9DS1_AG_CS 24  // Can be any other digital pin
+#include "LSM9DS1_Hyperion.h"
 
 LSM9DS1 imu;
 
 // Define/setup interupts
 // Uses polling currently
-//Starts the LSM9DS1 with correct settings.
+// Starts the LSM9DS1 with correct settings.
 int init_LSM9DS1(){
 
 	// Before initializing the IMU, there are a few settings

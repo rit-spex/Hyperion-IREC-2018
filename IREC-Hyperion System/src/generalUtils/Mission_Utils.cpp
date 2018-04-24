@@ -6,6 +6,11 @@
  */
 
 #include "IRECHYPERION.h"
+#include "../Routines_Hyperion.h"
+#include "../sensorUtils/StratoLogger_Hyperion.h"
+#include "Routine_Helpers_Hyperion.h"
+#include "Mission_Utils_Hyperion.h"
+#include "../Data_Buffer_Hyperion.h"
 
 uint32_t deployment_time = 0;
 

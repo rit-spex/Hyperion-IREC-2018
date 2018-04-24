@@ -5,12 +5,9 @@
  *     Utilities functions for the SparkFun CCS811 sensor.
  */
 
-#include "IRECHYPERION.h"
-
-#define CCS811_ADDR 0x5B //Default I2C Address
-//#define CCS811_ADDR 0x5A //Alternate I2C Address
-
-#define CCS811_NORMAL_MODE 3
+#include "../IRECHYPERION.h"
+#include "BME280_Hyperion.h"
+#include "CCS811_Hyperion.h"
 
 CCS811 ccs(CCS811_ADDR); // CCS811
 

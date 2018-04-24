@@ -6,25 +6,17 @@
  *    Routines to be included into the DSQ
  */
 
+#include "Routines_Hyperion.h"
 #include "IRECHYPERION.h"
-
-#define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
-
-#define ALTITUDE_MIN_PRI 1
-#define ALTITUDE_MAX_PRI 400
-
-#define ACCEL_AUTO_ARM_THRES 2 // In gees
-#define ROC_AUTO_ARM_THRES 30 // m/s
-
-#define SWITCH_DEBUFF 1000
-
-#define ALT_DEBUFF 1000
-
-#define PARA_TIMEOUT 5000
-#define PARA_TIMEOUT_FIN 10000
-
-#define DAMPER_DEPLOY_SPEED -15
-#define DAMPER_TIMEOUT 40000
+#include "sensorUtils/LSM9DS1_Hyperion.h"
+#include "sensorUtils/BME280_Hyperion.h"
+#include "sensorUtils/CCS811_Hyperion.h"
+#include "sensorUtils/LIS331_Hyperion.h"
+#include "generalUtils/Mission_Utils_Hyperion.h"
+#include "sensorUtils/StratoLogger_Hyperion.h"
+#include "generalUtils/Routine_Helpers_Hyperion.h"
+#include "Transmit_Hyperion.h"
+#include "Data_Buffer_Hyperion.h"
 
 void R_Default(){
 	// TODO

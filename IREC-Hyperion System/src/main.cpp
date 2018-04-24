@@ -6,6 +6,15 @@
  */
 
 #include "IRECHYPERION.h"
+#include "sensorUtils/LSM9DS1_Hyperion.h"
+#include "sensorUtils/BME280_Hyperion.h"
+#include "sensorUtils/CCS811_Hyperion.h"
+#include "sensorUtils/LIS331_Hyperion.h"
+#include "sensorUtils/StratoLogger_Hyperion.h"
+#include "generalUtils/Mission_Utils_Hyperion.h"
+#include "Routines_Hyperion.h"
+#include "Transmit_Hyperion.h"
+#include "Data_Buffer_Hyperion.h"
 
 #define DSQ_MAIN_CAP 250
 
@@ -46,11 +55,11 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
-	//dsq.add_routine(0, 3, R_trans_LSM9DS1);
-	//dsq.add_routine(0, 20, R_trans_BME280);
-	//dsq.add_routine(0, 30, R_trans_CCS811);
-	//dsq.add_routine(0, 10, R_trans_LIS331);
-	//dsq.add_routine(0, 10, R_trans_Altitude);
+	dsq.add_routine(0, 3, R_trans_LSM9DS1);
+	dsq.add_routine(0, 20, R_trans_BME280);
+	dsq.add_routine(0, 30, R_trans_CCS811);
+	dsq.add_routine(0, 10, R_trans_LIS331);
+	dsq.add_routine(0, 10, R_trans_Altitude);
 }
 
 /**

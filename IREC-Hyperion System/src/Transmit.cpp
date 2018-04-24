@@ -6,6 +6,7 @@
  */
 
 #include "IRECHYPERION.h"
+#include "Transmit_Hyperion.h"
 #include <RHHardwareSPI1.h>
 
 // SPI pins

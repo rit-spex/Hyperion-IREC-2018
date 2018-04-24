@@ -5,7 +5,8 @@
  *     Utilities functions for the LIS331 sensor.
  */
 
-#include "IRECHYPERION.h"
+#include "../IRECHYPERION.h"
+#include "BME280_Hyperion.h"
 
 #define HWSERIAL Serial5
 

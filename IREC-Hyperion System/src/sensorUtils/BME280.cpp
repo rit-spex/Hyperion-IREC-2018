@@ -5,7 +5,8 @@
  *     Utilities functions for the SparkFun BME280 sensor.
  */
 
-#include "IRECHYPERION.h"
+#include "../IRECHYPERION.h"
+#include "BME280_Hyperion.h"
 
 float BME280_Temperature = 0;
 float BME280_Pressure = 0;

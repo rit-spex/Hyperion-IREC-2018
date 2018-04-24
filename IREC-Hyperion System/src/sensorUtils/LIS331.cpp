@@ -5,16 +5,7 @@
  *     Utilities functions for the LIS331 sensor.
  */
 
-#include <IRECHYPERION.h>
-
-// Used for software SPI LIS331
-#define LIS3DH_CLK 13
-#define LIS3DH_MISO 12
-#define LIS3DH_MOSI 11
-// Used for hardware & software SPI
-#define LIS3DH_CS 35
-
-#define MAX_G 6
+#include "LIS331_Hyperion.h"
 
 // Software SPI
 LIS331 lis;

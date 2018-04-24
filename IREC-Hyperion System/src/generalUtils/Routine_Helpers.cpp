@@ -5,7 +5,13 @@
  *     Routine helper functions.
  */
 
-#include "IRECHYPERION.h"
+#include "../IRECHYPERION.h"
+#include "sensorUtils/LSM9DS1_Hyperion.h"
+#include "sensorUtils/BME280_Hyperion.h"
+#include "sensorUtils/CCS811_Hyperion.h"
+#include "sensorUtils/LIS331_Hyperion.h"
+#include "sensorUtils/StratoLogger_Hyperion.h"
+#include "../Data_Buffer_Hyperion.h"
 
 /**
  * Helper function for no data buffer strings,
