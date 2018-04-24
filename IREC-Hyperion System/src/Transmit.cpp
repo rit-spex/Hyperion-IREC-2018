@@ -18,6 +18,8 @@
 
 RH_RF95 rf95(RFM95_CS, RFM95_INT, hardware_spi1);
 
+unsigned int bandwidth_scaler = 0;
+
 /**
  * Initialize the LoRa transmitter.
  */
@@ -61,8 +63,22 @@ bool transmit_data(uint8_t data[], int data_len){
   // Transmit the data
   // TODO Work on transmit scaling 
   bool res = rf95.send(data, data_len);
+
+  // Increase scaler value if can transmit, else wait longer
+  if(res){
+    bandwidth_scaler -= 1;
+  } else {
+    bandwidth_scaler += 1;
+  }
   
   return res;
+}
+
+/**
+ * Getter function for bandwidth_scaler
+ */
+unsigned int get_bandwidth_scaler(){
+  return bandwidth_scaler;
 }
 
 int32_t convert_float_int32(float inputvalue) {
