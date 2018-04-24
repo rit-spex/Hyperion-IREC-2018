@@ -11,6 +11,7 @@
 // Included libaries
 #include <Arduino.h>
 #include <string.h>
+
 #include <SD.h>
 
 #include <Wire.h>
@@ -175,7 +176,7 @@ void      R_gath_LIS331_data(); // Gather LIS331 routine for LIS331
 // *********************************
 // IRECHYPERION_Data_Buffer
 
-int       init_SD();
+bool      init_SD();
 void      flush_buffer(); // Clear buffer
 int       add_to_buffer(char data[]); // Add null terminated string to buffer
 int       get_size(); // Get size of buffer

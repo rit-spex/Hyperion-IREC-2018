@@ -10,12 +10,11 @@
 
 #include "IRECHYPERION.h"
 
-#define FILE_WRITE_LIMIT 5000
+#define FILE_WRITE_LIMIT 10000
 
 size_t buff_size = 0;
 
 unsigned int num_files = 0;
-
 unsigned int write_cnt = 0;
 
 File data_file;
@@ -23,15 +22,14 @@ File data_file;
 // Main data buffer
 char *data_buffer[BUFFER_CAP] = {0};
 
-int init_SD(){
+bool init_SD(){
 
-	if(!SD.begin(BUILTIN_SDCARD)){
-		return 1;
-	}
-
+    if (!SD.begin(BUILTIN_SDCARD)) {
+      return false;
+    }
 	set_new_file();
-	//TODO
-	return 0;
+
+	return true;
 }
 
 void close_file(){
@@ -62,7 +60,7 @@ bool set_new_file(){
 	strcat(buff, temp);
 	strcat(buff, ".log");
 
-	data_file = SD.open(buff, FILE_WRITE);
+	data_file = SD.open(buff, O_CREAT | O_APPEND | O_WRITE);
 
 	if(!data_file) return false;
 
@@ -105,7 +103,7 @@ char * create_string(int str_size){
  * Arg
  *    data: null terminated data string
  * Returns
- *    0 on sucess
+ *    0 on success
  *    1 if buffer is full
  */
 int add_to_buffer(char * data_str){
@@ -135,8 +133,8 @@ int write_buffer() {
 	}
 
 	if (data_file){
-		for (size_t i = 0; i < buff_size; i++) {
-			data_file.write(data_buffer[i]);
+		for (size_t i = 0; i < buff_size; i++){
+			data_file.write(data_buffer[i], strlen(data_buffer[i])+1);
 		}
 	}
 
