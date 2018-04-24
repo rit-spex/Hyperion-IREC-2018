@@ -10,7 +10,9 @@
 
 #include "IRECHYPERION.h"
 
-#define FILE_WRITE_LIMIT 10000
+#define FILE_WRITE_LIMIT 50000
+// Maximum buffer capacity
+#define BUFFER_CAP 50
 
 size_t buff_size = 0;
 
@@ -134,7 +136,7 @@ int write_buffer() {
 
 	if (data_file){
 		for (size_t i = 0; i < buff_size; i++){
-			data_file.write(data_buffer[i], strlen(data_buffer[i])+1);
+			data_file.write(data_buffer[i]);
 		}
 	}
 

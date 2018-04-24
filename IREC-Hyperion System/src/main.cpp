@@ -18,7 +18,7 @@ DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)
 void fill_main_startup(){
 	//TODO
 	// Add startup routines into the dsq
-	//dsq.add_routine(0, 3, R_trans_LSM9DS1);
+	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 	dsq.add_routine(0, 20, R_trans_BME280);
 	//dsq.add_routine(0, 30, R_trans_CCS811);
 	dsq.add_routine(0, 10, R_trans_LIS331);

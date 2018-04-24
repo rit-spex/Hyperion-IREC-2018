@@ -49,9 +49,6 @@
 /// Data is Pressure at Sea Level in hPa
 #define SEALEVELPRESSURE_HPA (1023.23)
 
-// Maximum buffer capacity
-#define BUFFER_CAP 500
-
 #define DEPLOY_SWITCH_01 25 // change
 #define DEPLOY_SWITCH_02 26 // change
 #define DEPLOY_SWITCH_03 27 // change
