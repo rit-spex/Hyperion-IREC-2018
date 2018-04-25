@@ -160,6 +160,28 @@ void R_Heartbeat(){
 
 void R_recv_Disarm(){
 	//TODO
+	/*
+
+	bool check_RateOfClimb = false;
+	bool check_x = false;
+	bool check_y = false; 
+	bool check_z = false;
+
+	read_LIS331();
+
+	//TODO verify this with sensor output
+	// accelation greater than the set threshold
+	if(get_lis331_accel_x() > ACCEL_AUTO_ARM_THRES) check_x = true;
+	if(get_lis331_accel_y() > ACCEL_AUTO_ARM_THRES) check_y = true;
+	if(get_lis331_accel_z() > ACCEL_AUTO_ARM_THRES) check_z = true;
+
+	if(get_rate_of_climb() > ROC_AUTO_ARM_THRES) check_RateOfClimb = true;
+
+	if(check_RateOfClimb && (check_x || check_y || check_z)){
+		switch_to_main();
+		return;
+	}
+	*/
 }
 
 /**
@@ -271,35 +293,6 @@ void R_seq_LIS331_data(){
 
 	dsq.add_routine(0, 2, R_seq_LIS331_data);
 }
-
-/**
- * Auto arm payload, used if payload fails to receive Arm command
- * TODO: move to disarm routine
-void R_Auto_Arm(){
-
-	bool check_RateOfClimb = false;
-	bool check_x = false;
-	bool check_y = false; 
-	bool check_z = false;
-
-	read_LIS331();
-
-	//TODO verify this with sensor output
-	// accelation greater than the set threshold
-	if(get_lis331_accel_x() > ACCEL_AUTO_ARM_THRES) check_x = true;
-	if(get_lis331_accel_y() > ACCEL_AUTO_ARM_THRES) check_y = true;
-	if(get_lis331_accel_z() > ACCEL_AUTO_ARM_THRES) check_z = true;
-
-	if(get_rate_of_climb() > ROC_AUTO_ARM_THRES) check_RateOfClimb = true;
-
-	if(check_RateOfClimb && (check_x || check_y || check_z)){ // Arm the payload
-		switch_to_main();
-		return;
-	}
-
-	dsq.add_routine(0, 1, R_Auto_Arm);
-}
-*/
 
 /**
  * Gather information from the Stratologger and log the data
