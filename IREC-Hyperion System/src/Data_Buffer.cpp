@@ -10,6 +10,7 @@
 
 #include "IRECHYPERION.h"
 #include "Data_Buffer_Hyperion.h"
+#include <SD.h>
 
 #define FILE_WRITE_LIMIT 50000
 // Maximum buffer capacity

@@ -43,6 +43,7 @@ void fill_main_startup(){
 	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
+	dsq.add_routine(0, 100, R_Heartbeat);
 }
 
 /**
@@ -60,20 +61,21 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 30, R_trans_CCS811);
 	dsq.add_routine(0, 10, R_trans_LIS331);
 	dsq.add_routine(0, 10, R_trans_Altitude);
+	dsq.add_routine(0, 100, R_Heartbeat);
 }
 
 /**
  * add startup routines to the dsq for done phase
  */
 void fill_done_startup(){
-	//TODO
+	
+	dsq.add_routine(0, 100, R_Heartbeat);
 }
 
 /**
  * Switches to the main flight phase, ARMED
  */
 void switch_to_main(){
-
 	dsq.clear();
 	fill_main_startup();
 }
@@ -82,14 +84,39 @@ void switch_to_main(){
  * Switches to done phase after mission success
  */
 void switch_to_done(){
-
 	dsq.clear();
 	fill_done_startup();
+}
+
+/**
+ * Switches to safe phase on command
+ */
+void switch_to_safe(){
+	dsq.clear();
+	fill_safe_startup;
+}
+
+/**
+ * Routine sets modes of pin(s):
+ * 		HEARTBEAT_LED
+ */
+void init_misc_pins(){
+	pinMode(HEARTBEAT_LED, OUTPUT);
+}
+
+/**
+ * Checks health of power system, adjusts power source accordantly.
+ */
+void power_system_check(){
+	//TODO
 }
 
 void setup() {
 	// TODO
 	// Initialize hardware modules
+	init_misc_pins();
+	power_system_check();
+
 	init_LoRa();
 	init_BME280();
 	init_LSM9DS1();
@@ -105,6 +132,9 @@ void setup() {
 	fill_main_startup();
 }
 
+/**
+ * Main Arduino loop function, calls execution system call
+ */
 void loop() {
 	// Execute routine placed into the DSQ
 	dsq.execute();

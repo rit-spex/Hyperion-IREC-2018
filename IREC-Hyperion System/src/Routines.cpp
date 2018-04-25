@@ -141,6 +141,23 @@ void R_calc_RateOfClimb(){
 		dsq.add_routine(0, 100, R_calc_RateOfClimb);
 }
 
+/**
+ * Toggles heartbeat led
+ */
+void R_Heartbeat(){
+	static bool toggle = false;
+
+	if(toggle){
+		toggle = false;
+		digitalWriteFast(HEARTBEAT_LED, LOW);
+	} else {
+		toggle = true;
+		digitalWriteFast(HEARTBEAT_LED, HIGH);
+	}
+
+	dsq.add_routine(0, 100, R_Heartbeat);
+}
+
 void R_recv_Disarm(){
 	//TODO
 }

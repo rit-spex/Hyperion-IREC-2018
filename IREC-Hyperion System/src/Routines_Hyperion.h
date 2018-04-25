@@ -9,7 +9,6 @@
 #ifndef Routines_Hyperion_h
 #define Routines_Hyperion_h
 
-
 void      R_Default(); // Default routine TODO
 void      R_check_deployment(); // Check if deployed
 void      R_mission_constraints(); // Check mission constraints
