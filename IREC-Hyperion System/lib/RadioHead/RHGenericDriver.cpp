@@ -55,10 +55,6 @@ bool RHGenericDriver::waitPacketSent()
     return true;
 }
 
-bool RHGenericDriver::isIdle(){
-    return (_mode == RHModeIdle);
-}
-
 bool RHGenericDriver::waitPacketSent(uint16_t timeout)
 {
     unsigned long starttime = millis();

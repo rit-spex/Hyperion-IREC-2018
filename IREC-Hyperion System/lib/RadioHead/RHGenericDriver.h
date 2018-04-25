@@ -68,8 +68,6 @@ public:
     /// \return true if a new, complete, error-free uncollected message is available to be retreived by recv().
     virtual bool available() = 0;
 
-    virtual bool isIdle();
-
     /// Turns the receiver on if it not already on.
     /// If there is a valid message available, copy it to buf and return true
     /// else return false.

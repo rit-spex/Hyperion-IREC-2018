@@ -79,11 +79,11 @@ bool RH_RF95::init()
     }
     _deviceForInterrupt[_myInterruptIndex] = this;
     if (_myInterruptIndex == 0)
-	attachInterrupt(interruptNumber, isr0, HIGH);
+	attachInterrupt(interruptNumber, isr0, RISING);
     else if (_myInterruptIndex == 1)
-	attachInterrupt(interruptNumber, isr1, HIGH);
+	attachInterrupt(interruptNumber, isr1, RISING);
     else if (_myInterruptIndex == 2)
-	attachInterrupt(interruptNumber, isr2, HIGH);
+	attachInterrupt(interruptNumber, isr2, RISING);
     else 
     {
         //Serial.println("Interrupt vector too many vectors");
@@ -238,10 +238,7 @@ bool RH_RF95::send(const uint8_t* data, uint8_t len)
     if (len > RH_RF95_MAX_MESSAGE_LEN)
 	return false;
 
-    //waitPacketSent(); // Make sure we dont interrupt an outgoing message
-    if (_mode == RHModeTx){
-        return false;
-    }
+    waitPacketSent(); // Make sure we dont interrupt an outgoing message
     setModeIdle();
 
     // Position at the beginning of the FIFO
