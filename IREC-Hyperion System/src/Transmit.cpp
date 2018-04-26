@@ -53,7 +53,6 @@ int init_LoRa(){
   // maximum power
   rf95.setTxPower(23, false);
 
-  Serial.println("LORA Init");
   return 0;
 }
 

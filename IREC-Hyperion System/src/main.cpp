@@ -113,16 +113,10 @@ void power_system_check(){
 }
 
 void setup() {
-	Serial.begin(9600);
-	while (!Serial) {
-    	delay(1); // wait for serial port to connect. Needed for native USB
-  	}
 	// TODO
 	// Initialize hardware modules
 	init_misc_pins();
 	//power_system_check();
-	Serial.println("Init");
-
 	init_LoRa();
 	init_BME280();
 	init_LSM9DS1();

@@ -124,11 +124,11 @@ void R_mission_constraints(){
 
 // Toggle GPIO pin to deploy parachute. GPIO pin is on for 2 seconds
 void R_deploy_parachute(){
-	Serial.println("Parachute");
+
 }
 
 void R_deploy_dampers(){
-	Serial.println("Damper");
+
 }
 
 /**

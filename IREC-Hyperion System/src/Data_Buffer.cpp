@@ -12,7 +12,7 @@
 #include "Data_Buffer_Hyperion.h"
 #include <SD.h>
 
-#define FILE_WRITE_LIMIT 25000
+#define FILE_WRITE_LIMIT 5000
 // Maximum buffer capacity
 #define BUFFER_CAP 100
 
