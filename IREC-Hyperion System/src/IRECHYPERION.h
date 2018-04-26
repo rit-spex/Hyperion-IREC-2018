@@ -9,7 +9,6 @@
 #define IRECHYPERION
 
 // Included libaries
-#include <Arduino.h>
 #include <string.h>
 #include <Wire.h>
 #include <SPI.h>

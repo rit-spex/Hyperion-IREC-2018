@@ -125,5 +125,5 @@ float get_rate_of_climb(){
 
 //TODO
 bool correct_orientation_para(){
-	return false;
+	return true;
 }

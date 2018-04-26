@@ -26,11 +26,11 @@
 #define ACCEL_AUTO_ARM_THRES 2 // In gees
 #define ROC_AUTO_ARM_THRES 30 // m/s
 
-#define SWITCH_DEBUFF 1000
+#define SWITCH_DEBUFF 5000
 
 #define ALT_DEBUFF 1000
 
-#define PARA_TIMEOUT 5000
+#define PARA_TIMEOUT 3000
 #define PARA_TIMEOUT_FIN 10000
 
 #define DAMPER_DEPLOY_SPEED -15
@@ -69,7 +69,7 @@ void R_check_deployment(){
 		// Anomaly case where 2 switches are open and 2 switches are still
 		// closed.
 		if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED) switch_debuff += 1;
-
+		else switch_debuff = 0;
 	} else {
 		switch_debuff = 0;
 	}
@@ -124,11 +124,11 @@ void R_mission_constraints(){
 
 // Toggle GPIO pin to deploy parachute. GPIO pin is on for 2 seconds
 void R_deploy_parachute(){
-
+	Serial.println("Parachute");
 }
 
 void R_deploy_dampers(){
-	
+	Serial.println("Damper");
 }
 
 /**

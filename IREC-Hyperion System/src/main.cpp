@@ -6,6 +6,7 @@
  */
 
 #include "IRECHYPERION.h"
+#include <Arduino.h>
 #include "sensorUtils/LSM9DS1_Hyperion.h"
 #include "sensorUtils/BME280_Hyperion.h"
 #include "sensorUtils/CCS811_Hyperion.h"
@@ -56,11 +57,11 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
-	dsq.add_routine(0, 3, R_trans_LSM9DS1);
-	dsq.add_routine(0, 20, R_trans_BME280);
-	dsq.add_routine(0, 30, R_trans_CCS811);
-	dsq.add_routine(0, 10, R_trans_LIS331);
-	dsq.add_routine(0, 10, R_trans_Altitude);
+	//dsq.add_routine(0, 3, R_trans_LSM9DS1);
+	//dsq.add_routine(0, 20, R_trans_BME280);
+	//dsq.add_routine(0, 30, R_trans_CCS811);
+	//dsq.add_routine(0, 10, R_trans_LIS331);
+	//dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 100, R_Heartbeat);
 }
 
@@ -93,7 +94,7 @@ void switch_to_done(){
  */
 void switch_to_safe(){
 	dsq.clear();
-	fill_safe_startup;
+	fill_safe_startup();
 }
 
 /**
@@ -112,10 +113,15 @@ void power_system_check(){
 }
 
 void setup() {
+	Serial.begin(9600);
+	while (!Serial) {
+    	delay(1); // wait for serial port to connect. Needed for native USB
+  	}
 	// TODO
 	// Initialize hardware modules
 	init_misc_pins();
-	power_system_check();
+	//power_system_check();
+	Serial.println("Init");
 
 	init_LoRa();
 	init_BME280();

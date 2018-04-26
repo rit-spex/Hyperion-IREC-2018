@@ -159,6 +159,7 @@ void RH_RF95::handleInterrupt()
     }
     
     spiWrite(RH_RF95_REG_12_IRQ_FLAGS, 0xff); // Clear all IRQ flags
+    spiWrite(RH_RF95_REG_12_IRQ_FLAGS, 0xff); // Clear all IRQ flags
 }
 
 // These are low level functions that call the interrupt handler for the correct

@@ -19,7 +19,8 @@
 
 RH_RF95 rf95(RFM95_CS, RFM95_INT, hardware_spi1);
 
-unsigned int bandwidth_scaler = 0;
+// Start at 30
+unsigned int bandwidth_scaler = 30;
 
 /**
  * Initialize the LoRa transmitter.
@@ -38,6 +39,7 @@ int init_LoRa(){
   SPI1.setMISO(1);
   SPI1.setMOSI(0);
   SPI1.setSCK(32); 
+  SPI1.begin();
 
   if (!rf95.init()) {
 	  return 1;
@@ -51,6 +53,7 @@ int init_LoRa(){
   // maximum power
   rf95.setTxPower(23, false);
 
+  Serial.println("LORA Init");
   return 0;
 }
 
@@ -63,8 +66,6 @@ int init_LoRa(){
 bool transmit_data(uint8_t data[], int data_len){
   // Transmit the data
   // TODO Work on transmit scaling 
-
-  rf95.waitPacketSent();
 
   bool res = rf95.send(data, data_len);
 
