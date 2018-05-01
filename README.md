@@ -26,11 +26,10 @@ Every year Spaceport America host the Intercollegiate Rocket and Engineering Com
 - PerfectFlite StratoLogger CF
 
 ###### Contributors
-Name Here
 
-...
+Daniel Mitchell
 
-...
+Alec Herbert
 
 Thomas James Hall
 
