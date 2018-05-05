@@ -13,6 +13,7 @@
 
 #define BAUD_RATE 115200
 #define INITAL_STR_SIZE 200
+#define MAX_MSG_LEN_RECV 100
 
 // SPI pins
 #define RFM95_RST     6   // "A"
@@ -22,14 +23,6 @@
 #define RF95_FREQ 915.0
 
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
-
-/**
- * Recieve incomming messages then handle them according
- * to which data type they contain.
- */
-void handle_incomming_messages(){
-	//TODO
-}
 
 /**
  * Convert int32_t into a float
@@ -173,6 +166,10 @@ int convert_to_csv(char* buff, const uint8_t* source){
 		}
 		break;
 		case CCS811t:
+		{
+			CCS811_Packet packet = IRECHYPERP::unpack_CCS811(source);
+			//CtCSV_CCS811(buff, packet);
+		}
 		break;
 		case LIS331t:
 		break;
@@ -184,9 +181,32 @@ int convert_to_csv(char* buff, const uint8_t* source){
 }
 
 /**
+ * Recieve incomming messages then handle them according
+ * to which data type they contain.
+ */
+void handle_incomming_messages(){
+
+	if (rf95.available()){ 
+
+		digitalWrite(LED_BUILTIN, HIGH);
+
+    	uint8_t buff_raw_msg[MAX_MSG_LEN_RECV];
+		char buff_strng[INITAL_STR_SIZE] = {'\0'};
+
+		uint8_t len = sizeof(buff_raw_msg);
+
+    	if (rf95.recv(buff_raw_msg, &len)){
+			convert_to_csv(buff_strng, buff_raw_msg);
+			Serial.println(buff_strng);
+    	}
+		digitalWrite(LED_BUILTIN, LOW);
+  	}
+}
+
+/**
  * Init function for the lora.
  */
-void init_LoRa(){
+int init_LoRa(){
 
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
