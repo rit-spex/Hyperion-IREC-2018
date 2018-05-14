@@ -1,0 +1,385 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:SWITCH_3PDT
+LIBS:switch_dpdt
+LIBS:ltc3605
+LIBS:ltc4358
+LIBS:ltc2992
+LIBS:lt6703-3
+LIBS:lsm9ds1
+LIBS:bme280
+LIBS:lis331hh
+LIBS:ccs811
+LIBS:abpmann030pg2a3
+LIBS:ublox_max-m8q
+LIBS:rfm69hcw
+LIBS:teensy3_6-OuterHeadersOnly
+LIBS:switches
+LIBS:MainboardRev1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 5 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L ublox_max-m8q U17
+U 1 1 5AFC746A
+P 2600 2100
+F 0 "U17" H 2600 2800 50  0000 C CNN
+F 1 "ublox_max-m8q" H 2650 1500 50  0000 C CNN
+F 2 "" H 2600 2100 118 0001 C CNN
+F 3 "" H 2600 2100 118 0001 C CNN
+	1    2600 2100
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR064
+U 1 1 5AFC74AD
+P 1850 2650
+F 0 "#PWR064" H 1850 2400 50  0001 C CNN
+F 1 "GND" H 1850 2500 50  0000 C CNN
+F 2 "" H 1850 2650 50  0001 C CNN
+F 3 "" H 1850 2650 50  0001 C CNN
+	1    1850 2650
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C30
+U 1 1 5AFC750B
+P 1550 1650
+F 0 "C30" H 1575 1750 50  0000 L CNN
+F 1 "0.1uF" H 1575 1550 50  0000 L CNN
+F 2 "" H 1588 1500 50  0001 C CNN
+F 3 "" H 1550 1650 50  0001 C CNN
+	1    1550 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR065
+U 1 1 5AFC7555
+P 1550 1800
+F 0 "#PWR065" H 1550 1550 50  0001 C CNN
+F 1 "GND" H 1550 1650 50  0000 C CNN
+F 2 "" H 1550 1800 50  0001 C CNN
+F 3 "" H 1550 1800 50  0001 C CNN
+	1    1550 1800
+	1    0    0    -1  
+$EndComp
+Text GLabel 1150 1500 0    39   Input ~ 0
++3.3V
+$Comp
+L R R73
+U 1 1 5AFC7789
+P 1300 1500
+F 0 "R73" V 1200 1500 50  0000 C CNN
+F 1 "10" V 1300 1500 50  0000 C CNN
+F 2 "" V 1230 1500 50  0001 C CNN
+F 3 "" H 1300 1500 50  0001 C CNN
+	1    1300 1500
+	0    1    1    0   
+$EndComp
+NoConn ~ 3250 1850
+NoConn ~ 3250 1950
+NoConn ~ 3250 2050
+NoConn ~ 3250 2150
+NoConn ~ 3250 2250
+NoConn ~ 3250 2350
+NoConn ~ 3250 2450
+$Comp
+L Antenna_Dipole AE1
+U 1 1 5AFC7D42
+P 3550 2600
+F 0 "AE1" V 3500 2650 50  0000 C CNN
+F 1 "1575AT43A0040E" V 3600 2900 50  0000 C CNN
+F 2 "" H 3550 2600 50  0001 C CNN
+F 3 "" H 3550 2600 50  0001 C CNN
+	1    3550 2600
+	0    1    1    0   
+$EndComp
+NoConn ~ 3350 2700
+Text GLabel 3250 1500 2    39   Input ~ 0
+COMMS_RX
+Text GLabel 3250 1600 2    39   Input ~ 0
+COMMS_TX
+Text Notes 1100 1200 0    118  ~ 0
+GPS Receiver w/ Chip Antenna
+$Comp
+L C C31
+U 1 1 5AFC930D
+P 5600 1550
+F 0 "C31" H 5625 1650 50  0000 L CNN
+F 1 "0.1uF" H 5625 1450 50  0000 L CNN
+F 2 "" H 5638 1400 50  0001 C CNN
+F 3 "" H 5600 1550 50  0001 C CNN
+	1    5600 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR066
+U 1 1 5AFC9387
+P 5600 1700
+F 0 "#PWR066" H 5600 1450 50  0001 C CNN
+F 1 "GND" H 5450 1600 50  0000 C CNN
+F 2 "" H 5600 1700 50  0001 C CNN
+F 3 "" H 5600 1700 50  0001 C CNN
+	1    5600 1700
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R75
+U 1 1 5AFC93C3
+P 5350 1400
+F 0 "R75" V 5250 1400 50  0000 C CNN
+F 1 "10" V 5350 1400 50  0000 C CNN
+F 2 "" V 5280 1400 50  0001 C CNN
+F 3 "" H 5350 1400 50  0001 C CNN
+	1    5350 1400
+	0    1    1    0   
+$EndComp
+Text GLabel 5200 1400 0    39   Input ~ 0
++3.3V
+$Comp
+L RFM69HCW U18
+U 1 1 5AFC98DB
+P 7050 1800
+F 0 "U18" H 7050 2300 50  0000 C CNN
+F 1 "RFM69HCW" H 7050 1200 68  0000 C CNN
+F 2 "" H 7050 1800 118 0001 C CNN
+F 3 "" H 7050 1800 118 0001 C CNN
+	1    7050 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR067
+U 1 1 5AFC9C0E
+P 6350 2350
+F 0 "#PWR067" H 6350 2100 50  0001 C CNN
+F 1 "GND" H 6350 2200 50  0000 C CNN
+F 2 "" H 6350 2350 50  0001 C CNN
+F 3 "" H 6350 2350 50  0001 C CNN
+	1    6350 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R76
+U 1 1 5AFC9F45
+P 5550 2450
+F 0 "R76" V 5630 2450 50  0000 C CNN
+F 1 "10k" V 5550 2450 50  0000 C CNN
+F 2 "" V 5480 2450 50  0001 C CNN
+F 3 "" H 5550 2450 50  0001 C CNN
+	1    5550 2450
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R77
+U 1 1 5AFC9FBB
+P 5800 2450
+F 0 "R77" V 5880 2450 50  0000 C CNN
+F 1 "10k" V 5800 2450 50  0000 C CNN
+F 2 "" V 5730 2450 50  0001 C CNN
+F 3 "" H 5800 2450 50  0001 C CNN
+	1    5800 2450
+	1    0    0    -1  
+$EndComp
+Text GLabel 6400 1800 0    39   Input ~ 0
+LORA_RESET
+NoConn ~ 6400 1950
+NoConn ~ 7700 1850
+NoConn ~ 7700 1950
+NoConn ~ 7700 2050
+NoConn ~ 7700 2150
+Text GLabel 7700 1700 2    39   Input ~ 0
+LORA_INT
+Text GLabel 7700 1400 2    39   Input ~ 0
+COMMS_MOSI
+Text GLabel 7700 1500 2    39   Input ~ 0
+COMMS_MISO
+Text GLabel 7700 1600 2    39   Input ~ 0
+COMMS_SCLK
+Text GLabel 6400 1700 0    39   Input ~ 0
+COMMS_CS_LORA
+Text GLabel 5500 2650 0    39   Input ~ 0
+COMMS_CS_LORA
+Text GLabel 5500 2250 0    39   Input ~ 0
++3.3V
+Text GLabel 5850 2250 2    39   Input ~ 0
++3.3V
+Text GLabel 5850 2650 2    39   Input ~ 0
+LORA_RESET
+Text Notes 5600 1200 0    118  ~ 0
+915MHz LoRa Radio Module
+$Comp
+L CONN_COAXIAL J8
+U 1 1 5AFCBDEA
+P 8050 2300
+F 0 "J8" H 8060 2420 50  0000 C CNN
+F 1 "915MHz_SMA" V 8165 2300 50  0000 C CNN
+F 2 "" H 8050 2300 50  0001 C CNN
+F 3 "" H 8050 2300 50  0001 C CNN
+	1    8050 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR068
+U 1 1 5AFCBF0B
+P 8050 2500
+F 0 "#PWR068" H 8050 2250 50  0001 C CNN
+F 1 "GND" H 8050 2350 50  0000 C CNN
+F 2 "" H 8050 2500 50  0001 C CNN
+F 3 "" H 8050 2500 50  0001 C CNN
+	1    8050 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D17
+U 1 1 5AFF295E
+P 3850 1700
+F 0 "D17" H 3850 1800 50  0000 C CNN
+F 1 "BLUE" H 3850 1600 50  0000 C CNN
+F 2 "" H 3850 1700 50  0001 C CNN
+F 3 "" H 3850 1700 50  0001 C CNN
+	1    3850 1700
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1850 2400 1850 2650
+Wire Wire Line
+	1850 2400 1950 2400
+Wire Wire Line
+	1950 2500 1850 2500
+Connection ~ 1850 2500
+Wire Wire Line
+	1950 2600 1850 2600
+Connection ~ 1850 2600
+Wire Wire Line
+	1850 1800 1950 1800
+Wire Wire Line
+	1850 1500 1850 1800
+Wire Wire Line
+	1950 1600 1850 1600
+Connection ~ 1850 1600
+Wire Wire Line
+	1950 1700 1850 1700
+Connection ~ 1850 1700
+Connection ~ 1850 1500
+Connection ~ 1550 1500
+Wire Wire Line
+	1450 1500 1950 1500
+Wire Wire Line
+	3350 2600 3250 2600
+Wire Notes Line
+	850  950  850  2900
+Wire Notes Line
+	850  2900 4250 2900
+Wire Notes Line
+	4250 2900 4250 950 
+Wire Notes Line
+	4250 950  850  950 
+Connection ~ 5600 1400
+Wire Wire Line
+	6350 2350 6350 2100
+Wire Wire Line
+	6350 2100 6400 2100
+Wire Wire Line
+	6400 2200 6350 2200
+Connection ~ 6350 2200
+Wire Wire Line
+	6400 2300 6350 2300
+Connection ~ 6350 2300
+Wire Wire Line
+	5500 1400 6400 1400
+Wire Wire Line
+	5500 2250 5550 2250
+Wire Wire Line
+	5550 2250 5550 2300
+Wire Wire Line
+	5500 2650 5550 2650
+Wire Wire Line
+	5550 2650 5550 2600
+Wire Wire Line
+	5850 2250 5800 2250
+Wire Wire Line
+	5800 2250 5800 2300
+Wire Wire Line
+	5850 2650 5800 2650
+Wire Wire Line
+	5800 2650 5800 2600
+Wire Notes Line
+	4700 950  4700 2900
+Wire Notes Line
+	4700 2900 9000 2900
+Wire Notes Line
+	9000 2900 9000 950 
+Wire Notes Line
+	9000 950  4700 950 
+Wire Wire Line
+	7900 2300 7700 2300
+$Comp
+L R R74
+U 1 1 5AFF29E0
+P 3500 1700
+F 0 "R74" V 3580 1700 50  0000 C CNN
+F 1 "R" V 3500 1700 50  0000 C CNN
+F 2 "" V 3430 1700 50  0001 C CNN
+F 3 "" H 3500 1700 50  0001 C CNN
+	1    3500 1700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3350 1700 3250 1700
+Wire Wire Line
+	3700 1700 3650 1700
+$Comp
+L GND #PWR069
+U 1 1 5AFF2B6C
+P 4050 1750
+F 0 "#PWR069" H 4050 1500 50  0001 C CNN
+F 1 "GND" H 4050 1600 50  0000 C CNN
+F 2 "" H 4050 1750 50  0001 C CNN
+F 3 "" H 4050 1750 50  0001 C CNN
+	1    4050 1750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4050 1750 4050 1700
+Wire Wire Line
+	4050 1700 4000 1700
+$EndSCHEMATC

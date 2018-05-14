@@ -16,6 +16,8 @@
 RH_RF95 rf95(RFM95_CS, RFM95_INT); // Singleton instance of the radio driver
 
 void setup() {
+  Serial.begin(115200);
+  
   // put your setup code here, to run once:
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);

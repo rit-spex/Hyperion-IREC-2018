@@ -3,6 +3,8 @@
 #define ANG_THRES 800
 #define LED 13
 
+int triggerCounter = 0;
+
 int sensorValue = 0;
 
 int deltaTime = 0;
@@ -16,7 +18,9 @@ bool switchs = true;
 void setup() {
 
   pinMode(PARA_POP, OUTPUT);
+  digitalWrite(PARA_POP, LOW);
   pinMode(LED, OUTPUT);
+  digitalWrite(LED, LOW);
 }
 
 void loop() {
@@ -24,20 +28,23 @@ void loop() {
   sensorValue = analogRead(PARA_ANG);
 
   if(sensorValue > ANG_THRES && trigger == false){
-    deltaTime = millis();
-    trigger = true;
+    triggerCounter++;
+    delay(1000);
+
+    if(triggerCounter >= 5){
+      deltaTime = millis();
+      digitalWrite(LED, HIGH);
+      trigger = true;
+    } 
   }
   
-  if(millis()-deltaTime > 10000 && trigger && millis()-deltaTimePop < 2000){
+  if(trigger && switchs){
+    switchs = false;
+    trigger = false;
+    delay(10000);
     digitalWrite(PARA_POP, HIGH);
-    
-    if(switchs){
-      deltaTimePop = millis();
-      switchs = false;
-    }
-  }
-  
-  if(millis()-deltaTimePop < 2000 && !switchs){
-    digitalWrite(LED, HIGH);
+    delay(2000);
+    digitalWrite(LED, LOW);
+    digitalWrite(PARA_POP, LOW);
   }
 }
