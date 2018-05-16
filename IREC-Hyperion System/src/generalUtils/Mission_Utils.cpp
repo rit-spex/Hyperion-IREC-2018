@@ -11,6 +11,7 @@
 #include "Routine_Helpers_Hyperion.h"
 #include "Mission_Utils_Hyperion.h"
 #include "../Data_Buffer_Hyperion.h"
+#include "Pins.h"
 
 uint32_t deployment_time = 0;
 

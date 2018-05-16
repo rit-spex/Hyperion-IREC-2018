@@ -10,13 +10,8 @@
 
 #include "../IRECHYPERION.h"
 #include <SparkFun_LIS331.h>
+#include "Pins.h"
 
-// Used for software SPI LIS331
-#define LIS3DH_CLK 13
-#define LIS3DH_MISO 12
-#define LIS3DH_MOSI 11
-// Used for hardware & software SPI
-#define LIS3DH_CS 35
 #define MAX_G 6
 
 extern LIS331 lis; // LIS331

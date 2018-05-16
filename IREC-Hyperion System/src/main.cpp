@@ -17,7 +17,7 @@
 #include "Transmit_Hyperion.h"
 #include "Data_Buffer_Hyperion.h"
 
-#define DSQ_MAIN_CAP 250
+#define DSQ_MAIN_CAP 100
 
 // Current DSQ in use
 DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)

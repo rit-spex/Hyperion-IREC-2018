@@ -1,5 +1,5 @@
 /*
- * IREC - Hyperion
+ * Hyperion - IREC
  * Organization: RIT Space Exploration
  * Desc
  *    Main header file for the Hyperion system
@@ -22,18 +22,9 @@
 // File to be created and written
 #define FILE_NAME "TEST"
 
-#define LED 13 // LED pin
-
 #define DEFAULT_STR_LEN 200
 
 #define DONE_PHASE_TRANS_TIME 1200000 // 20 minutes in milli seconds
-
-#define DEPLOY_SWITCH_01 25 
-#define DEPLOY_SWITCH_02 26 
-#define DEPLOY_SWITCH_03 27 
-#define DEPLOY_SWITCH_04 28 
-
-#define HEARTBEAT_LED 13 // Change
 
 //////////////////////
 // Global Varables //

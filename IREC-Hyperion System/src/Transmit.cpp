@@ -8,11 +8,7 @@
 #include "IRECHYPERION.h"
 #include "Transmit_Hyperion.h"
 #include <RHHardwareSPI1.h>
-
-// SPI pins
-#define RFM95_RST     6   // "A"
-#define RFM95_CS      5   // "B"
-#define RFM95_INT     4    // "C"
+#include "Pins.h"
 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0

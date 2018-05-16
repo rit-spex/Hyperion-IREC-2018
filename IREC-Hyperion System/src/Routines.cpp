@@ -17,6 +17,7 @@
 #include "generalUtils/Routine_Helpers_Hyperion.h"
 #include "Transmit_Hyperion.h"
 #include "Data_Buffer_Hyperion.h"
+#include "Pins.h"
 
 #define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
 

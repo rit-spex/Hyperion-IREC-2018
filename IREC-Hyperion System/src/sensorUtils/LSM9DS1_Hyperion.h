@@ -12,12 +12,10 @@
 #include <LSM9DS1_Types.h>
 #include <LSM9DS1_Registers.h>
 #include <SparkFunLSM9DS1.h>
+#include "Pins.h"
 
 // WARNING CHANGE BASED LOCATION
 #define DECLINATION 11.27 // Declination (degrees) in Rochester, NY
-// Pin Macros
-#define LSM9DS1_M_CS 10  // Can be any digital pin
-#define LSM9DS1_AG_CS 24  // Can be any other digital pin
 
 extern LSM9DS1 imu; // LSM9DS1
 
