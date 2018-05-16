@@ -1,0 +1,468 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:SWITCH_3PDT
+LIBS:switch_dpdt
+LIBS:ltc3605
+LIBS:ltc4358
+LIBS:ltc2992
+LIBS:lt6703-3
+LIBS:lsm9ds1
+LIBS:bme280
+LIBS:lis331hh
+LIBS:ccs811
+LIBS:abpmann030pg2a3
+LIBS:ublox_max-m8q
+LIBS:rfm69hcw
+LIBS:teensy3_6-OuterHeadersOnly
+LIBS:switches
+LIBS:MainboardRev1-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 3 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Teensy3.6 U11
+U 1 1 5AFCC7FA
+P 3500 4200
+F 0 "U11" H 3500 6500 60  0000 C CNN
+F 1 "Teensy3.6" H 3500 1900 60  0000 C CNN
+F 2 "" H 3500 4200 60  0000 C CNN
+F 3 "" H 3500 4200 60  0000 C CNN
+	1    3500 4200
+	1    0    0    -1  
+$EndComp
+Text GLabel 2500 2100 0    39   Input ~ 0
+GND
+Text GLabel 2500 5900 0    39   Input ~ 0
+GND
+Text GLabel 4500 5500 2    39   Input ~ 0
+GND
+NoConn ~ 2500 4500
+Text GLabel 4500 5400 2    39   Input ~ 0
++5V
+NoConn ~ 4500 5600
+Text GLabel 2500 2200 0    39   Input ~ 0
+COMMS_MOSI
+Text GLabel 2500 2200 0    39   Input ~ 0
+COMMS_MOSI
+Text GLabel 2500 2300 0    39   Input ~ 0
+COMMS_MISO
+Text GLabel 2500 2500 0    39   Input ~ 0
+SENSORS_SCL
+Text GLabel 2500 2600 0    39   Input ~ 0
+SENSORS_SDA
+Text GLabel 2500 3300 0    39   Input ~ 0
+SENSORS_MOSI
+Text GLabel 2500 3400 0    39   Input ~ 0
+SENSORS_MISO
+NoConn ~ 2500 3500
+Text GLabel 2500 3600 0    39   Input ~ 0
+LED_BLUE
+Text GLabel 2500 3700 0    39   Input ~ 0
+LED_RED
+Text GLabel 2500 3200 0    39   Input ~ 0
+COMMS_TX
+Text GLabel 2500 3100 0    39   Input ~ 0
+COMMS_RX
+Text GLabel 2500 4000 0    39   Input ~ 0
+LED_GREEN
+Text GLabel 2500 4400 0    39   Input ~ 0
+COMMS_SCLK
+Text GLabel 2500 4300 0    39   Input ~ 0
+COMMS_CS_LORA
+Text GLabel 2500 6000 0    39   Input ~ 0
+SENSORS_SCLK
+Text GLabel 2500 6200 0    39   Input ~ 0
+SENSORS_CS_M
+Text GLabel 2500 6100 0    39   Input ~ 0
+SENSORS_CS_AG
+Text GLabel 2500 5800 0    39   Input ~ 0
+SENSORS_CS_LIS
+Text GLabel 2500 5600 0    39   Input ~ 0
+LIS_INT_1
+Text GLabel 2500 5700 0    39   Input ~ 0
+LIS_INT_2
+Text GLabel 2500 2900 0    39   Input ~ 0
+SENSORS_RX
+Text GLabel 2500 3000 0    39   Input ~ 0
+SENSORS_TX
+$Comp
+L LED D14
+U 1 1 5AFD3BF2
+P 7850 1900
+F 0 "D14" H 7850 2000 50  0000 C CNN
+F 1 "LED" H 7850 1800 50  0000 C CNN
+F 2 "" H 7850 1900 50  0001 C CNN
+F 3 "" H 7850 1900 50  0001 C CNN
+	1    7850 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Q_NMOS_GSD Q22
+U 1 1 5AFD5288
+P 8300 2000
+F 0 "Q22" V 8650 2150 50  0000 R CNN
+F 1 "NTR4003" V 8550 2150 50  0000 R CNN
+F 2 "" H 8500 2100 50  0000 C CNN
+F 3 "" H 8300 2000 50  0000 C CNN
+	1    8300 2000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8100 1900 8000 1900
+Text GLabel 8600 1900 2    39   Input ~ 0
+GND
+$Comp
+L R R56
+U 1 1 5AFD53B2
+P 7450 1900
+F 0 "R56" V 7350 1900 50  0000 C CNN
+F 1 "R" V 7450 1900 50  0000 C CNN
+F 2 "" V 7380 1900 50  0001 C CNN
+F 3 "" H 7450 1900 50  0001 C CNN
+	1    7450 1900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7600 1900 7700 1900
+Text GLabel 7200 1900 0    39   Input ~ 0
++5V
+Wire Wire Line
+	7200 1900 7300 1900
+Wire Wire Line
+	8600 1900 8500 1900
+Text GLabel 8250 2250 0    39   Input ~ 0
+LED_GREEN
+$Comp
+L R R61
+U 1 1 5AFD592A
+P 8500 2250
+F 0 "R61" V 8400 2250 50  0000 C CNN
+F 1 "10k" V 8500 2250 50  0000 C CNN
+F 2 "" V 8430 2250 50  0001 C CNN
+F 3 "" H 8500 2250 50  0001 C CNN
+	1    8500 2250
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8250 2250 8350 2250
+Wire Wire Line
+	8300 2250 8300 2200
+Connection ~ 8300 2250
+$Comp
+L GND #PWR046
+U 1 1 5AFD5996
+P 8700 2300
+F 0 "#PWR046" H 8700 2050 50  0001 C CNN
+F 1 "GND" H 8700 2150 50  0000 C CNN
+F 2 "" H 8700 2300 50  0001 C CNN
+F 3 "" H 8700 2300 50  0001 C CNN
+	1    8700 2300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8700 2300 8700 2250
+Wire Wire Line
+	8700 2250 8650 2250
+$Comp
+L LED D15
+U 1 1 5AFD5AB6
+P 7850 2850
+F 0 "D15" H 7850 2950 50  0000 C CNN
+F 1 "LED" H 7850 2750 50  0000 C CNN
+F 2 "" H 7850 2850 50  0001 C CNN
+F 3 "" H 7850 2850 50  0001 C CNN
+	1    7850 2850
+	-1   0    0    1   
+$EndComp
+$Comp
+L Q_NMOS_GSD Q23
+U 1 1 5AFD5ABC
+P 8300 2950
+F 0 "Q23" V 8650 3100 50  0000 R CNN
+F 1 "NTR4003" V 8550 3100 50  0000 R CNN
+F 2 "" H 8500 3050 50  0000 C CNN
+F 3 "" H 8300 2950 50  0000 C CNN
+	1    8300 2950
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8100 2850 8000 2850
+Text GLabel 8600 2850 2    39   Input ~ 0
+GND
+$Comp
+L R R57
+U 1 1 5AFD5AC4
+P 7450 2850
+F 0 "R57" V 7350 2850 50  0000 C CNN
+F 1 "R" V 7450 2850 50  0000 C CNN
+F 2 "" V 7380 2850 50  0001 C CNN
+F 3 "" H 7450 2850 50  0001 C CNN
+	1    7450 2850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7600 2850 7700 2850
+Text GLabel 7200 2850 0    39   Input ~ 0
++5V
+Wire Wire Line
+	7200 2850 7300 2850
+Wire Wire Line
+	8600 2850 8500 2850
+Text GLabel 8250 3200 0    39   Input ~ 0
+LED_BLUE
+$Comp
+L R R62
+U 1 1 5AFD5ACF
+P 8500 3200
+F 0 "R62" V 8400 3200 50  0000 C CNN
+F 1 "10k" V 8500 3200 50  0000 C CNN
+F 2 "" V 8430 3200 50  0001 C CNN
+F 3 "" H 8500 3200 50  0001 C CNN
+	1    8500 3200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8250 3200 8350 3200
+Wire Wire Line
+	8300 3200 8300 3150
+Connection ~ 8300 3200
+$Comp
+L GND #PWR047
+U 1 1 5AFD5AD8
+P 8700 3250
+F 0 "#PWR047" H 8700 3000 50  0001 C CNN
+F 1 "GND" H 8700 3100 50  0000 C CNN
+F 2 "" H 8700 3250 50  0001 C CNN
+F 3 "" H 8700 3250 50  0001 C CNN
+	1    8700 3250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8700 3250 8700 3200
+Wire Wire Line
+	8700 3200 8650 3200
+$Comp
+L LED D16
+U 1 1 5AFD5BD9
+P 7850 3750
+F 0 "D16" H 7850 3850 50  0000 C CNN
+F 1 "LED" H 7850 3650 50  0000 C CNN
+F 2 "" H 7850 3750 50  0001 C CNN
+F 3 "" H 7850 3750 50  0001 C CNN
+	1    7850 3750
+	-1   0    0    1   
+$EndComp
+$Comp
+L Q_NMOS_GSD Q24
+U 1 1 5AFD5BDF
+P 8300 3850
+F 0 "Q24" V 8650 4000 50  0000 R CNN
+F 1 "NTR4003" V 8550 4000 50  0000 R CNN
+F 2 "" H 8500 3950 50  0000 C CNN
+F 3 "" H 8300 3850 50  0000 C CNN
+	1    8300 3850
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8100 3750 8000 3750
+Text GLabel 8600 3750 2    39   Input ~ 0
+GND
+$Comp
+L R R58
+U 1 1 5AFD5BE7
+P 7450 3750
+F 0 "R58" V 7350 3750 50  0000 C CNN
+F 1 "R" V 7450 3750 50  0000 C CNN
+F 2 "" V 7380 3750 50  0001 C CNN
+F 3 "" H 7450 3750 50  0001 C CNN
+	1    7450 3750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7600 3750 7700 3750
+Text GLabel 7200 3750 0    39   Input ~ 0
++5V
+Wire Wire Line
+	7200 3750 7300 3750
+Wire Wire Line
+	8600 3750 8500 3750
+Text GLabel 8250 4100 0    39   Input ~ 0
+LED_RED
+$Comp
+L R R63
+U 1 1 5AFD5BF2
+P 8500 4100
+F 0 "R63" V 8400 4100 50  0000 C CNN
+F 1 "10k" V 8500 4100 50  0000 C CNN
+F 2 "" V 8430 4100 50  0001 C CNN
+F 3 "" H 8500 4100 50  0001 C CNN
+	1    8500 4100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8250 4100 8350 4100
+Wire Wire Line
+	8300 4100 8300 4050
+Connection ~ 8300 4100
+Text GLabel 8700 4100 2    39   Input ~ 0
++3.3V
+Wire Wire Line
+	8700 4100 8650 4100
+Text GLabel 7800 5650 0    39   Input ~ 0
+SENSORS_SCL
+Wire Wire Line
+	7800 5650 7850 5650
+Wire Wire Line
+	7850 5650 7850 5600
+$Comp
+L R R59
+U 1 1 5AFD610C
+P 7850 5450
+F 0 "R59" V 7930 5450 50  0000 C CNN
+F 1 "10k" V 7850 5450 50  0000 C CNN
+F 2 "" V 7780 5450 50  0001 C CNN
+F 3 "" H 7850 5450 50  0001 C CNN
+	1    7850 5450
+	1    0    0    -1  
+$EndComp
+Text GLabel 7800 5250 0    39   Input ~ 0
++3.3V
+Wire Wire Line
+	7800 5250 7850 5250
+Wire Wire Line
+	7850 5250 7850 5300
+$Comp
+L R R60
+U 1 1 5AFD61B1
+P 8150 5450
+F 0 "R60" V 8230 5450 50  0000 C CNN
+F 1 "10k" V 8150 5450 50  0000 C CNN
+F 2 "" V 8080 5450 50  0001 C CNN
+F 3 "" H 8150 5450 50  0001 C CNN
+	1    8150 5450
+	1    0    0    -1  
+$EndComp
+Text GLabel 8200 5650 2    39   Input ~ 0
+SENSORS_SDA
+Wire Wire Line
+	8200 5650 8150 5650
+Wire Wire Line
+	8150 5650 8150 5600
+Text GLabel 8200 5250 2    39   Input ~ 0
++3.3V
+Wire Wire Line
+	8200 5250 8150 5250
+Wire Wire Line
+	8150 5250 8150 5300
+Text GLabel 2500 2400 0    39   Input ~ 0
+SERVO_PWM
+Text GLabel 2500 3800 0    39   Input ~ 0
+MAIN_BATT_EN
+Text GLabel 2500 3900 0    39   Input ~ 0
+BACKUP_BATT_EN
+Text GLabel 2500 4100 0    39   Input ~ 0
+SERVO_PWR_EN
+Text GLabel 2500 5000 0    39   Input ~ 0
+EMATCH_1_ARM
+Text GLabel 2500 5100 0    39   Input ~ 0
+EMATCH_2_ARM
+Text GLabel 2500 5200 0    39   Input ~ 0
+EMATCH_1_FIRE
+Text GLabel 2500 5300 0    39   Input ~ 0
+EMATCH_2_FIRE
+Text GLabel 2500 4200 0    39   Input ~ 0
+INT_PRESSURE
+Text GLabel 2500 2700 0    39   Input ~ 0
+LORA_RESET
+Text GLabel 2500 2800 0    39   Input ~ 0
+LORA_INT
+Text GLabel 4500 6300 2    39   Input ~ 0
+EMATCH_1_CHECK
+Text GLabel 4500 6200 2    39   Input ~ 0
+EMATCH_2_CHECK
+Text GLabel 4500 6100 2    39   Input ~ 0
+SWITCH_1
+Text GLabel 4500 6000 2    39   Input ~ 0
+SWITCH_2
+Text GLabel 4500 5900 2    39   Input ~ 0
+SWITCH_3
+Text GLabel 4500 5800 2    39   Input ~ 0
+SWITCH_4
+Text GLabel 2500 6300 0    39   Input ~ 0
+MAIN_BATT
+Text GLabel 4500 5700 2    39   Input ~ 0
+CONTROL_1
+Text Notes 2350 1700 0    118  ~ 0
+Teensy 3.6 Micocontroller
+Wire Notes Line
+	1900 1350 5200 1350
+Wire Notes Line
+	5200 1350 5200 6600
+Wire Notes Line
+	5200 6600 1900 6600
+Wire Notes Line
+	1900 6600 1900 1350
+Text Notes 7350 1550 0    118  ~ 0
+Indicator LEDs
+Wire Notes Line
+	6950 1300 9100 1300
+Wire Notes Line
+	9100 1300 9100 4250
+Wire Notes Line
+	9100 4250 6950 4250
+Wire Notes Line
+	6950 4250 6950 1300
+Text Notes 7550 5050 0    118  ~ 0
+I2C Pullup
+Wire Notes Line
+	7300 5800 8700 5800
+Wire Notes Line
+	7300 5800 7300 4800
+Wire Notes Line
+	7300 4800 8700 4800
+Wire Notes Line
+	8700 4800 8700 5800
+Text GLabel 2500 5400 0    39   Input ~ 0
+DATA_READY
+Text GLabel 2500 5500 0    39   Input ~ 0
+DATA_READY_1
+$EndSCHEMATC

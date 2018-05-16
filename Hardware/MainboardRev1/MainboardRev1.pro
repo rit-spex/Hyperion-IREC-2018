@@ -1,4 +1,4 @@
-update=3/21/2018 8:16:07 PM
+update=5/14/2018 4:22:30 PM
 version=1
 last_client=kicad
 [pcbnew]
@@ -27,7 +27,7 @@ NetIExt=net
 version=1
 [eeschema]
 version=1
-LibDir=
+LibDir=../../../../../../Analog Design;../../../../../../Analog Design/PCB Design/kicad-library-master/library;../../../../../KiCAD Schematic Symbol Libraries
 [eeschema/libraries]
 LibName1=power
 LibName2=device
@@ -61,3 +61,17 @@ LibName29=valves
 LibName30=C:/Users/danda/Desktop/Analog Design/PCB Design/kicad-library-master/library/SWITCH_3PDT
 LibName31=C:/Users/danda/Desktop/Analog Design/PCB Design/kicad-library-master/library/switch_dpdt
 LibName32=C:/Users/danda/Desktop/Analog Design/PCB Design/kicad-library-master/library/ltc3605
+LibName33=C:/Users/danda/Desktop/Analog Design/PCB Design/kicad-library-master/library/ltc4358
+LibName34=C:/Users/danda/Desktop/Analog Design/kicad-library-master/idlehands_libs-master/ltc2992
+LibName35=PCB Design/kicad-library-master/library/lt6703-3
+LibName36=PCB Design/kicad-library-master/library/lsm9ds1
+LibName37=PCB Design/kicad-library-master/library/bme280
+LibName38=lis331hh
+LibName39=ccs811
+LibName40=abpmann030pg2a3
+LibName41=ublox_max-m8q
+LibName42=rfm69hcw
+LibName43=PCB Design/kicad-library-master/library/teensy3_6-OuterHeadersOnly
+LibName44=PCB Design/kicad-library-master/library/switch_dpdt
+LibName45=PCB Design/kicad-library-master/library/analog_switches
+LibName46=PCB Design/kicad-library-master/library/switches
