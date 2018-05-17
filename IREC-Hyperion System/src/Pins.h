@@ -47,22 +47,22 @@
 #define EMATCH_1_ARM    33
 #define EMATCH_2_ARM    34
 #define EMATCH_1_FIRE   35
-#define EMATCH_2_FIRE    36
+#define EMATCH_2_FIRE   36
 #define DATA_READY      37
 #define DATA_READY_1    38
 #define SENSOR_CS_LIS   39
 
 // PROTO_PINS
 
-#define RFM95_INT     4  
-#define RFM95_CS      5 
-#define RFM95_RST     6
-#define LSM9DS1_M_CS 10 
-#define LIS3DH_MOSI 11
-#define LIS3DH_MISO 12
-#define LIS3DH_CLK 13
-#define HEARTBEAT_LED 13
-#define LSM9DS1_AG_CS 24
+#define RFM95_INT       4  
+#define RFM95_CS        5 
+#define RFM95_RST       6
+#define LSM9DS1_M_CS    10 
+#define LIS3DH_MOSI     11
+#define LIS3DH_MISO     12
+#define LIS3DH_CLK      13
+#define HEARTBEAT_LED   13
+#define LSM9DS1_AG_CS   24
 #define DEPLOY_SWITCH_01 25 
 #define DEPLOY_SWITCH_02 26 
 #define DEPLOY_SWITCH_03 27 
