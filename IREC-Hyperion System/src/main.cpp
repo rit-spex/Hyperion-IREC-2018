@@ -28,11 +28,11 @@ DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)
 void fill_main_startup(){
 	//TODO
 	// Add startup routines into the dsq
-	//dsq.add_routine(0, 3, R_trans_LSM9DS1);
-	//dsq.add_routine(0, 20, R_trans_BME280);
+	dsq.add_routine(0, 3, R_trans_LSM9DS1);
+	dsq.add_routine(0, 20, R_trans_BME280);
 	//dsq.add_routine(0, 30, R_trans_CCS811);
-	//dsq.add_routine(0, 10, R_trans_LIS331);
-	//dsq.add_routine(0, 10, R_trans_Altitude);
+	dsq.add_routine(0, 10, R_trans_LIS331);
+	dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_seq_BME280_data);
 	//dsq.add_routine(0, 30, R_seq_CCS811_data);
@@ -57,11 +57,11 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
-	//dsq.add_routine(0, 3, R_trans_LSM9DS1);
-	//dsq.add_routine(0, 20, R_trans_BME280);
+	dsq.add_routine(0, 3, R_trans_LSM9DS1);
+	dsq.add_routine(0, 20, R_trans_BME280);
 	//dsq.add_routine(0, 30, R_trans_CCS811);
-	//dsq.add_routine(0, 10, R_trans_LIS331);
-	//dsq.add_routine(0, 10, R_trans_Altitude);
+	dsq.add_routine(0, 10, R_trans_LIS331);
+	dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 100, R_Heartbeat);
 }
 
