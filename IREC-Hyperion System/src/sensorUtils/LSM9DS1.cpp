@@ -135,7 +135,10 @@ float calc_Roll_Deg(){
 	return calc_Roll_Rad() * 180/PI;
 }
 
-float calc_Yaw_Deg(); // TODO
+float calc_Yaw_Deg(){
+	//TODO
+	return 0;
+}
 
 // calc_Heading_Deg() -- Heading in Degrees
 // Returns:

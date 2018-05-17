@@ -498,3 +498,21 @@ void R_trans_Altitude(){
 	// Add routine back into the DSQ
 	dsq.add_routine(0, get_bandwidth_scaler()*5, R_trans_Altitude);
 }
+
+/**
+ * Transmit routine for orientation.
+ */
+void R_trans_Orientation(){
+	// Allocate space for flags
+	char flags[4] = {0, 0, 0, 0};
+	uint16_t time = millis()/1000;
+
+	uint8_t buff[OREN_FRAME_SIZE+HEADER_SIZE] = {0};	
+
+	IRECHYPERP::createOrenFrame(buff, flags, time, 
+	convert_float_int32(calc_Pitch_Deg()), convert_float_int32(calc_Roll_Deg()), convert_float_int32(calc_Yaw_Deg()));
+
+	transmit_data(buff, OREN_FRAME_SIZE+HEADER_SIZE);
+
+	dsq.add_routine(0, get_bandwidth_scaler(), R_trans_Orientation);
+}
