@@ -29,7 +29,7 @@ void IRECHYPERP::createHeader(uint8_t buff[], DataFrameType type, const char *fl
     for (int j = 0; j < sizeof(uint16_t); ++j) {
         buff[cnt+j] <<= sizeof(uint8_t)*8; // Clear the buffer
 
-        buff[cnt+j] = (uint8_t)((time >> (sizeof(u_int16_t) - j - 1)*8) & BYTE_MASK);
+        buff[cnt+j] = (uint8_t)((time >> (sizeof(uint16_t) - j - 1)*8) & BYTE_MASK);
     }
 }
 
@@ -432,7 +432,7 @@ OREN_Data IRECHYPERP::unpack_Oren_Data(const uint8_t *buff) {
 
     for (int i = 0; i < 3; ++i) {
         int mult = 1;
-        if((buff[0] >> 2 - i) & 1){
+        if((buff[0] >> (2 - i)) & 1){
             mult = -1;
         }
         (*val_buff[i]) = (int16_t) buff[1 + i] * mult;

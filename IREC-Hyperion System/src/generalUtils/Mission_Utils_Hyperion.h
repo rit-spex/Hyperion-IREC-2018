@@ -19,6 +19,7 @@ void      set_parachute_deploy();
 void      set_imp_damper_deploy();
 bool      get_parachute_deploy();
 bool      get_imp_damper_deploy();
-bool      correct_orientation_para(); // Check if orentation is okay before deploying parachute
+bool      correct_orientation_para(); // Check if orientation is okay before deploying parachute
+bool      detect_launch(); // Check if launch has occurred
 
 #endif

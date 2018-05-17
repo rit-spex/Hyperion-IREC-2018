@@ -24,9 +24,6 @@
 #define ALTITUDE_MIN_PRI 1
 #define ALTITUDE_MAX_PRI 400
 
-#define ACCEL_AUTO_ARM_THRES 2 // In gees
-#define ROC_AUTO_ARM_THRES 30 // m/s
-
 #define SWITCH_DEBUFF 5000
 
 #define ALT_DEBUFF 1000
@@ -180,44 +177,84 @@ void R_Heartbeat(){
 	dsq.add_routine(0, 100, R_Heartbeat);
 }
 
+/**
+ * Routine used to disarm payload remotely using the RFM_9X LoRa
+ * Tx/Rx modules. This routine first sends out current phase status then 
+ * listens for any commands to disarm the payload. If no command is given in 1000 milliseconds
+ * the routine cycles and tries again. In the event of a launch, this routine will be removed from execution.
+ */
 void R_recv_Disarm(){
-	//TODO
-	/*
 
-	bool check_RateOfClimb = false;
-	bool check_x = false;
-	bool check_y = false; 
-	bool check_z = false;
+	// Remove routine from phase if launch has been detected
+	if(detect_launch()) return;
 
-	read_LIS331();
+	char flags[4] = {0, 0, 1, 0};
+	uint16_t time = millis()/1000;
 
-	//TODO verify this with sensor output
-	// accelation greater than the set threshold
-	if(get_lis331_accel_x() > ACCEL_AUTO_ARM_THRES) check_x = true;
-	if(get_lis331_accel_y() > ACCEL_AUTO_ARM_THRES) check_y = true;
-	if(get_lis331_accel_z() > ACCEL_AUTO_ARM_THRES) check_z = true;
+	uint8_t buff[HEADER_SIZE] = {0};
 
-	if(get_rate_of_climb() > ROC_AUTO_ARM_THRES) check_RateOfClimb = true;
+	IRECHYPERP::createCMMNDFrame(buff, flags, time);
 
-	if(check_RateOfClimb && (check_x || check_y || check_z)){
-		switch_to_main();
-		return;
+	rf95.waitPacketSent();
+	transmit_data(buff, HEADER_SIZE);
+	rf95.waitPacketSent();
+
+	uint8_t msg_buff[HEADER_SIZE] = {0};
+	uint8_t len = sizeof(msg_buff);
+
+	// Receive command from ground station.
+	if (rf95.waitAvailableTimeout(1000)){
+		if(rf95.recv(msg_buff, &len)){
+			if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
+				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+
+				if((packet.header.flags >> 2) & 1){
+					switch_to_safe(); // Disarm the payload
+					return;
+				}
+			}
+		}
 	}
-	*/
+
+	dsq.add_routine(0, 50, R_recv_Disarm);
 }
 
 /**
- * Routine transmits status of payload to ground station, then listen for an arm command.
+ * Routine used to arm the payload, first a status packet is sent out to the ground 
+ * station. Then the payload listens for a command update packet, if the packet is 
+ * an am command, the payload switches over to armed mode (main mode).
  */
 void R_recv_Arm(){
-	//TODO
-	// Wait packet sent
-	// Listen 300 ms for messages
-	// If message received, check if is arm command
-	//		If arm -> switch to main phase
-	//		return
-	// Transmit unarmed message to ground.
-	// add this routine back to dsq
+
+	char flags[4] = {0, 0, 0, 1};
+	uint16_t time = millis()/1000;
+
+	uint8_t buff[HEADER_SIZE] = {0};
+
+	IRECHYPERP::createCMMNDFrame(buff, flags, time);
+
+	rf95.waitPacketSent();
+	transmit_data(buff, HEADER_SIZE);
+	rf95.waitPacketSent();
+
+	uint8_t msg_buff[HEADER_SIZE] = {0};
+	uint8_t len = sizeof(msg_buff);
+
+	// Receive command from ground station.
+	if (rf95.waitAvailableTimeout(1000)){
+		if(rf95.recv(msg_buff, &len)){
+			if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
+				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+
+				if((packet.header.flags >> 3) & 1){
+					switch_to_main(); // Arm the payload
+					return;
+				}
+			}
+		}
+	}
+
+	dsq.add_routine(0, 50, R_recv_Arm);
 }
 
 /**

@@ -11,7 +11,11 @@
 #include "Routine_Helpers_Hyperion.h"
 #include "Mission_Utils_Hyperion.h"
 #include "../Data_Buffer_Hyperion.h"
+#include "../sensorUtils/LIS331_Hyperion.h"
 #include "Pins.h"
+
+#define ACCEL_AUTO_ARM_THRES 2 // In gees
+#define ROC_AUTO_ARM_THRES 30 // m/s
 
 uint32_t deployment_time = 0;
 
@@ -153,4 +157,27 @@ float get_rate_of_climb(){
 //TODO
 bool correct_orientation_para(){
 	return true;
+}
+
+/**
+ * Function used to detect if launch has occurred 
+ * Returns
+ * 		True: If sensor readings are above thresholds
+ * 		False: otherwise
+ */
+bool detect_launch(){
+
+	bool check_RateOfClimb = false;
+	bool check_x = false;
+	bool check_y = false; 
+	bool check_z = false;
+
+	// accelation greater than the set threshold
+	if(get_lis331_accel_x() > ACCEL_AUTO_ARM_THRES) check_x = true;
+	if(get_lis331_accel_y() > ACCEL_AUTO_ARM_THRES) check_y = true;
+	if(get_lis331_accel_z() > ACCEL_AUTO_ARM_THRES) check_z = true;
+
+	if(get_rate_of_climb() > ROC_AUTO_ARM_THRES) check_RateOfClimb = true;
+
+	return (check_RateOfClimb && (check_x || check_y || check_z));
 }
