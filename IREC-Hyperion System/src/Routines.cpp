@@ -132,14 +132,12 @@ void R_deploy_parachute(){
 	if(!deployed_time_para){
 		// Fire the two ematches
 		digitalWriteFast(EMATCH_1_FIRE, HIGH);
-		digitalWriteFast(EMATCH_2_FIRE, HIGH);
 		deployed_time_para = millis();
 	}
 
 	if(millis() - deployed_time_para >= PARA_BLAST_TIME){
 		// Return the fire pins to low.
 		digitalWriteFast(EMATCH_1_FIRE, LOW);
-		digitalWriteFast(EMATCH_2_FIRE, LOW);		
 		return;
 	}
 

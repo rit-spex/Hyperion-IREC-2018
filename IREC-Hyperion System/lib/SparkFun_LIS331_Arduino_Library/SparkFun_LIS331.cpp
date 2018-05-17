@@ -375,10 +375,10 @@ void LIS331::LIS331_write(uint8_t reg_address, uint8_t *data, uint8_t len)
   {
     // SPI write handling code
     digitalWrite(CSPin, LOW);
-    SPI1.transfer(reg_address | 0x40);
+    SPI.transfer(reg_address | 0x40);
     for (int i=0; i<len; i++)
     {
-      SPI1.transfer(data[i]);
+      SPI.transfer(data[i]);
     }
     digitalWrite(CSPin, HIGH);
   }
@@ -402,10 +402,10 @@ void LIS331::LIS331_read(uint8_t reg_address, uint8_t *data, uint8_t len)
   {
     // SPI read handling code
     digitalWrite(CSPin, LOW);
-    SPI1.transfer(reg_address | 0xC0);
+    SPI.transfer(reg_address | 0xC0);
     for (int i=0; i<len; i++)
     {
-      data[i] = SPI1.transfer(0);
+      data[i] = SPI.transfer(0);
     }
     digitalWrite(CSPin, HIGH);
   }

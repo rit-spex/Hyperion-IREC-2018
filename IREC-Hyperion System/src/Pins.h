@@ -67,7 +67,7 @@
 #define DEPLOY_SWITCH_02 26 
 #define DEPLOY_SWITCH_03 27 
 #define DEPLOY_SWITCH_04 28 
-#define LIS3DH_CS 35
+#define LIS3DH_CS        35
 
  #endif
  

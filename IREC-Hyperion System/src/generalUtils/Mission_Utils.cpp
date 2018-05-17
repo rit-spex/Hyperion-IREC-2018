@@ -44,12 +44,8 @@ int init_para_pins(){
 
 	pinMode(EMATCH_1_ARM, OUTPUT);
 	digitalWriteFast(EMATCH_1_ARM, LOW);
-	pinMode(EMATCH_2_ARM, OUTPUT);
-	digitalWriteFast(EMATCH_2_ARM, LOW);
 	pinMode(EMATCH_1_FIRE, OUTPUT);
 	digitalWriteFast(EMATCH_1_FIRE, LOW);
-	pinMode(EMATCH_2_FIRE, OUTPUT);
-	digitalWriteFast(EMATCH_2_FIRE, LOW);
 
 	return 0;
 }
@@ -106,7 +102,6 @@ uint32_t deployed_delta(){
 void arm_parachute(){
 
 	digitalWriteFast(EMATCH_1_ARM, HIGH);
-	digitalWriteFast(EMATCH_2_ARM, HIGH);
 }
 
 /**
@@ -121,7 +116,7 @@ void set_deployment(){
 		add_to_buffer(data_str);
 	}
 
-	arm_parachute();
+	// arm_parachute();
 	// arm impact dampers TODO
 
 	deployment_time = millis();
@@ -131,7 +126,7 @@ void set_deployment(){
  * Calculate the rate of clib in m/s
  * Return
  *    Positive for increase in altitude
- *    Negitive for decrease in altitude
+ *    Negative for decrease in altitude
  */
 void rate_of_climb(){
 
@@ -172,10 +167,15 @@ bool detect_launch(){
 	bool check_y = false; 
 	bool check_z = false;
 
-	// accelation greater than the set threshold
+	// acceleration greater than the set threshold
 	if(get_lis331_accel_x() > ACCEL_AUTO_ARM_THRES) check_x = true;
 	if(get_lis331_accel_y() > ACCEL_AUTO_ARM_THRES) check_y = true;
 	if(get_lis331_accel_z() > ACCEL_AUTO_ARM_THRES) check_z = true;
+
+	// If accelerometer is upside down
+	if(get_lis331_accel_x() < ACCEL_AUTO_ARM_THRES * -1) check_x = true;
+	if(get_lis331_accel_y() < ACCEL_AUTO_ARM_THRES * -1) check_y = true;
+	if(get_lis331_accel_z() < ACCEL_AUTO_ARM_THRES * -1) check_z = true;
 
 	if(get_rate_of_climb() > ROC_AUTO_ARM_THRES) check_RateOfClimb = true;
 
