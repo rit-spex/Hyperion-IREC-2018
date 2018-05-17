@@ -29,7 +29,7 @@ void IRECHYPERP::createHeader(uint8_t buff[], DataFrameType type, const char *fl
     for (int j = 0; j < sizeof(uint16_t); ++j) {
         buff[cnt+j] <<= sizeof(uint8_t)*8; // Clear the buffer
 
-        buff[cnt+j] = (uint8_t)((time >> (sizeof(uint16_t) - j - 1)*8) & BYTE_MASK);
+        buff[cnt+j] = (uint8_t)((time >> (sizeof(u_int16_t) - j - 1)*8) & BYTE_MASK);
     }
 }
 
@@ -164,6 +164,56 @@ void IRECHYPERP::createPFSLFrame(uint8_t *buff, char *flags, uint16_t time, int3
         buff[cnt+k] <<= sizeof(uint8_t)*8; // Clear the buffer
 
         buff[cnt+k] = (uint8_t)((altitude >> (sizeof(int32_t) - k - 1)*8) & BYTE_MASK);
+    }
+}
+
+
+void IRECHYPERP::createOrenFrame(uint8_t *buff, char *flags, uint16_t time, int32_t pitch, int32_t roll, int32_t yaw) {
+
+    uint8_t buff_header[HEADER_SIZE] = {0};
+    createHeader(buff_header, Orent, flags, time);
+
+    int cnt = 0;
+
+    // Pack header into buffer
+    for (int i = 0; i < HEADER_SIZE; ++i) {
+        cnt = i;
+        buff[cnt] = buff_header[cnt];
+    }
+
+    cnt += 1;
+
+    int32_t val_arry[3] = {pitch, roll, yaw};
+
+    buff[cnt] <<= sizeof(uint8_t)*8; // clear the buffer
+
+    // Pack negative holders
+    for (int j = 0; j < 3; ++j) {
+        buff[cnt] <<= 1;
+        if(val_arry[j] < 0){
+            buff[cnt] |= 1;
+            val_arry[j] *= -1;
+        }
+    }
+
+    cnt += 1;
+
+    for (int k = 0; k < 3; ++k) {
+        buff[cnt+k] <<= sizeof(uint8_t)*8;
+        buff[cnt+k] |= val_arry[k];
+    }
+}
+
+void IRECHYPERP::createCMMNDFrame(uint8_t *buff, char *flags, uint16_t time) {
+    uint8_t buff_header[HEADER_SIZE] = {0};
+    createHeader(buff_header, CMMNDt, flags, time);
+
+    int cnt = 0;
+
+    // Pack header into buffer
+    for (int i = 0; i < HEADER_SIZE; ++i) {
+        cnt = i;
+        buff[cnt] = buff_header[cnt];
     }
 }
 
@@ -356,3 +406,46 @@ PFSL_Data IRECHYPERP::unpack_PFSL_Data(const uint8_t *buff) {
 
     return data;
 }
+
+OREN_Packet IRECHYPERP::unpack_Oren(const uint8_t *buff) {
+    OREN_Packet packet = {0};
+
+    packet.header = unpack_header(buff);
+
+    uint8_t sliced_arry[OREN_FRAME_SIZE] = {};
+
+    int cnt = 0;
+    for (int i = HEADER_SIZE; i < HEADER_SIZE+OREN_FRAME_SIZE; i++) {
+        sliced_arry[cnt] = buff[i];
+        cnt += 1;
+    }
+
+    packet.data = unpack_Oren_Data(sliced_arry);
+    return packet;
+}
+
+OREN_Data IRECHYPERP::unpack_Oren_Data(const uint8_t *buff) {
+
+    OREN_Data data = {0};
+
+    int16_t *val_buff[3] = {&data.pitch, &data.roll, &data.yaw};
+
+    for (int i = 0; i < 3; ++i) {
+        int mult = 1;
+        if((buff[0] >> 2 - i) & 1){
+            mult = -1;
+        }
+        (*val_buff[i]) = (int16_t) buff[1 + i] * mult;
+    }
+
+    return data;
+}
+
+CMMND_Packet IRECHYPERP::unpack_CMMND(const uint8_t *buff) {
+    CMMND_Packet packet = {0};
+
+    packet.header = unpack_header(buff);
+
+    return packet;
+}
+

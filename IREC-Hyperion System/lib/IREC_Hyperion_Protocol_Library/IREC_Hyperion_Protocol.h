@@ -20,7 +20,7 @@
 #define CCS811_FRAME_SIZE 4
 #define LIS331_FRAME_SIZE 12
 #define PFSL_FRAME_SIZE 4
-#define OREN_FRAME_SIZE 3
+#define OREN_FRAME_SIZE 4
 
 /////////////////////
 /// Data Structs ///
@@ -77,6 +77,15 @@ typedef struct PFSL_Data{
 } PFSL_Data;
 
 /**
+ * Data struct for the oren data frame
+ */
+typedef struct OREN_Data{
+    int16_t pitch;
+    int16_t roll;
+    int16_t yaw;
+} OREN_Data;
+
+/**
  * Packet struct containing LSM9DS1 data and header.
  */
 typedef struct LSM9DS1_Packet{
@@ -115,6 +124,18 @@ typedef struct PFSL_Packet{
     unpk_header header;
     PFSL_Data data;
 } PFSL_Packet;
+
+typedef struct OREN_Packet{
+    unpk_header header;
+    OREN_Data data;
+} OREN_Packet;
+
+/**
+ * Packet used for commands/phase status
+ */
+typedef struct CMMND_Packet{
+    unpk_header header;
+} CMMND_Packet;
 
 /**
  * Data Type Enums
@@ -245,6 +266,25 @@ public:
     static void createPFSLFrame(uint8_t buff[], char flags[], uint16_t time, int32_t altitude);
 
     /**
+     * Main packer function for the orentation data frame
+     * @param buff
+     * @param flags
+     * @param time
+     * @param pitch
+     * @param roll
+     * @param yaw
+     */
+    static void createOrenFrame(uint8_t buff[], char flags[], uint16_t time, int32_t pitch, int32_t roll, int32_t yaw);
+
+    /**
+     * Main packer function for the command frame
+     * @param buff
+     * @param flags
+     * @param time
+     */
+    static void createCMMNDFrame(uint8_t buff[], char flags[], uint16_t time);
+
+    /**
      * Unpack function for the LSM9DS1 data frame
      * @param buff
      *      A array containing a packed LSM9DS1 packet
@@ -286,6 +326,20 @@ public:
      * @return
      */
     static PFSL_Packet unpack_PFSL(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the oren data frame
+     * @param buff
+     * @return
+     */
+    static OREN_Packet unpack_Oren(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the CMMND data frame
+     * @param buff
+     * @return
+     */
+    static CMMND_Packet unpack_CMMND(const  uint8_t buff[]);
 
 private:
     /**
@@ -352,5 +406,12 @@ private:
      * @return
      */
     static PFSL_Data unpack_PFSL_Data(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the oren data frame
+     * @param buff
+     * @return
+     */
+    static OREN_Data unpack_Oren_Data(const uint8_t buff[]);
 };
 #endif
