@@ -113,6 +113,9 @@ void power_system_check(){
 }
 
 void setup() {
+
+	analogReadAveraging(8); // Smooths out analog readings
+
 	// TODO
 	// Initialize hardware modules
 	init_misc_pins();
@@ -129,7 +132,7 @@ void setup() {
 	// Add Default routine to the dsq
 	dsq.set_default(1, R_Default);
 
-	fill_main_startup();
+	fill_safe_startup();
 }
 
 /**

@@ -36,6 +36,20 @@ int init_deploy_pins(){
 	return 0; // Success
 }
 
+int init_para_pins(){
+
+	pinMode(EMATCH_1_ARM, OUTPUT);
+	digitalWriteFast(EMATCH_1_ARM, LOW);
+	pinMode(EMATCH_2_ARM, OUTPUT);
+	digitalWriteFast(EMATCH_2_ARM, LOW);
+	pinMode(EMATCH_1_FIRE, OUTPUT);
+	digitalWriteFast(EMATCH_1_FIRE, LOW);
+	pinMode(EMATCH_2_FIRE, OUTPUT);
+	digitalWriteFast(EMATCH_2_FIRE, LOW);
+
+	return 0;
+}
+
 /**
  * Set parachute deployment, logs event into buffer
  */
@@ -83,7 +97,16 @@ uint32_t deployed_delta(){
 }
 
 /**
- * Set deployment_time
+ * Arms Parachute on payload deployment
+ */
+void arm_parachute(){
+
+	digitalWriteFast(EMATCH_1_ARM, HIGH);
+	digitalWriteFast(EMATCH_2_ARM, HIGH);
+}
+
+/**
+ * Set deployment_time and arm subsystems.
  */
 void set_deployment(){
 
@@ -93,6 +116,9 @@ void set_deployment(){
 		// Insert data into the data buffer
 		add_to_buffer(data_str);
 	}
+
+	arm_parachute();
+	// arm impact dampers TODO
 
 	deployment_time = millis();
 }

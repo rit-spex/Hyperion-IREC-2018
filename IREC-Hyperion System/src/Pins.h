@@ -47,7 +47,7 @@
 #define EMATCH_1_ARM    33
 #define EMATCH_2_ARM    34
 #define EMATCH_1_FIRE   35
-#define EMATCH2_FIRE    36
+#define EMATCH_2_FIRE    36
 #define DATA_READY      37
 #define DATA_READY_1    38
 #define SENSOR_CS_LIS   39

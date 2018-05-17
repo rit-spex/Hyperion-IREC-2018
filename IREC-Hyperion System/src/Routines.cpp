@@ -33,6 +33,7 @@
 
 #define PARA_TIMEOUT 3000
 #define PARA_TIMEOUT_FIN 10000
+#define PARA_BLAST_TIME 2000
 
 #define DAMPER_DEPLOY_SPEED -15
 #define DAMPER_TIMEOUT 40000
@@ -123,9 +124,29 @@ void R_mission_constraints(){
 	dsq.add_routine(0, 1, R_mission_constraints);
 }
 
-// Toggle GPIO pin to deploy parachute. GPIO pin is on for 2 seconds
+/**
+ * Function for parachute deployment, trigger pin is pulled
+ * HIGH for 2000 milli seconds or 2 seconds to trigger two ematches
+ */
 void R_deploy_parachute(){
 
+	static uint32_t deployed_time_para = 0;
+
+	if(!deployed_time_para){
+		// Fire the two ematches
+		digitalWriteFast(EMATCH_1_FIRE, HIGH);
+		digitalWriteFast(EMATCH_2_FIRE, HIGH);
+		deployed_time_para = millis();
+	}
+
+	if(millis() - deployed_time_para >= PARA_BLAST_TIME){
+		// Return the fire pins to low.
+		digitalWriteFast(EMATCH_1_FIRE, LOW);
+		digitalWriteFast(EMATCH_2_FIRE, LOW);		
+		return;
+	}
+
+	dsq.add_routine(0, 0, R_deploy_parachute);
 }
 
 void R_deploy_dampers(){
@@ -138,8 +159,8 @@ void R_deploy_dampers(){
  */
 void R_calc_RateOfClimb(){
 
-		rate_of_climb(); // update rate of climb
-		dsq.add_routine(0, 100, R_calc_RateOfClimb);
+	rate_of_climb(); // update rate of climb
+	dsq.add_routine(0, 100, R_calc_RateOfClimb);
 }
 
 /**
