@@ -2,4 +2,5 @@ Notes
 04/24/18
     Data Transmission Has been axed for the test launch.
         SPI bus conflict causes race condition which eventually causes LoRa module to hang.
-
+05/17/18
+    Move LIS331 and LSM9DS1 back to SPI0
