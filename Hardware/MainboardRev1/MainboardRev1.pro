@@ -1,4 +1,4 @@
-update=5/14/2018 4:22:30 PM
+update=5/16/2018 11:23:46 PM
 version=1
 last_client=kicad
 [pcbnew]
@@ -75,3 +75,4 @@ LibName43=PCB Design/kicad-library-master/library/teensy3_6-OuterHeadersOnly
 LibName44=PCB Design/kicad-library-master/library/switch_dpdt
 LibName45=PCB Design/kicad-library-master/library/analog_switches
 LibName46=PCB Design/kicad-library-master/library/switches
+LibName47=PCB Design/kicad-library-master/library/mounting_hole_eighth_inch
