@@ -508,7 +508,7 @@ void R_trans_Orientation(){
 	uint8_t buff[OREN_FRAME_SIZE+HEADER_SIZE] = {0};	
 
 	IRECHYPERP::createOrenFrame(buff, flags, time, 
-	convert_float_int32(calc_Pitch_Deg()), convert_float_int32(calc_Roll_Deg()), convert_float_int32(calc_Yaw_Deg()));
+	convert_float_int32(calc_Pitch_Deg()), convert_float_int32(calc_Roll_Deg()), convert_float_int32(calc_Heading_Deg()));
 
 	transmit_data(buff, OREN_FRAME_SIZE+HEADER_SIZE);
 

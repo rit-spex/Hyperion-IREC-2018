@@ -26,11 +26,9 @@ float     get_Accel(lsm9ds1_axis axis); // Return value is in g's
 float     get_Mag(lsm9ds1_axis axis); // Return value is in Gauss
 float     calc_Pitch_Deg(); // Return is in Degrees
 float     calc_Roll_Deg(); // Return is in Degrees
-float     calc_Yaw_Deg(); // Return in Degrees
 float     calc_Heading_Deg(); // Return is in Degrees
 float     calc_Pitch_Rad(); // Return is in Radians
 float     calc_Roll_Rad(); // Return is in Radians
-float     calc_Yaw_Rad(); // Return is in Radians
 float     calc_Heading_Rad(); // Return is in Radians
 
 #endif
