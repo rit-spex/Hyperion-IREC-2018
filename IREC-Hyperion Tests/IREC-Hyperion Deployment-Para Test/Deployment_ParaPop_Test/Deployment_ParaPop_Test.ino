@@ -16,6 +16,9 @@
 uint32_t deployment_time = 0;
 bool parachute_deploy = false;
 
+uint32_t cnt = 0;
+bool toggle = false;
+
 float get_rate_of_climb(){
   return 0;
 }
@@ -102,10 +105,26 @@ void setup() {
   digitalWriteFast(EMATCH_1_ARM, LOW);
   pinMode(EMATCH_1_FIRE, OUTPUT);
   digitalWriteFast(EMATCH_1_FIRE, LOW);
+
+  pinMode(22, OUTPUT);
+  digitalWriteFast(22, LOW);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if(cnt > 45000){
+    cnt = 0;
+    if(toggle){
+      toggle = false;
+      digitalWriteFast(22, HIGH);
+    } else {
+       toggle = true;
+      digitalWriteFast(22, LOW);     
+    }
+  }
+
+  cnt += 1;
+  
   if(R_check_deployment()){
     delay(4000);
     R_deploy_parachute();
