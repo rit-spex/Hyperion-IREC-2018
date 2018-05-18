@@ -14,7 +14,7 @@ Every year Spaceport America host the Intercollegiate Rocket and Engineering Com
 * ***/IREC-Hyperion Tests*** - Hyperion test resources 
 
 ###### Mission Patch
-![Hyperion Mission Patch](https://i.imgur.com/Df0Sk5s.png)
+![Hyperion Mission Patch](https://i.imgur.com/OlUfgQA.png)
 
 ###### Hardware Modules
 - Teensy 3.6
