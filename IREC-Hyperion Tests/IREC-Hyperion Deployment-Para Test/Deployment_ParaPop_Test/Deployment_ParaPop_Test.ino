@@ -19,6 +19,8 @@ bool parachute_deploy = false;
 uint32_t cnt = 0;
 bool toggle = false;
 
+bool done_now = false;
+
 float get_rate_of_climb(){
   return 0;
 }
@@ -112,7 +114,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if(cnt > 45000){
+  if(cnt > 100000){
     cnt = 0;
     if(toggle){
       toggle = false;
@@ -126,7 +128,8 @@ void loop() {
   cnt += 1;
   
   if(R_check_deployment()){
-    delay(4000);
+    if(!done_now) delay(4000);
     R_deploy_parachute();
+    done_now = true;
   }
 }
