@@ -107,6 +107,7 @@ void switch_to_safe(){
  */
 void init_misc_pins(){
 	pinMode(HEARTBEAT_LED, OUTPUT);
+	digitalWriteFast(HEARTBEAT_LED, LOW);
 }
 
 /**

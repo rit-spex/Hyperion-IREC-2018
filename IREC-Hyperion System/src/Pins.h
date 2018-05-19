@@ -61,7 +61,7 @@
 #define LIS3DH_MOSI     11
 #define LIS3DH_MISO     12
 #define LIS3DH_CLK      13
-#define HEARTBEAT_LED   13
+#define HEARTBEAT_LED   22
 #define LSM9DS1_AG_CS   24
 #define DEPLOY_SWITCH_01 25 
 #define DEPLOY_SWITCH_02 26 
