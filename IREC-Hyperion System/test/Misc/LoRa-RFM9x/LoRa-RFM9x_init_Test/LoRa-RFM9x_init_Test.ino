@@ -11,6 +11,10 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT, hardware_spi1);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
   
   // put your setup code here, to run once:
   pinMode(RFM95_RST, OUTPUT);
@@ -23,6 +27,11 @@ void setup() {
   digitalWrite(RFM95_RST, HIGH);
   delay(10);
 
+  SPI1.setMISO(1);
+  SPI1.setMOSI(0);
+  SPI1.setSCK(32); 
+  SPI1.begin();
+  
   if (!rf95.init()) {
       Serial.println("[LoRa] - Init failed");
   }
