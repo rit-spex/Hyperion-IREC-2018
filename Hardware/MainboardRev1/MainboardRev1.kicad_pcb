@@ -5,7 +5,7 @@
     (no_connects 539)
     (area 49.924999 49.924999 142.075001 142.075001)
     (thickness 1.6)
-    (drawings 33)
+    (drawings 38)
     (tracks 0)
     (zones 0)
     (modules 210)
@@ -34,8 +34,8 @@
     (45 Margin user)
     (46 B.CrtYd user)
     (47 F.CrtYd user)
-    (48 B.Fab user hide)
-    (49 F.Fab user hide)
+    (48 B.Fab user)
+    (49 F.Fab user)
   )
 
   (setup
@@ -7244,7 +7244,7 @@
       (net 4 GND))
   )
 
-  (module _sensors:MAX-M8 (layer F.Cu) (tedit 5AFDDA77) (tstamp 5AFCA3BC)
+  (module _sensors:MAX-M8 locked (layer F.Cu) (tedit 5AFDDA77) (tstamp 5AFCA3BC)
     (at 110.78 59.7 180)
     (path /5AFAD355/5AFC746A)
     (fp_text reference U17 (at 3.87 -1.72 180) (layer F.SilkS)
@@ -7361,7 +7361,7 @@
       (net 170 "Net-(U18-Pad16)"))
   )
 
-  (module Dans_Parts:ANT_CHIP_OMNI_1575MHz_GPS (layer F.Cu) (tedit 5AFCF6EC) (tstamp 5AFCF7F3)
+  (module Dans_Parts:ANT_CHIP_OMNI_1575MHz_GPS locked (layer F.Cu) (tedit 5AFCF6EC) (tstamp 5AFCF7F3)
     (at 96 52)
     (path /5AFAD355/5AFC7D42)
     (fp_text reference AE1 (at -0.13 -0.02) (layer F.SilkS)
@@ -9223,6 +9223,11 @@
       (xy -0.015338 -0.672556)) (layer F.SilkS) (width 0.01))
   )
 
+  (gr_line (start 74.68 50.03) (end 74.66 50.03) (angle 90) (layer F.SilkS) (width 0.2))
+  (gr_line (start 74.68 58.29) (end 74.68 50.03) (angle 90) (layer F.SilkS) (width 0.2))
+  (gr_line (start 101.5 52) (end 107.38 52) (angle 90) (layer F.SilkS) (width 0.2))
+  (gr_line (start 101.5 50) (end 101.5 58.16) (angle 90) (layer F.SilkS) (width 0.2))
+  (gr_line (start 150 58.16) (end 50 58.16) (angle 90) (layer F.SilkS) (width 0.2))
   (gr_text "Tigris\nAd Astra" (at 91.53 89.86) (layer F.SilkS)
     (effects (font (size 1.5 1.5) (thickness 0.3)))
   )
