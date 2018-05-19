@@ -80,7 +80,7 @@ void handle_incomming_messages(){
 
                 send_command();
             } else {
-                Serial.print("Received data frame of type: "); Serial.println(type);
+                //Serial.print("Received data frame of type: "); Serial.println(type);
             }
     	}
 		digitalWrite(LED_BUILTIN, LOW);
@@ -137,6 +137,8 @@ int main(){
 		// Place loop code here
         String usr;
 
+		handle_incomming_messages();
+
         if(Serial.available()){
             usr = Serial.readString();
 
@@ -149,7 +151,5 @@ int main(){
                 Serial.println("Disarming Payload!");
             }
         }
-
-		handle_incomming_messages();
 	}
 }
