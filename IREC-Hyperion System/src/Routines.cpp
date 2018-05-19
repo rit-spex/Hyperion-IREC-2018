@@ -172,7 +172,7 @@ void R_Heartbeat(){
 		digitalWriteFast(HEARTBEAT_LED, HIGH);
 	}
 
-	dsq.add_routine(0, 100, R_Heartbeat);
+	dsq.add_routine(0, 50, R_Heartbeat);
 }
 
 /**
