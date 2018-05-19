@@ -21,5 +21,6 @@ bool      get_parachute_deploy();
 bool      get_imp_damper_deploy();
 bool      correct_orientation_para(); // Check if orientation is okay before deploying parachute
 bool      detect_launch(); // Check if launch has occurred
+int       init_para_pins();
 
 #endif

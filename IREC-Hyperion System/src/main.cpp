@@ -124,6 +124,7 @@ void setup() {
 	// TODO
 	// Initialize hardware modules
 	init_misc_pins();
+	init_para_pins();
 	//power_system_check();
 	init_LoRa();
 	init_BME280();
