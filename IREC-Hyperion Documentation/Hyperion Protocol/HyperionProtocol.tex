@@ -187,13 +187,13 @@ Altitude (2 bytes) \\ \hline
  \pagebreak
   
   \subsection{Orientation}
-  This section will define the data frame for the Orientation data group. The Orientation data group will contain calculations for Roll, Pitch and Yaw. In total, this data group will be 3 bytes in size. In order to achieve one byte per data segment, the values must be scaled down by (1.41). This will allow a signed value of maximum size 127.
+  This section will define the data frame for the Orientation data group. The Orientation data group will contain calculations for Roll, Pitch and Yaw. In total, this data group will be 4 bytes in size. In order to fit all necessary resolution within the data section, each value will be 9 bits. This will leave an extra 5 bits within the data frame which will be left unused. 
   \subsubsection{Orientation Data}
-  \paragraph{Roll (1 byte)}
+  \paragraph{Roll (9 bits)}
   The Roll section of the Orientation data group will store the Roll from range -180(scaled) to 180(scaled) (0 to 360 degrees).
-  \paragraph{Pitch (1 byte)}
+  \paragraph{Pitch (9 bits)}
   The Pitch section of the Orientation data group will store the Pitch from range -90(scaled) to 90(scaled) (0 to 180 degrees).  
-  \paragraph{Yaw (1 byte)}
+  \paragraph{Yaw (9 bits)}
   The Yaw section of the Orientation data group will store the Yaw from range -180(scaled) to 180(scaled) (0 to 360 degrees).  
   
   \subsubsection{Visualization}
@@ -203,7 +203,7 @@ Altitude (2 bytes) \\ \hline
   \label{Orientation}
   \begin{tabular}{|l|l|l|}
   \hline
-Roll(1 byte) & Pitch(1 byte) & Yaw(1 byte) \\ \hline
+Roll(9 bits) & Pitch(9 bits) & Yaw(9 bits) \\ \hline
   \end{tabular}
   \end{table}
   
