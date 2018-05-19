@@ -11,6 +11,7 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT, hardware_spi1);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  Serial.println("Serial Initialized");
 
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB
