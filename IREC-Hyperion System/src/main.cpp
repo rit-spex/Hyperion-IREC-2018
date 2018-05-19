@@ -42,9 +42,9 @@ void fill_main_startup(){
 	dsq.add_routine(0, 10, R_Altitude_data);
 	dsq.add_routine(0, 10, R_seq_Altitude_data);
 	dsq.add_routine(0, 1, R_check_deployment);
-	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
-	dsq.add_routine(0, 20, R_gath_BME280_data);
-	dsq.add_routine(0, 3, R_gath_LIS331_data);
+	//dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
+	//dsq.add_routine(0, 20, R_gath_BME280_data);
+	//dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 50, R_recv_Disarm);
 	dsq.add_routine(0, 100, R_Heartbeat);
 }
@@ -56,9 +56,9 @@ void fill_safe_startup(){
 	
 	dsq.add_routine(0, 100, R_calc_RateOfClimb);
 	dsq.add_routine(0, 10, R_Altitude_data);
-	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
-	dsq.add_routine(0, 20, R_gath_BME280_data);
-	dsq.add_routine(0, 3, R_gath_LIS331_data);
+	//dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
+	//dsq.add_routine(0, 20, R_gath_BME280_data);
+	//dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 	dsq.add_routine(0, 20, R_trans_BME280);
 	//dsq.add_routine(0, 30, R_trans_CCS811);
