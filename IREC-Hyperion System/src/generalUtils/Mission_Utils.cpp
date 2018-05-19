@@ -42,10 +42,10 @@ int init_deploy_pins(){
 
 int init_para_pins(){
 
-	pinMode(EMATCH_1_ARM, OUTPUT);
-	digitalWriteFast(EMATCH_1_ARM, LOW);
-	pinMode(EMATCH_1_FIRE, OUTPUT);
-	digitalWriteFast(EMATCH_1_FIRE, LOW);
+	pinMode(EMATCH_1_ARM_P, OUTPUT);
+	digitalWriteFast(EMATCH_1_ARM_P, LOW);
+	pinMode(EMATCH_1_FIRE_P, OUTPUT);
+	digitalWriteFast(EMATCH_1_FIRE_P, LOW);
 
 	return 0;
 }
@@ -101,7 +101,7 @@ uint32_t deployed_delta(){
  */
 void arm_parachute(){
 
-	digitalWriteFast(EMATCH_1_ARM, HIGH);
+	digitalWriteFast(EMATCH_1_ARM_P, HIGH);
 }
 
 /**
@@ -116,7 +116,7 @@ void set_deployment(){
 		add_to_buffer(data_str);
 	}
 
-	// arm_parachute();
+	arm_parachute();
 	// arm impact dampers TODO
 
 	deployment_time = millis();

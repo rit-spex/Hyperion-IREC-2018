@@ -67,6 +67,8 @@
 #define DEPLOY_SWITCH_02 26 
 #define DEPLOY_SWITCH_03 27 
 #define DEPLOY_SWITCH_04 28 
+#define EMATCH_1_ARM_P    23
+#define EMATCH_1_FIRE_P   21
 #define LIS3DH_CS        35
 
  #endif

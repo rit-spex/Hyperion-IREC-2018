@@ -131,13 +131,13 @@ void R_deploy_parachute(){
 
 	if(!deployed_time_para){
 		// Fire the two ematches
-		digitalWriteFast(EMATCH_1_FIRE, HIGH);
+		digitalWriteFast(EMATCH_1_FIRE_P, HIGH);
 		deployed_time_para = millis();
 	}
 
 	if(millis() - deployed_time_para >= PARA_BLAST_TIME){
 		// Return the fire pins to low.
-		digitalWriteFast(EMATCH_1_FIRE, LOW);
+		digitalWriteFast(EMATCH_1_FIRE_P, LOW);
 		return;
 	}
 
@@ -417,7 +417,7 @@ void R_trans_LSM9DS1(){
 
 	transmit_data(buff, LSM9DS1_FRAME_SIZE+HEADER_SIZE);
 
-	dsq.add_routine(0, get_bandwidth_scaler()*10, R_trans_LSM9DS1);
+	dsq.add_routine(0, get_bandwidth_scaler()+10, R_trans_LSM9DS1);
 }
 
 /**
@@ -437,7 +437,7 @@ void R_trans_BME280(){
 	transmit_data(buff, BME280_FRAME_SIZE+HEADER_SIZE);
 
 	// Add routine back into the DSQ
-	dsq.add_routine(0, get_bandwidth_scaler()*6, R_trans_BME280);
+	dsq.add_routine(0, get_bandwidth_scaler()+6, R_trans_BME280);
 }
 
 /**
@@ -454,7 +454,7 @@ void R_trans_CCS811(){
 
 	transmit_data(buff, CCS811_FRAME_SIZE+HEADER_SIZE);
 	// Add routine back into the DSQ
-	dsq.add_routine(0, get_bandwidth_scaler()*7, R_trans_CCS811);
+	dsq.add_routine(0, get_bandwidth_scaler()+7, R_trans_CCS811);
 }
 
 /**
@@ -475,7 +475,7 @@ void R_trans_LIS331(){
 	transmit_data(buff, LIS331_FRAME_SIZE+HEADER_SIZE);
 	
 	// Add routine back into the DSQ
-	dsq.add_routine(0, get_bandwidth_scaler()*4, R_trans_LIS331);
+	dsq.add_routine(0, get_bandwidth_scaler()+4, R_trans_LIS331);
 }
 
 /**
@@ -494,7 +494,7 @@ void R_trans_Altitude(){
 	transmit_data(buff, PFSL_FRAME_SIZE+HEADER_SIZE);
 		
 	// Add routine back into the DSQ
-	dsq.add_routine(0, get_bandwidth_scaler()*5, R_trans_Altitude);
+	dsq.add_routine(0, get_bandwidth_scaler()+5, R_trans_Altitude);
 }
 
 /**
