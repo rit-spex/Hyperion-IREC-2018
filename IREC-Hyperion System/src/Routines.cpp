@@ -57,10 +57,10 @@ void R_check_deployment(){
 	int open_cnt = 0;
 	static unsigned int switch_debuff = 0;
 
-	if(digitalReadFast(DEPLOY_SWITCH_01) == HIGH) open_cnt += 1;
-	if(digitalReadFast(DEPLOY_SWITCH_02) == HIGH) open_cnt += 1;
-	if(digitalReadFast(DEPLOY_SWITCH_03) == HIGH) open_cnt += 1;
-	if(digitalReadFast(DEPLOY_SWITCH_04) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_01) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_02) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_03) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_04) == HIGH) open_cnt += 1;
 
 	if(open_cnt > 2){
 		switch_debuff += 1;
@@ -132,13 +132,13 @@ void R_deploy_parachute(){
 
 	if(!deployed_time_para){
 		// Fire the two ematches
-		digitalWriteFast(EMATCH_1_FIRE_P, HIGH);
+		digitalWriteFast(EMATCH_1_FIRE, HIGH);
 		deployed_time_para = millis();
 	}
 
 	if(millis() - deployed_time_para >= PARA_BLAST_TIME){
 		// Return the fire pins to low.
-		digitalWriteFast(EMATCH_1_FIRE_P, LOW);
+		digitalWriteFast(EMATCH_1_FIRE, LOW);
 		return;
 	}
 
@@ -167,10 +167,10 @@ void R_Heartbeat(){
 
 	if(toggle){
 		toggle = false;
-		digitalWriteFast(HEARTBEAT_LED, LOW);
+		digitalWriteFast(LED_BLUE, LOW);
 	} else {
 		toggle = true;
-		digitalWriteFast(HEARTBEAT_LED, HIGH);
+		digitalWriteFast(LED_BLUE, HIGH);
 	}
 
 	dsq.add_routine(0, 50, R_Heartbeat);

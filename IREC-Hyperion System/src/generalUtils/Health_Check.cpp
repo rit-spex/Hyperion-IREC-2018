@@ -12,6 +12,30 @@
 #include <IREC_Hyperion_Protocol.h>
 
 #define MAX_MSG_SIZE 300
+#define SWITCH_DEBUFF 500
+#define DEBUFF_THRES 400
+
+/**
+ * Given a switch pin, function will check if pin is open with
+ * software debuff.
+ * Arguments
+ *      switch_pin: the pin to be tested.
+ * Returns
+ *      1 if switch is closed
+ *      0 if switch is closed
+ */
+unsigned int check_switch_open(int switch_pin){
+    
+    int cnt = 0;
+
+    for(size_t i = 0; i < SWITCH_DEBUFF; i++){
+        if(digitalReadFast(switch_pin) == HIGH) cnt += 1;
+    }
+
+    if(cnt > DEBUFF_THRES) return 1; // Switch reads open most of the time
+
+    return 0;
+}
 
 /**
  * Function used to check for open deployment pins
@@ -22,10 +46,10 @@ unsigned int deployment_pins_open(){
     
     int tally = 0;
 
-    if(digitalReadFast(DEPLOY_SWITCH_01) == HIGH) tally += 1;
-    if(digitalReadFast(DEPLOY_SWITCH_02) == HIGH) tally += 1;
-    if(digitalReadFast(DEPLOY_SWITCH_03) == HIGH) tally += 1;
-    if(digitalReadFast(DEPLOY_SWITCH_04) == HIGH) tally += 1;
+    tally += check_switch_open(SWITCH_01);
+    tally += check_switch_open(SWITCH_02);
+    tally += check_switch_open(SWITCH_03);
+    tally += check_switch_open(SWITCH_04);
 
     return tally;
 }

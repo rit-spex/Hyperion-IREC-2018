@@ -18,8 +18,8 @@ int init_LSM9DS1(){
 	// we may need to adjust. Use the settings struct to set
 	// the device's communication mode and addresses:
 	imu.settings.device.commInterface = IMU_MODE_SPI;
-	imu.settings.device.mAddress = LSM9DS1_M_CS;
-	imu.settings.device.agAddress = LSM9DS1_AG_CS;
+	imu.settings.device.mAddress = SENSORS_CS_M;
+	imu.settings.device.agAddress = SENSORS_CS_AG;
 	// The above lines will only take effect AFTER calling
 	// imu.begin(), which verifies communication with the IMU
 	// and turns it on.

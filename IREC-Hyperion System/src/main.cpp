@@ -106,8 +106,17 @@ void switch_to_safe(){
  * 		HEARTBEAT_LED
  */
 void init_misc_pins(){
-	pinMode(HEARTBEAT_LED, OUTPUT);
-	digitalWriteFast(HEARTBEAT_LED, LOW);
+	// Init Heartbeat led
+	pinMode(LED_BLUE, OUTPUT);
+	digitalWriteFast(LED_BLUE, LOW);
+
+	// Init SD IO led
+	pinMode(LED_GREEN, OUTPUT);
+	digitalWriteFast(LED_GREEN, LOW);
+
+	// Init comms IO led
+	pinMode(LED_RED, OUTPUT);
+	digitalWriteFast(LED_RED, LOW);
 }
 
 /**
