@@ -13,7 +13,7 @@
 #include <SD.h>
 #include "Pins.h"
 
-#define FILE_WRITE_LIMIT 5000
+#define FILE_WRITE_LIMIT 2000
 // Maximum buffer capacity
 #define BUFFER_CAP 100
 

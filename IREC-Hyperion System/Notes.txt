@@ -4,3 +4,11 @@ Notes
         SPI bus conflict causes race condition which eventually causes LoRa module to hang.
 05/17/18
     Move LIS331 and LSM9DS1 back to SPI0 - Done
+05/20/18
+    Implement routine which runs in safe phase and reports health of hardware.
+        - Deployment Pins
+        - EMatches 
+        - SD card
+        - Pressure system
+        - Servo
+        ...
