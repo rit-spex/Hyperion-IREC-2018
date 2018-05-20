@@ -129,7 +129,7 @@ void setup() {
 	init_LoRa();
 	init_BME280();
 	init_LSM9DS1();
-	//init_CCS811();
+	init_CCS811();
 	init_LIS331();
 	init_StratoLogger();
 	init_SD();
