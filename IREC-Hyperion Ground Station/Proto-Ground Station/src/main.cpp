@@ -24,6 +24,7 @@
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 bool Armed = false;
+bool sent_update = false;
 
 /**
  * Convert int32_t into a float
@@ -35,20 +36,25 @@ float convert_int32_float(int32_t inputvalue) {
 }
 
 void send_command(){
-    rf95.waitPacketSent();
 
-    uint16_t time = millis() / 1000;
-    uint8_t buff[HEADER_SIZE] = {0};
+    if(!sent_update){
+        rf95.waitPacketSent();
 
-    if(Armed){
-        char flags[4] = {1, 0, 0, 0};
-        IRECHYPERP::createCMMNDFrame(buff, flags, time);
-    } else {
-        char flags[4] = {0, 1, 0, 0};
-        IRECHYPERP::createCMMNDFrame(buff, flags, time);      
+        uint16_t time = millis() / 1000;
+        uint8_t buff[HEADER_SIZE] = {0};
+
+        if(Armed){
+            char flags[4] = {1, 0, 0, 0};
+            IRECHYPERP::createCMMNDFrame(buff, flags, time);
+        } else {
+            char flags[4] = {0, 1, 0, 0};
+            IRECHYPERP::createCMMNDFrame(buff, flags, time);      
+        }
+
+        rf95.send(buff, HEADER_SIZE);
+
+        sent_update = true;
     }
-
-    rf95.send(buff, HEADER_SIZE);
 }
 
 /**
@@ -149,10 +155,12 @@ int main(){
             if(usr.equals("ARM")){
                 Armed = true;
                 Serial.println("Arming Payload!");
+                sent_update = false;
             }
             if(usr.equals("DISARM")){
                 Armed = false;
                 Serial.println("Disarming Payload!");
+                sent_update = false;
             }
         }
 	}
