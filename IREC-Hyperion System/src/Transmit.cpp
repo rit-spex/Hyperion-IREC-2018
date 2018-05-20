@@ -65,13 +65,11 @@ bool transmit_data(uint8_t data[], int data_len){
   bool res = rf95.send(data, data_len);
 
   // Increase scaler value if can transmit, else wait longer
-  /**
   if(res){
     bandwidth_scaler -= 1;
-    cnt += 1;
   } else {
     bandwidth_scaler += 1;
-  }*/
+  }
   
   return res;
 }
