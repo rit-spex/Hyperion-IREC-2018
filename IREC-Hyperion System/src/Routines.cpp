@@ -245,15 +245,6 @@ void R_recv_Arm(){
 				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
 
 				if((packet.header.flags >> 3) & 1){
-					char flags_arm[4] = {0, 0, 1, 0};
-
-					uint8_t buff_arm[HEADER_SIZE] = {0};
-
-					IRECHYPERP::createCMMNDFrame(buff_arm, flags_arm, time);
-
-					rf95.waitPacketSent();
-					transmit_data(buff_arm, HEADER_SIZE);
-					rf95.waitPacketSent();
 					
 					switch_to_main(); // Arm the payload
 					return;
