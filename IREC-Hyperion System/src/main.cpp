@@ -103,7 +103,7 @@ void switch_to_safe(){
 
 /**
  * Routine sets modes of pin(s):
- * 		HEARTBEAT_LED
+ * 		LED_BLUE, LED_GREEN, LED_RED
  */
 void init_misc_pins(){
 	// Init Heartbeat led
@@ -114,7 +114,6 @@ void init_misc_pins(){
 	pinMode(LED_GREEN, OUTPUT);
 	digitalWriteFast(LED_GREEN, LOW);
 
-	// Init comms IO led
 	pinMode(LED_RED, OUTPUT);
 	digitalWriteFast(LED_RED, LOW);
 }
@@ -128,7 +127,7 @@ void power_system_check(){
 
 void setup() {
 
-	analogReadAveraging(8); // Smooths out analog readings
+	analogReadAveraging(16); // Smooths out analog readings
 
 	// TODO
 	// Initialize hardware modules
