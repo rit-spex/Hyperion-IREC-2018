@@ -130,6 +130,11 @@ typedef struct OREN_Packet{
     OREN_Data data;
 } OREN_Packet;
 
+typedef struct Info_Packet{
+    unpk_header header;
+    char data[300];
+} Info_Packet;
+
 /**
  * Packet used for commands/phase status
  */
@@ -148,7 +153,8 @@ enum DataFrameType{
     LIS331t,
     PFSLt,
     Orent,
-    CMMNDt
+    CMMNDt,
+    INFOt
 };
 
 // TODO add unpacking functionality
@@ -285,6 +291,15 @@ public:
     static void createCMMNDFrame(uint8_t buff[], char flags[], uint16_t time);
 
     /**
+     * Main packer function for a info frame
+     * @param buff
+     * @param flags
+     * @param time
+     * @pram msg
+     */
+    static void createInfoFrame(uint8_t buff[], char flags[], uint16_t time, char msg[]);
+
+    /**
      * Unpack function for the LSM9DS1 data frame
      * @param buff
      *      A array containing a packed LSM9DS1 packet
@@ -339,7 +354,12 @@ public:
      * @param buff
      * @return
      */
-    static CMMND_Packet unpack_CMMND(const  uint8_t buff[]);
+    static CMMND_Packet unpack_CMMND(const uint8_t buff[]);
+
+    /**
+     * Unpack function for the Info data frame
+     */
+    static Info_Packet unpack_Info(const uint8_t buff[]);
 
 private:
     /**

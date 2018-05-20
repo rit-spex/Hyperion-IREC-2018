@@ -5,7 +5,7 @@
  *     Utilities functions mission events
  */
 
-#include "IRECHYPERION.h"
+#include "../IRECHYPERION.h"
 #include "../Routines_Hyperion.h"
 #include "../sensorUtils/StratoLogger_Hyperion.h"
 #include "Routine_Helpers_Hyperion.h"
