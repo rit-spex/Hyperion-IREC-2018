@@ -17,6 +17,7 @@
 #include "generalUtils/Routine_Helpers_Hyperion.h"
 #include "Transmit_Hyperion.h"
 #include "Data_Buffer_Hyperion.h"
+#include "generalUtils/Health_Check_Hyperion.h"
 #include "Pins.h"
 
 #define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
@@ -239,28 +240,24 @@ void R_recv_Arm(){
 	uint8_t len = sizeof(msg_buff);
 
 	// Receive command from ground station.
-	if (rf95.waitAvailableTimeout(1000)){
-		if(rf95.recv(msg_buff, &len)){
-			if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
-				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+	if (rf95.waitAvailableTimeout(1000) &&
+		rf95.recv(msg_buff, &len) &&
+		IRECHYPERP::typeofData(msg_buff) == CMMNDt){
+			
+			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
 
-				if((packet.header.flags >> 3) & 1){
-					char flags_arm[4] = {0, 0, 1, 0};
+			if((packet.header.flags >> 3) & 1){
 
-					uint8_t buff_arm[HEADER_SIZE] = {0};
+				unsigned int pins_open = deployment_pins_open();
 
-					IRECHYPERP::createCMMNDFrame(buff_arm, flags_arm, time);
+				health_report_deploy(pins_open);
 
-					rf95.waitPacketSent();
-					transmit_data(buff_arm, HEADER_SIZE);
-					rf95.waitPacketSent();
-					
+				if(pins_open <= 1){
 					switch_to_main(); // Arm the payload
 					return;
 				}
 			}
 		}
-	}
 
 	dsq.add_routine(0, 50, R_recv_Arm);
 }
