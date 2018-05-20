@@ -1091,14 +1091,14 @@ void LSM9DS1::initSPI()
 	pinMode(_mAddress, OUTPUT);
 	digitalWrite(_mAddress, HIGH);
 	
-	SPI.begin();
+	SPI1.begin();
 	// Maximum SPI frequency is 10MHz, could divide by 2 here:
-	SPI.setClockDivider(SPI_CLOCK_DIV2);
+	SPI1.setClockDivider(SPI_CLOCK_DIV2);
 	// Data is read and written MSb first.
-	SPI.setBitOrder(MSBFIRST);
+	SPI1.setBitOrder(MSBFIRST);
 	// Data is captured on rising edge of clock (CPHA = 0)
 	// Base value of the clock is HIGH (CPOL = 1)
-	SPI.setDataMode(SPI_MODE0);
+	SPI1.setDataMode(SPI_MODE0);
 }
 
 void LSM9DS1::SPIwriteByte(uint8_t csPin, uint8_t subAddress, uint8_t data)
@@ -1107,8 +1107,8 @@ void LSM9DS1::SPIwriteByte(uint8_t csPin, uint8_t subAddress, uint8_t data)
 	
 	// If write, bit 0 (MSB) should be 0
 	// If single write, bit 1 should be 0
-	SPI.transfer(subAddress & 0x3F); // Send Address
-	SPI.transfer(data); // Send data
+	SPI1.transfer(subAddress & 0x3F); // Send Address
+	SPI1.transfer(data); // Send data
 	
 	digitalWrite(csPin, HIGH); // Close communication
 }
@@ -1133,10 +1133,10 @@ uint8_t LSM9DS1::SPIreadBytes(uint8_t csPin, uint8_t subAddress,
 		rAddress |= 0x40;
 	
 	digitalWrite(csPin, LOW); // Initiate communication
-	SPI.transfer(rAddress);
+	SPI1.transfer(rAddress);
 	for (int i=0; i<count; i++)
 	{
-		dest[i] = SPI.transfer(0x00); // Read into destination array
+		dest[i] = SPI1.transfer(0x00); // Read into destination array
 	}
 	digitalWrite(csPin, HIGH); // Close communication
 	
