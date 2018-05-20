@@ -16,6 +16,7 @@
 #include "sensorUtils/StratoLogger_Hyperion.h"
 #include "generalUtils/Routine_Helpers_Hyperion.h"
 #include "Transmit_Hyperion.h"
+#include "generalUtils/Health_Check_Hyperion.h"
 #include "Data_Buffer_Hyperion.h"
 #include "Pins.h"
 
@@ -239,19 +240,25 @@ void R_recv_Arm(){
 	uint8_t len = sizeof(msg_buff);
 
 	// Receive command from ground station.
-	if (rf95.waitAvailableTimeout(1000)){
-		if(rf95.recv(msg_buff, &len)){
-			if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
-				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+	if (rf95.waitAvailableTimeout(1000) &&
+		rf95.recv(msg_buff, &len) &&
+		IRECHYPERP::typeofData(msg_buff) == CMMNDt){
 
-				if((packet.header.flags >> 3) & 1){
-					
+			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+
+			// If the packet is a Arm command
+			if((packet.header.flags >> 3) & 1){
+
+				unsigned int pins_open = deployment_pins_open();
+
+				health_report_deploy(pins_open);
+
+				if(pins_open <= 1){
 					switch_to_main(); // Arm the payload
 					return;
 				}
 			}
 		}
-	}
 
 	dsq.add_routine(0, 50, R_recv_Arm);
 }
