@@ -79,8 +79,12 @@ void handle_incomming_messages(){
                 }
 
                 send_command();
-            } else {
-                //Serial.print("Received data frame of type: "); Serial.println(type);
+                
+            } else if(type == INFOt){
+                
+                Info_Packet packet = IRECHYPERP::unpack_Info(buff_raw_msg);
+
+                Serial.println(packet.data);
             }
     	}
 		digitalWrite(LED_BUILTIN, LOW);
