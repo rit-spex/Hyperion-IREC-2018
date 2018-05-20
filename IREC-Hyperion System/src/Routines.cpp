@@ -243,9 +243,10 @@ void R_recv_Arm(){
 	if (rf95.waitAvailableTimeout(1000) &&
 		rf95.recv(msg_buff, &len) &&
 		IRECHYPERP::typeofData(msg_buff) == CMMNDt){
-			
+
 			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
 
+			// If the packet is a Arm command
 			if((packet.header.flags >> 3) & 1){
 
 				unsigned int pins_open = deployment_pins_open();
