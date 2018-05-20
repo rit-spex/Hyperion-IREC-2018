@@ -217,6 +217,30 @@ void IRECHYPERP::createCMMNDFrame(uint8_t *buff, char *flags, uint16_t time) {
     }
 }
 
+void IRECHYPERP::createInfoFrame(uint8_t buff[], char flags[], uint16_t time, char msg[]){
+    uint8_t buff_header[HEADER_SIZE] = {0};
+    createHeader(buff_header, INFOt, flags, time);
+
+    int cnt = 0;
+
+    // Pack header into buffer
+    for (int i = 0; i < HEADER_SIZE; ++i) {
+        cnt = i;
+        buff[cnt] = buff_header[cnt];
+    }
+
+    cnt += 1;
+
+    int pack_cnt = 0;
+    while(msg[pack_cnt] != '\0'){
+        buff[cnt] = msg[pack_cnt];
+        pack_cnt += 1;
+        cnt += 1;
+    }
+
+    buff[cnt] = '\0';
+}
+
 unpk_header IRECHYPERP::unpack_header(const uint8_t buff[]) {
     unpk_header header={0};
 
@@ -445,6 +469,25 @@ CMMND_Packet IRECHYPERP::unpack_CMMND(const uint8_t *buff) {
     CMMND_Packet packet = {0};
 
     packet.header = unpack_header(buff);
+
+    return packet;
+}
+
+Info_Packet IRECHYPERP::unpack_Info(const uint8_t *buff){
+    Info_Packet packet = {0};
+
+    packet.header = unpack_header(buff);
+
+    int cnt_iter = HEADER_SIZE;
+    int cnt = 0;
+
+    while(buff[cnt_iter] != '\0'){
+        packet.data[cnt] = buff[cnt_iter];
+        cnt += 1;
+        cnt_iter += 1;
+    }
+
+    packet.data[cnt] = '\0';
 
     return packet;
 }

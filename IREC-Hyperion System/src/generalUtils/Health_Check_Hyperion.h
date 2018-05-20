@@ -9,6 +9,7 @@
 #define HEALTH_CHECK_H
 
 unsigned int    deployment_pins_open(); // Returns how many deployment pins are open.
-void            send_health_report(const char msg[]); // Sends health report to ground station
+void            send_health_report(char msg[]); // Sends health report to ground station
+void            health_report_deploy(unsigned int pin_cnt);
 
 #endif
