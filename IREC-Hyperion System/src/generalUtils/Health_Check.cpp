@@ -12,8 +12,8 @@
 #include <IREC_Hyperion_Protocol.h>
 
 #define MAX_MSG_SIZE 300
-#define SWITCH_DEBUFF 500
-#define DEBUFF_THRES 400
+#define SWITCH_DEBOUNCE 500
+#define DEBOUNCE_THRES 400
 
 /**
  * Given a switch pin, function will check if pin is open with
@@ -28,11 +28,11 @@ unsigned int check_switch_open(int switch_pin){
     
     int cnt = 0;
 
-    for(size_t i = 0; i < SWITCH_DEBUFF; i++){
+    for(size_t i = 0; i < SWITCH_DEBOUNCE; i++){
         if(digitalReadFast(switch_pin) == HIGH) cnt += 1;
     }
 
-    if(cnt > DEBUFF_THRES) return 1; // Switch reads open most of the time
+    if(cnt > DEBOUNCE_THRES) return 1; // Switch reads open most of the time
 
     return 0;
 }

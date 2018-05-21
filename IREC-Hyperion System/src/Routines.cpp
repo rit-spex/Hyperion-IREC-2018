@@ -25,9 +25,9 @@
 #define ALTITUDE_MIN_PRI 1
 #define ALTITUDE_MAX_PRI 400
 
-#define SWITCH_DEBUFF 5000
+#define SWITCH_DEBOUNCE 5000
 
-#define ALT_DEBUFF 1000
+#define ALT_DEBOUNCE 1000
 
 #define PARA_TIMEOUT 3000
 #define PARA_TIMEOUT_FIN 10000
@@ -55,7 +55,7 @@ void R_Default(){
 void R_check_deployment(){
 
 	int open_cnt = 0;
-	static unsigned int switch_debuff = 0;
+	static unsigned int switch_debounce = 0;
 
 	if(digitalReadFast(SWITCH_01) == HIGH) open_cnt += 1;
 	if(digitalReadFast(SWITCH_02) == HIGH) open_cnt += 1;
@@ -63,18 +63,18 @@ void R_check_deployment(){
 	if(digitalReadFast(SWITCH_04) == HIGH) open_cnt += 1;
 
 	if(open_cnt > 2){
-		switch_debuff += 1;
+		switch_debounce += 1;
 		
 	} else if (open_cnt == 2){
 		// Anomaly case where 2 switches are open and 2 switches are still
 		// closed.
-		if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED) switch_debuff += 1;
-		else switch_debuff = 0;
+		if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED) switch_debounce += 1;
+		else switch_debounce = 0;
 	} else {
-		switch_debuff = 0;
+		switch_debounce = 0;
 	}
 
-	if(switch_debuff >= SWITCH_DEBUFF){
+	if(switch_debounce >= SWITCH_DEBOUNCE){
 		set_deployment(); // Set time deployed
 		dsq.add_routine(0, 1, R_mission_constraints);
 		return;
@@ -374,7 +374,7 @@ void R_Altitude_data(){
 	}
 
 	// Use alt from BME280 if stratologger is offline
-	if(not_read_cnt >= ALT_DEBUFF) {
+	if(not_read_cnt >= ALT_DEBOUNCE) {
 		update_alt_BME280();
 		dsq.add_routine(0, 200, R_Altitude_data);
 		return;
