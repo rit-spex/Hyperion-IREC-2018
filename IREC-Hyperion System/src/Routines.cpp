@@ -20,7 +20,7 @@
 #include "Data_Buffer_Hyperion.h"
 #include "Pins.h"
 
-#define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
+#define D_ERROR_SPEED -20 // -20 m/s
 
 #define ALTITUDE_MIN_PRI 1
 #define ALTITUDE_MAX_PRI 400
@@ -36,11 +36,14 @@
 #define DAMPER_DEPLOY_SPEED -15
 #define DAMPER_TIMEOUT 40000
 
+#define DDEBOUNCE_TIME 1000
+#define DSEQ_CHECKS 5
+
 void R_Default(){
 	// TODO
 }
 
-/**
+/** OLD: TODO REMOVE
  * Routine to check deployment of the Hyperion payload
  * Cases:
  * open > 2: Deployment of the Hyperion payload
@@ -52,6 +55,7 @@ void R_Default(){
  *    If rate of climb (Negitive) is above DEPLOYMENT_ERROR_SPEED
  *      Deployed
  */
+/**
 void R_check_deployment(){
 
 	int open_cnt = 0;
@@ -68,13 +72,60 @@ void R_check_deployment(){
 	} else if (open_cnt == 2){
 		// Anomaly case where 2 switches are open and 2 switches are still
 		// closed.
-		if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED) switch_debounce += 1;
+		if (get_rate_of_climb() < D_ERROR_SPEED) switch_debounce += 1;
 		else switch_debounce = 0;
 	} else {
 		switch_debounce = 0;
 	}
 
 	if(switch_debounce >= SWITCH_DEBOUNCE){
+		set_deployment(); // Set time deployed
+		dsq.add_routine(0, 1, R_mission_constraints);
+		return;
+	}
+
+	dsq.add_routine(0, 1, R_check_deployment);
+}
+*/
+
+/**
+ * Routine to check deployment from launch vehicle 
+ * Deployment check passes on > 2 pins open or 2 pins open and 
+ * payload is traveling down faster than the defined threshold.
+ * 
+ * This routine will take DDEBOUNCE_TIME to complete. In this time 
+ * deployment switches will be checked DSEQ_CHECKS. If the routine passes
+ * DSEQ_CHECKS the R_mission_constraints is added into the DSQ 
+ * and this routine is removed(Not added).
+ */
+void R_check_deployment(){
+
+	static unsigned int seq_cnt = 0;
+	static uint32_t seq_time = 0;
+
+	if(!seq_cnt || (millis() - seq_time >= DDEBOUNCE_TIME/DSEQ_CHECKS)){
+		unsigned int open_cnt = 0;
+
+		// Switch debounce included
+    	open_cnt += check_switch_open(SWITCH_01);
+    	open_cnt += check_switch_open(SWITCH_02);
+    	open_cnt += check_switch_open(SWITCH_03);
+    	open_cnt += check_switch_open(SWITCH_04);
+
+		if(
+			open_cnt > 2 || 
+			(open_cnt == 2 && get_rate_of_climb() < D_ERROR_SPEED)
+		  ){
+			seq_time = millis();
+			++seq_cnt;
+		} else {
+			// Reset sequence if switches fail condition
+			seq_cnt = 0;
+			seq_time = 0;
+		}
+	}
+
+	if(seq_cnt >= DSEQ_CHECKS){
 		set_deployment(); // Set time deployed
 		dsq.add_routine(0, 1, R_mission_constraints);
 		return;
