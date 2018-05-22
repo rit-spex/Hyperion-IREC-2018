@@ -11,5 +11,6 @@
 unsigned int    deployment_pins_open(); // Returns how many deployment pins are open.
 void            send_health_report(char msg[]); // Sends health report to ground station
 void            health_report_deploy(unsigned int pin_cnt);
+unsigned int    check_switch_open(int switch_pin); // Used to debounce the pins
 
 #endif
