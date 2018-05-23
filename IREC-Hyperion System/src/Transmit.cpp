@@ -13,7 +13,7 @@
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
 
-RH_RF95 rf95(RFM95_CS, RFM95_INT, hardware_spi1);
+RH_RF95 rf95(COMMS_CS_LORA, LORA_INT, hardware_spi1);
 
 // Start at 30
 unsigned int bandwidth_scaler = 30;
@@ -23,18 +23,18 @@ unsigned int bandwidth_scaler = 30;
  */
 int init_LoRa(){
 
-  pinMode(RFM95_RST, OUTPUT);
-  digitalWrite(RFM95_RST, HIGH);
+  pinMode(LORA_RST, OUTPUT);
+  digitalWrite(LORA_RST, HIGH);
   
   // manual reset
-  digitalWrite(RFM95_RST, LOW);
+  digitalWrite(LORA_RST, LOW);
   delay(10);
-  digitalWrite(RFM95_RST, HIGH);
+  digitalWrite(LORA_RST, HIGH);
   delay(10);
 
-  SPI1.setMISO(1);
-  SPI1.setMOSI(0);
-  SPI1.setSCK(32); 
+  SPI1.setMISO(COMMS_MISO);
+  SPI1.setMOSI(COMMS_MOSI);
+  SPI1.setSCK(COMMS_SCLK); 
   SPI1.begin();
 
   if (!rf95.init()) {
@@ -65,13 +65,11 @@ bool transmit_data(uint8_t data[], int data_len){
   bool res = rf95.send(data, data_len);
 
   // Increase scaler value if can transmit, else wait longer
-  /**
   if(res){
     bandwidth_scaler -= 1;
-    cnt += 1;
   } else {
     bandwidth_scaler += 1;
-  }*/
+  }
   
   return res;
 }

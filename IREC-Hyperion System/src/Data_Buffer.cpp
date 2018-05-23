@@ -11,8 +11,9 @@
 #include "IRECHYPERION.h"
 #include "Data_Buffer_Hyperion.h"
 #include <SD.h>
+#include "Pins.h"
 
-#define FILE_WRITE_LIMIT 5000
+#define FILE_WRITE_LIMIT 2000
 // Maximum buffer capacity
 #define BUFFER_CAP 100
 
@@ -136,6 +137,8 @@ int write_buffer() {
 		new_file();
 	}
 
+	digitalWriteFast(LED_GREEN, HIGH);
+
 	if (data_file){
 		for (size_t i = 0; i < buff_size; i++){
 			data_file.write(data_buffer[i]);
@@ -143,7 +146,9 @@ int write_buffer() {
 	}
 
 	write_cnt += 1;
-
 	flush_buffer();
+
+	digitalWriteFast(LED_GREEN, LOW);
+
 	return 0;
 }

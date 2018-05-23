@@ -5,7 +5,7 @@
  *     Utilities functions mission events
  */
 
-#include "IRECHYPERION.h"
+#include "../IRECHYPERION.h"
 #include "../Routines_Hyperion.h"
 #include "../sensorUtils/StratoLogger_Hyperion.h"
 #include "Routine_Helpers_Hyperion.h"
@@ -32,20 +32,20 @@ bool imp_damper_deploy = false;
  */
 int init_deploy_pins(){
 
-	pinMode(DEPLOY_SWITCH_01, INPUT);
-	pinMode(DEPLOY_SWITCH_02, INPUT);
-	pinMode(DEPLOY_SWITCH_03, INPUT);
-	pinMode(DEPLOY_SWITCH_04, INPUT);
+	pinMode(SWITCH_01, INPUT);
+	pinMode(SWITCH_02, INPUT);
+	pinMode(SWITCH_03, INPUT);
+	pinMode(SWITCH_04, INPUT);
 
 	return 0; // Success
 }
 
 int init_para_pins(){
 
-	pinMode(EMATCH_1_ARM_P, OUTPUT);
-	digitalWriteFast(EMATCH_1_ARM_P, LOW);
-	pinMode(EMATCH_1_FIRE_P, OUTPUT);
-	digitalWriteFast(EMATCH_1_FIRE_P, LOW);
+	pinMode(EMATCH_1_ARM, OUTPUT);
+	digitalWriteFast(EMATCH_1_ARM, LOW);
+	pinMode(EMATCH_1_FIRE, OUTPUT);
+	digitalWriteFast(EMATCH_1_FIRE, LOW);
 
 	return 0;
 }
@@ -101,7 +101,7 @@ uint32_t deployed_delta(){
  */
 void arm_parachute(){
 
-	digitalWriteFast(EMATCH_1_ARM_P, HIGH);
+	digitalWriteFast(EMATCH_1_ARM, HIGH);
 }
 
 /**

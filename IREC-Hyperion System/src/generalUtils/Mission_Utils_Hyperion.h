@@ -1,5 +1,5 @@
 /*
- * File: Mission_Utils.cpp
+ * File: Mission_Utils.h
  * Organization: RIT Space Exploration
  * Description:
  *     Utilities functions mission events

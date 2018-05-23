@@ -20,14 +20,14 @@ int16_t x, y, z;
  */
 int init_LIS331(){
 
-	pinMode(LIS3DH_CS, OUTPUT);    // CS for SPI
-	digitalWrite(LIS3DH_CS, HIGH); // Make CS high
-	pinMode(LIS3DH_MOSI, OUTPUT);    // MOSI for SPI
-	pinMode(LIS3DH_MISO, INPUT);     // MISO for SPI
-	pinMode(LIS3DH_CLK, OUTPUT);    // SCK for SPI
+	pinMode(SENSOR_CS_LIS, OUTPUT);    // CS for SPI
+	digitalWrite(SENSOR_CS_LIS, HIGH); // Make CS high
+	pinMode(SENSORS_MOSI, OUTPUT);    // MOSI for SPI
+	pinMode(SESNORS_MISO, INPUT);     // MISO for SPI
+	pinMode(SENSORS_SCLK, OUTPUT);    // SCK for SPI
 	SPI.begin();
 
-	lis.setSPICSPin(LIS3DH_CS);
+	lis.setSPICSPin(SENSOR_CS_LIS);
 	lis.begin(LIS331::USE_SPI);
 
 	return 0;

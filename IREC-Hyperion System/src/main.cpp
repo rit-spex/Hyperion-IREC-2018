@@ -28,15 +28,15 @@ DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)
 void fill_main_startup(){
 	//TODO
 	// Add startup routines into the dsq
-	//dsq.add_routine(0, 3, R_trans_LSM9DS1);
-	//dsq.add_routine(0, 20, R_trans_BME280);
-	//dsq.add_routine(0, 30, R_trans_CCS811);
-	//dsq.add_routine(0, 10, R_trans_LIS331);
-	//dsq.add_routine(0, 10, R_trans_Altitude);
-	//dsq.add_routine(0, 10, R_trans_Orientation);
+	dsq.add_routine(0, 3, R_trans_LSM9DS1);
+	dsq.add_routine(0, 20, R_trans_BME280);
+	dsq.add_routine(0, 30, R_trans_CCS811);
+	dsq.add_routine(0, 10, R_trans_LIS331);
+	dsq.add_routine(0, 10, R_trans_Altitude);
+	dsq.add_routine(0, 10, R_trans_Orientation);
 	dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_seq_BME280_data);
-	//dsq.add_routine(0, 30, R_seq_CCS811_data);
+	dsq.add_routine(0, 30, R_seq_CCS811_data);
 	dsq.add_routine(0, 3, R_seq_LIS331_data);
 	dsq.add_routine(0, 100, R_calc_RateOfClimb);
 	dsq.add_routine(0, 10, R_Altitude_data);
@@ -45,7 +45,7 @@ void fill_main_startup(){
 	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
-	//dsq.add_routine(0, 50, R_recv_Disarm);
+	dsq.add_routine(0, 50, R_recv_Disarm);
 	dsq.add_routine(0, 100, R_Heartbeat);
 }
 
@@ -56,12 +56,12 @@ void fill_safe_startup(){
 	
 	dsq.add_routine(0, 100, R_calc_RateOfClimb);
 	dsq.add_routine(0, 10, R_Altitude_data);
-	//dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
+	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
-	//dsq.add_routine(0, 3, R_gath_LIS331_data);
+	dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 	dsq.add_routine(0, 20, R_trans_BME280);
-	//dsq.add_routine(0, 30, R_trans_CCS811);
+	dsq.add_routine(0, 30, R_trans_CCS811);
 	dsq.add_routine(0, 10, R_trans_LIS331);
 	dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 10, R_trans_Orientation);
@@ -103,11 +103,19 @@ void switch_to_safe(){
 
 /**
  * Routine sets modes of pin(s):
- * 		HEARTBEAT_LED
+ * 		LED_BLUE, LED_GREEN, LED_RED
  */
 void init_misc_pins(){
-	pinMode(HEARTBEAT_LED, OUTPUT);
-	digitalWriteFast(HEARTBEAT_LED, LOW);
+	// Init Heartbeat led
+	pinMode(LED_BLUE, OUTPUT);
+	digitalWriteFast(LED_BLUE, LOW);
+
+	// Init SD IO led
+	pinMode(LED_GREEN, OUTPUT);
+	digitalWriteFast(LED_GREEN, LOW);
+
+	pinMode(LED_RED, OUTPUT);
+	digitalWriteFast(LED_RED, LOW);
 }
 
 /**
@@ -119,7 +127,7 @@ void power_system_check(){
 
 void setup() {
 
-	analogReadAveraging(8); // Smooths out analog readings
+	analogReadAveraging(16); // Smooths out analog readings
 
 	// TODO
 	// Initialize hardware modules
@@ -129,7 +137,7 @@ void setup() {
 	init_LoRa();
 	init_BME280();
 	init_LSM9DS1();
-	//init_CCS811();
+	init_CCS811();
 	init_LIS331();
 	init_StratoLogger();
 	init_SD();

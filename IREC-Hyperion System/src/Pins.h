@@ -53,7 +53,7 @@
 #define SENSOR_CS_LIS   39
 
 // PROTO_PINS
-
+/**
 #define RFM95_INT       4  
 #define RFM95_CS        5 
 #define RFM95_RST       6
@@ -70,6 +70,7 @@
 #define EMATCH_1_ARM_P    23
 #define EMATCH_1_FIRE_P   21
 #define LIS3DH_CS        35
+*/
 
 #endif
  

@@ -16,17 +16,18 @@
 #include "sensorUtils/StratoLogger_Hyperion.h"
 #include "generalUtils/Routine_Helpers_Hyperion.h"
 #include "Transmit_Hyperion.h"
+#include "generalUtils/Health_Check_Hyperion.h"
 #include "Data_Buffer_Hyperion.h"
 #include "Pins.h"
 
-#define DEPLOYMENT_ERROR_SPEED -20 // -20 m/s
+#define D_ERROR_SPEED -20 // -20 m/s
 
 #define ALTITUDE_MIN_PRI 1
 #define ALTITUDE_MAX_PRI 400
 
-#define SWITCH_DEBUFF 5000
+#define SWITCH_DEBOUNCE 5000
 
-#define ALT_DEBUFF 1000
+#define ALT_DEBOUNCE 1000
 
 #define PARA_TIMEOUT 3000
 #define PARA_TIMEOUT_FIN 10000
@@ -35,11 +36,14 @@
 #define DAMPER_DEPLOY_SPEED -15
 #define DAMPER_TIMEOUT 40000
 
+#define DDEBOUNCE_TIME 1000
+#define DSEQ_CHECKS 5
+
 void R_Default(){
 	// TODO
 }
 
-/**
+/** OLD: TODO REMOVE
  * Routine to check deployment of the Hyperion payload
  * Cases:
  * open > 2: Deployment of the Hyperion payload
@@ -51,29 +55,77 @@ void R_Default(){
  *    If rate of climb (Negitive) is above DEPLOYMENT_ERROR_SPEED
  *      Deployed
  */
+/**
 void R_check_deployment(){
 
 	int open_cnt = 0;
-	static unsigned int switch_debuff = 0;
+	static unsigned int switch_debounce = 0;
 
-	if(digitalReadFast(DEPLOY_SWITCH_01) == HIGH) open_cnt += 1;
-	if(digitalReadFast(DEPLOY_SWITCH_02) == HIGH) open_cnt += 1;
-	if(digitalReadFast(DEPLOY_SWITCH_03) == HIGH) open_cnt += 1;
-	if(digitalReadFast(DEPLOY_SWITCH_04) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_01) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_02) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_03) == HIGH) open_cnt += 1;
+	if(digitalReadFast(SWITCH_04) == HIGH) open_cnt += 1;
 
 	if(open_cnt > 2){
-		switch_debuff += 1;
+		switch_debounce += 1;
 		
 	} else if (open_cnt == 2){
 		// Anomaly case where 2 switches are open and 2 switches are still
 		// closed.
-		if (get_rate_of_climb() < DEPLOYMENT_ERROR_SPEED) switch_debuff += 1;
-		else switch_debuff = 0;
+		if (get_rate_of_climb() < D_ERROR_SPEED) switch_debounce += 1;
+		else switch_debounce = 0;
 	} else {
-		switch_debuff = 0;
+		switch_debounce = 0;
 	}
 
-	if(switch_debuff >= SWITCH_DEBUFF){
+	if(switch_debounce >= SWITCH_DEBOUNCE){
+		set_deployment(); // Set time deployed
+		dsq.add_routine(0, 1, R_mission_constraints);
+		return;
+	}
+
+	dsq.add_routine(0, 1, R_check_deployment);
+}
+*/
+
+/**
+ * Routine to check deployment from launch vehicle 
+ * Deployment check passes on > 2 pins open or 2 pins open and 
+ * payload is traveling down faster than the defined threshold.
+ * 
+ * This routine will take DDEBOUNCE_TIME to complete. In this time 
+ * deployment switches will be checked DSEQ_CHECKS. If the routine passes
+ * DSEQ_CHECKS the R_mission_constraints is added into the DSQ 
+ * and this routine is removed(Not added).
+ */
+void R_check_deployment(){
+
+	static unsigned int seq_cnt = 0;
+	static uint32_t seq_time = 0;
+
+	if(!seq_cnt || (millis() - seq_time >= DDEBOUNCE_TIME/DSEQ_CHECKS)){
+		unsigned int open_cnt = 0;
+
+		// Switch debounce included
+    	open_cnt += check_switch_open(SWITCH_01);
+    	open_cnt += check_switch_open(SWITCH_02);
+    	open_cnt += check_switch_open(SWITCH_03);
+    	open_cnt += check_switch_open(SWITCH_04);
+
+		if(
+			open_cnt > 2 || 
+			(open_cnt == 2 && get_rate_of_climb() < D_ERROR_SPEED)
+		  ){
+			seq_time = millis();
+			++seq_cnt;
+		} else {
+			// Reset sequence if switches fail condition
+			seq_cnt = 0;
+			seq_time = 0;
+		}
+	}
+
+	if(seq_cnt >= DSEQ_CHECKS){
 		set_deployment(); // Set time deployed
 		dsq.add_routine(0, 1, R_mission_constraints);
 		return;
@@ -131,13 +183,13 @@ void R_deploy_parachute(){
 
 	if(!deployed_time_para){
 		// Fire the two ematches
-		digitalWriteFast(EMATCH_1_FIRE_P, HIGH);
+		digitalWriteFast(EMATCH_1_FIRE, HIGH);
 		deployed_time_para = millis();
 	}
 
 	if(millis() - deployed_time_para >= PARA_BLAST_TIME){
 		// Return the fire pins to low.
-		digitalWriteFast(EMATCH_1_FIRE_P, LOW);
+		digitalWriteFast(EMATCH_1_FIRE, LOW);
 		return;
 	}
 
@@ -166,10 +218,10 @@ void R_Heartbeat(){
 
 	if(toggle){
 		toggle = false;
-		digitalWriteFast(HEARTBEAT_LED, LOW);
+		digitalWriteFast(LED_BLUE, LOW);
 	} else {
 		toggle = true;
-		digitalWriteFast(HEARTBEAT_LED, HIGH);
+		digitalWriteFast(LED_BLUE, HIGH);
 	}
 
 	dsq.add_routine(0, 50, R_Heartbeat);
@@ -239,18 +291,25 @@ void R_recv_Arm(){
 	uint8_t len = sizeof(msg_buff);
 
 	// Receive command from ground station.
-	if (rf95.waitAvailableTimeout(1000)){
-		if(rf95.recv(msg_buff, &len)){
-			if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
-				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+	if (rf95.waitAvailableTimeout(1000) &&
+		rf95.recv(msg_buff, &len) &&
+		IRECHYPERP::typeofData(msg_buff) == CMMNDt){
 
-				if((packet.header.flags >> 3) & 1){
+			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+
+			// If the packet is a Arm command
+			if((packet.header.flags >> 3) & 1){
+
+				unsigned int pins_open = deployment_pins_open();
+
+				health_report_deploy(pins_open);
+
+				if(pins_open <= 1){
 					switch_to_main(); // Arm the payload
 					return;
 				}
 			}
 		}
-	}
 
 	dsq.add_routine(0, 50, R_recv_Arm);
 }
@@ -366,7 +425,7 @@ void R_Altitude_data(){
 	}
 
 	// Use alt from BME280 if stratologger is offline
-	if(not_read_cnt >= ALT_DEBUFF) {
+	if(not_read_cnt >= ALT_DEBOUNCE) {
 		update_alt_BME280();
 		dsq.add_routine(0, 200, R_Altitude_data);
 		return;
