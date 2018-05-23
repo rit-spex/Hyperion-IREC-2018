@@ -1,0 +1,84 @@
+Component,Description,Part,References,Value,Footprint,Quantity Per PCB,Datasheet
+1,Unpolarized capacitor,C,C4 C23 C32 C33 C34 C35,.01uF,C_0603_HandSoldering,6,
+2,Unpolarized capacitor,C,C1 C5 C6 C14 C19 C24 C25 C26 C27 C28 C29 C30 C31,0.1uF,C_0603_HandSoldering,13,
+3,Unpolarized capacitor,C,C7,10pF,C_0603_HandSoldering,1,
+4,Unpolarized capacitor,C,C8,220pF,C_0603_HandSoldering,1,
+5,Unpolarized capacitor,C,C2 C3 C9 C10 C11 C12 C13 C15 C16 C17 C18 C20 C21 C22,47uF,C_1210_HandSoldering,14,
+6,,ZENER,D5,+3.3V_Zener,SOD-323_Diode,1,
+7,,ZENER,D1 D2,5.6V,SOD-323_Diode,2,
+8,LED generic,LED,D15 D17,Blue,LED_0603_HandSoldering,2,
+9,Schottky diode,D_Schottky,D3,CMDSH2-3,SOD-323_Diode,1,
+10,LED generic,LED,D6 D7 D8 D9 D14,Green,LED_0603_HandSoldering,5,
+11,LED generic,LED,D10 D12 D13 D16,Red,LED_0603_HandSoldering,4,
+12,Schottky diode,D_Schottky,D4 D11,SL42-E3/57T,DO-214AB_Zener,2,
+13,"coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, ...)",CONN_COAXIAL,J9,0733910320 [915MHz SMA],CONN_RP-SMA_Right_Angle_0733910320,1,
+14,"Connector, single row, 01x02, pin header",CONN_01X02,J1,BACKUP_BATT: 1586038-2,CONN_2POS_VERT_TE_CONN,1,
+15,"Connector, single row, 01x02, pin header",CONN_01X02,J14,Buzzer,CONN_2POS_VERT_TE_CONN_LOCK_5-103669-1,1,
+16,"Connector, single row, 01x02, pin header",CONN_01X02,J4,EMATCH_1: 1586038-2,CONN_2POS_VERT_TE_CONN,1,
+17,"Connector, single row, 01x02, pin header",CONN_01X02,J5,EMATCH_2: 1586038-2,CONN_2POS_VERT_TE_CONN,1,
+18,"Connector, single row, 01x02, pin header",CONN_01X02,J2,MAIN_BATT: 1586038-2,CONN_2POS_VERT_TE_CONN,1,
+19,"Connector, single row, 01x03, pin header",CONN_01X03,J3,Servo_Control,Molex_Microfit3_Header_01x03_Straight,1,
+20,"Connector, single row, 01x04, pin header",CONN_01X04,J7,Stratologger_DATA,4-Pin_Molex_Vertical,1,
+21,"Connector, single row, 01x02, pin header",CONN_01X02,J6,Stratologger_PWR: 1586038-2,CONN_2POS_VERT_TE_CONN,1,
+22,"Connector, single row, 01x02, pin header",CONN_01X02,J15,Strobe,CONN_2POS_VERT_TE_CONN_LOCK_5-103669-1,1,
+23,"Connector, single row, 01x02, pin header",CONN_01X02,J10,Switch_1,CONN_2POS_VERT_TE_CONN_LOCK_5-103669-1,1,
+24,"Connector, single row, 01x02, pin header",CONN_01X02,J12,Switch_2,CONN_2POS_VERT_TE_CONN_LOCK_5-103669-1,1,
+25,"Connector, single row, 01x02, pin header",CONN_01X02,J11,Switch_3,CONN_2POS_VERT_TE_CONN_LOCK_5-103669-1,1,
+26,"Connector, single row, 01x02, pin header",CONN_01X02,J13,Switch_4,CONN_2POS_VERT_TE_CONN_LOCK_5-103669-1,1,
+27,"coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, ...)",CONN_COAXIAL,J8,U.FL-R-SMT-1(10),HRS_U.FL-R-SMT-1(10),1,
+28,,INDUCTOR_SMALL,L1,RLF7030T-2R2M5R4 [2.2uH],IND_RLF7030,1,
+29,Transistor N-MOSFETwith substrate diode (general),Q_NMOS_GSD,Q5 Q6 Q7 Q9 Q11 Q12 Q13 Q14 Q16 Q19 Q20 Q23 Q24 Q25 Q27 Q30 Q31,NTR4003,SOT-23,17,
+30,Transistor N-MOSFETwith substrate diode (general),Q_NMOS_GSD,Q21 Q22,SIS612EDNT-T1-GE3,PowerPAK_1212-8S,2,
+31,Transistor P-MOSFET with substrate diode (general),Q_PMOS_GSD,Q1 Q2 Q3 Q4 Q8 Q10 Q15 Q17 Q18 Q26 Q28 Q29,SSM3J328R,SOT-23,12,
+32,Resistor,R,R80,0,R_0603_HandSoldering,1,
+33,Resistor,R,R5 R24 R31 R72 R73 R74 R75 R76 R81 R83,10,R_0603_HandSoldering,10,
+34,Resistor,R,R1 R2 R34,100k,R_0603_HandSoldering,3,
+35,Resistor,R,R4 R6 R8 R12 R13 R16 R18 R20 R21 R23 R44 R45 R46 R47 R50 R51 R54 R55 R65 R66 R67 R70 R71 R77 R79 R84 R85 R86 R87 R90 R91 R94 R95 R98 R99,10k,R_0603_HandSoldering,35,
+36,Resistor,R,R25 R28,10m,R_0805_HandSoldering,2,
+37,Resistor,R,R59 R64 R69,11.3k,R_0603_HandSoldering,3,
+38,Resistor,R,R27 R30 R33 R38,11.5k,R_0603_HandSoldering,4,
+39,Resistor,R,R17,118k,R_0603_HandSoldering,1,
+40,Resistor,R,R10 R11 R22 R48 R49 R78 R96 R97,12k,R_0603_HandSoldering,8,
+41,Resistor,R,R3,140k,R_0603_HandSoldering,1,
+42,Resistor,R,R43 R62,150,R_0603_HandSoldering,2,
+43,Resistor,R,R15,16k,R_0603_HandSoldering,1,
+44,Resistor,R,R26 R29 R32 R37 R56 R57,1M,R_0603_HandSoldering,6,
+45,Resistor,R,R88 R89 R92 R93,1k,R_0603_HandSoldering,4,
+46,Resistor,R,R7,200k,R_0603_HandSoldering,1,
+47,Resistor,R,R35 R36,25m,R_0805_HandSoldering,2,
+48,Resistor,R,R19,2k,R_0603_HandSoldering,1,
+49,Resistor,R,R58 R63 R68,45.3k,R_0603_HandSoldering,3,
+50,Resistor,R,R41,470,R_0603_HandSoldering,1,
+51,Resistor,R,R9 R14 R52 R53,510,R_0603_HandSoldering,4,
+52,Resistor,R,R39 R40 R42 R60 R61 R82,80,R_0603_HandSoldering,6,
+53,,SWITCH_DPDT,SW1,EG2201A [DPDT],SW_DPDT_30V_200mA_EG2201A,1,
+54,,ABPMANN030PG2A3,U12,ABPMANN030PG2A3,PRESSURE_TRANSDUCER_ABPMANN030PG2A3,1,
+55,,BME280,U15,BME280,BME280,1,
+56,,CCS811,U16,CCS811,SON60P270X400X110-11N,1,
+57,"800mA Fixed Low Drop Positive Voltage Regulator, Fixed Output 3.3V, SOT223",LD1117S12CTR,U6 U8,LDL1117S33R,SOT-223_Tab_Pin_2,2,http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/CD00000544.pdf
+58,"800mA Fixed Low Drop Positive Voltage Regulator, Fixed Output 3.3V, SOT223",LD1117S12CTR,U5,LDL1117S50R,SOT-223_Tab_Pin_2,1,http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/CD00000544.pdf
+59,,LIS331HH,U14,LIS331HH,LGA16_3x3mm_0.5mm_pitch,1,
+60,,LSM9DS1,U13,LSM9DS1,PQFN24P43_350X300X102L35X23N,1,
+61,"36V high side current sense amplifier, adjustable gain, bandwidth 200kHz, Vcc=2.7V~36V, current output, unidirectional",LT6703-3,U1,LT6703-3,SOT-23-5_HandSoldering,1,http://cds.linear.com/docs/en/datasheet/6106fb.pdf
+62,,LTC2992,U7 U9,LTC2992,DFN-16-1EP_3x4mm_Pitch0.45mm,2,
+63,,LTC3605,U2,LTC3605,QFN25_4x4mm_0.5mm_pitch,1,
+64,,LTC4358,U10,LTC4358,HTSSOP-16-1EP_4.4x5mm_Pitch0.65mm,1,
+65,,LTC4358,U3 U4,LTC4358,TSSOP-16-1EP_4.4x5mm_Pitch0.65mm,2,
+66,,RFM69HCW,U18,RFM69HCW,RFM69HCW-XXXS2,1,
+67,,Teensy3.6,U11,Teensy3.6,Teensy33_SidePinsAndVBatt,1,
+68,,ublox_max-m8q,U17,ublox_max-m8q,MAX-M8,1,
+
+
+
+
+
+Component Groups:,68
+Component Count:,217
+Fitted Components:,217
+Number of PCBs:,1
+Total components:,217
+Schematic Version:,
+Schematic Date:,
+BoM Date:,5/23/2018 2:30:08 AM
+Schematic Source:,C:/Users/danda/Desktop/Projects/SPEX/IREC/IREC-Hyperion/Hardware/MainboardRev1/MainboardRev1.sch
+KiCad Version:,Eeschema 4.0.4-stable
