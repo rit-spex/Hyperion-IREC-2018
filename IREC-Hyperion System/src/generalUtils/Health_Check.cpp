@@ -32,7 +32,7 @@ unsigned int check_switch_open(int switch_pin){
         if(digitalReadFast(switch_pin) == HIGH) cnt += 1;
     }
 
-    if(cnt > DEBOUNCE_THRES*SWITCH_DEBOUNCE) return 1; // Switch reads open most of the time
+    if(cnt > (int) DEBOUNCE_THRES*SWITCH_DEBOUNCE) return 1; // Switch reads open most of the time
 
     return 0;
 }
