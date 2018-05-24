@@ -39,54 +39,11 @@
 #define DDEBOUNCE_TIME 1000
 #define DSEQ_CHECKS 5
 
+#define HEARTBEAT_INT 1000
+
 void R_Default(){
 	// TODO
 }
-
-/** OLD: TODO REMOVE
- * Routine to check deployment of the Hyperion payload
- * Cases:
- * open > 2: Deployment of the Hyperion payload
- * 0 < open <= 2: Anomaly case where 1 or 2 switches are open and 3 or 2 switches are still
- * closed.
- * Handling:
- * Case 1: Deployment procedure
- * Case 2: Further checking for deployment
- *    If rate of climb (Negitive) is above DEPLOYMENT_ERROR_SPEED
- *      Deployed
- */
-/**
-void R_check_deployment(){
-
-	int open_cnt = 0;
-	static unsigned int switch_debounce = 0;
-
-	if(digitalReadFast(SWITCH_01) == HIGH) open_cnt += 1;
-	if(digitalReadFast(SWITCH_02) == HIGH) open_cnt += 1;
-	if(digitalReadFast(SWITCH_03) == HIGH) open_cnt += 1;
-	if(digitalReadFast(SWITCH_04) == HIGH) open_cnt += 1;
-
-	if(open_cnt > 2){
-		switch_debounce += 1;
-		
-	} else if (open_cnt == 2){
-		// Anomaly case where 2 switches are open and 2 switches are still
-		// closed.
-		if (get_rate_of_climb() < D_ERROR_SPEED) switch_debounce += 1;
-		else switch_debounce = 0;
-	} else {
-		switch_debounce = 0;
-	}
-
-	if(switch_debounce >= SWITCH_DEBOUNCE){
-		set_deployment(); // Set time deployed
-		dsq.add_routine(0, 1, R_mission_constraints);
-		return;
-	}
-
-	dsq.add_routine(0, 1, R_check_deployment);
-}
-*/
 
 /**
  * Routine to check deployment from launch vehicle 
@@ -196,8 +153,12 @@ void R_deploy_parachute(){
 	dsq.add_routine(0, 0, R_deploy_parachute);
 }
 
+/**
+ * Dummy function to simulate when impact dampers would deploy.
+ */
 void R_deploy_dampers(){
 
+	set_imp_damper_deploy();
 }
 
 /**
@@ -211,10 +172,12 @@ void R_calc_RateOfClimb(){
 }
 
 /**
- * Toggles heartbeat led
+ * Toggles heartbeat led using predefined interval
  */
 void R_Heartbeat(){
 	static bool toggle = false;
+	static uint32_t time_track = 0;
+	static int pri_val = 50;
 
 	if(toggle){
 		toggle = false;
@@ -224,7 +187,15 @@ void R_Heartbeat(){
 		digitalWriteFast(LED_BLUE, HIGH);
 	}
 
-	dsq.add_routine(0, 50, R_Heartbeat);
+	if(millis() - time_track < HEARTBEAT_INT){
+		pri_val += (pri_val > 1) ? -1 : 0;
+	} else {
+		pri_val += (pri_val < 100) ? 1 : 0;
+	}
+
+	time_track = millis();
+
+	dsq.add_routine(0, pri_val, R_Heartbeat);
 }
 
 /**
