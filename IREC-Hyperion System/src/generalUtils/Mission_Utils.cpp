@@ -17,6 +17,8 @@
 #define ACCEL_AUTO_ARM_THRES 2 // In gees
 #define ROC_AUTO_ARM_THRES 30 // m/s
 
+#define LAUNCH_DETECT_ALT 55 // meters
+
 uint32_t deployment_time = 0;
 
 float height_sample = get_Altitude(); //Stratologger
@@ -162,22 +164,5 @@ bool correct_orientation_para(){
  */
 bool detect_launch(){
 
-	bool check_RateOfClimb = false;
-	bool check_x = false;
-	bool check_y = false; 
-	bool check_z = false;
-
-	// acceleration greater than the set threshold
-	if(get_lis331_accel_x() > ACCEL_AUTO_ARM_THRES) check_x = true;
-	if(get_lis331_accel_y() > ACCEL_AUTO_ARM_THRES) check_y = true;
-	if(get_lis331_accel_z() > ACCEL_AUTO_ARM_THRES) check_z = true;
-
-	// If accelerometer is upside down
-	if(get_lis331_accel_x() < ACCEL_AUTO_ARM_THRES * -1) check_x = true;
-	if(get_lis331_accel_y() < ACCEL_AUTO_ARM_THRES * -1) check_y = true;
-	if(get_lis331_accel_z() < ACCEL_AUTO_ARM_THRES * -1) check_z = true;
-
-	if(get_rate_of_climb() > ROC_AUTO_ARM_THRES) check_RateOfClimb = true;
-
-	return (check_RateOfClimb && (check_x || check_y || check_z));
+	return get_Altitude() > LAUNCH_DETECT_ALT;
 }
