@@ -108,6 +108,7 @@ void switch_to_done(){
 void switch_to_safe(){
 
 	digitalWriteFast(BUZZER_DISABLE, LOW); // Disable Buzzer
+	digitalWriteFast(STROBE_DISABLE, LOW); // Disable Strobe
 
 	dsq.clear();
 	fill_safe_startup();
