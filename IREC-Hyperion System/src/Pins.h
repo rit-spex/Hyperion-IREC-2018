@@ -48,8 +48,8 @@
 #define EMATCH_2_ARM    34
 #define EMATCH_1_FIRE   35
 #define EMATCH_2_FIRE   36
-#define DATA_READY      37
-#define DATA_READY_1    38
+#define BUZZER_DISABLE  37
+#define STROBE_DISABLE  38
 #define SENSOR_CS_LIS   39
 
 // PROTO_PINS
