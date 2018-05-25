@@ -40,6 +40,7 @@
 #define DSEQ_CHECKS 5
 
 #define HEARTBEAT_INT 1000
+#define STROBE_INT 250
 
 void R_Default(){
 	// TODO
@@ -190,12 +191,39 @@ void R_Heartbeat(){
 	if(millis() - time_track < HEARTBEAT_INT){
 		pri_val += (pri_val > 1) ? -1 : 0;
 	} else {
-		pri_val += (pri_val < 100) ? 1 : 0;
+		pri_val += (pri_val < 1000) ? 1 : 0;
 	}
 
 	time_track = millis();
 
 	dsq.add_routine(0, pri_val, R_Heartbeat);
+}
+
+/**
+ * Toggles strobe LED for predefined interval.
+ */
+void R_Strobe(){
+	static bool toggle = false;
+	static uint32_t time_track = 0;
+	static int pri_val = 50;
+
+	if(toggle){
+		toggle = false;
+		digitalWriteFast(STROBE_DISABLE, LOW);
+	} else {
+		toggle = true;
+		digitalWriteFast(STROBE_DISABLE, HIGH);
+	}
+
+	if(millis() - time_track < STROBE_INT){
+		pri_val += (pri_val > 1) ? -1 : 0;
+	} else {
+		pri_val += (pri_val < 1000) ? 1 : 0;
+	}
+
+	time_track = millis();
+
+	dsq.add_routine(0, pri_val, R_Strobe);
 }
 
 /**
@@ -283,6 +311,16 @@ void R_recv_Arm(){
 		}
 
 	dsq.add_routine(0, 50, R_recv_Arm);
+}
+
+/**
+ * Delay routine used to block cpu when not needed.
+ */
+void R_Delay(){
+
+	delay(1);
+
+	dsq.add_routine(0, 1, R_Delay);
 }
 
 /**

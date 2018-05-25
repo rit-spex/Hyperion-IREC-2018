@@ -47,6 +47,7 @@ void fill_main_startup(){
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 50, R_recv_Disarm);
 	dsq.add_routine(0, 100, R_Heartbeat);
+	dsq.add_routine(0, 50, R_Strobe);
 }
 
 /**
@@ -75,12 +76,17 @@ void fill_safe_startup(){
 void fill_done_startup(){
 	
 	dsq.add_routine(0, 100, R_Heartbeat);
+	dsq.add_routine(0, 50, R_Strobe);
+	dsq.add_routine(0, 1, R_Delay);
 }
 
 /**
  * Switches to the main flight phase, ARMED
  */
 void switch_to_main(){
+
+	digitalWriteFast(BUZZER_DISABLE, HIGH); // Enable Buzzer
+
 	dsq.clear();
 	fill_main_startup();
 }
@@ -89,6 +95,9 @@ void switch_to_main(){
  * Switches to done phase after mission success
  */
 void switch_to_done(){
+
+	digitalWriteFast(BUZZER_DISABLE, HIGH); // Enable Buzzer
+
 	dsq.clear();
 	fill_done_startup();
 }
@@ -97,6 +106,9 @@ void switch_to_done(){
  * Switches to safe phase on command
  */
 void switch_to_safe(){
+
+	digitalWriteFast(BUZZER_DISABLE, LOW); // Disable Buzzer
+
 	dsq.clear();
 	fill_safe_startup();
 }
@@ -116,6 +128,14 @@ void init_misc_pins(){
 
 	pinMode(LED_RED, OUTPUT);
 	digitalWriteFast(LED_RED, LOW);
+
+	// Init for strobe led
+	pinMode(STROBE_DISABLE, OUTPUT);
+	digitalWriteFast(STROBE_DISABLE, LOW);
+
+	// Init for buzzer
+	pinMode(BUZZER_DISABLE, OUTPUT);
+	digitalWriteFast(BUZZER_DISABLE, LOW);
 }
 
 /**
