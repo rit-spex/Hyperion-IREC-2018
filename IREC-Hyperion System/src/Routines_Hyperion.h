@@ -34,5 +34,8 @@ void      R_gath_LSM9DS1_data(); // Gather routine for LSM9DS1 sensor
 void      R_gath_BME280_data(); // Gather routine for BME280 sensor
 void      R_gath_LIS331_data(); // Gather LIS331 routine for LIS331
 void      R_Heartbeat(); // Toggle heartbeat led
+void      R_Strobe(); // Toggle strobe led
+void      R_Health_report(); // Send health report
+void      R_Delay(); // Produce 1ms delay 
 
 #endif
