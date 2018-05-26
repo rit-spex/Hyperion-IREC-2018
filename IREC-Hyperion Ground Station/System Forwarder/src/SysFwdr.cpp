@@ -23,6 +23,7 @@
 #define RF95_FREQ 915.0
 
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
+bool armed = false;
 
 /**
  * Convert int32_t into a float
@@ -130,9 +131,61 @@ int CtCSV_BME280(char* buff, BME280_Packet data){
 	return strlen(buff);
 }
 
-int CtCSV_CCS811(char* buff, CCS811_Packet data);
+/**
+ * Construct a string to be sent over serial for the CCS811 data frame
+ * Args:
+ * 		buff: the string to be constructed
+ * 		data: raw data structure
+ * Format:
+ * 		[Header],[Co2],[TVOC]
+ * Return:
+ * 		The size of the constructed string.
+ */
+int CtCSV_CCS811(char* buff, CCS811_Packet data){
+
+	CCS811_Data data_frame = data.data;
+
+	write_header(buff, data.header);
+
+	int16_t temp_arry[2] = {data_frame.co2, data_frame.TVOC};
+	
+	char temp[10] = {'\0'};
+
+	for(int i = 0; i < 2; i++){
+		strcat(buff, ",");
+		itoa(temp_arry[i], temp, 10);
+		strcat(buff, temp);
+	}
+
+	return strlen(buff);
+}
+
 int CtCSV_LIS331(char* buff, LIS311_Packet data);
 int CtCSV_PFSL(char* buff, PFSL_Packet data);
+int CtCSV_Oren(char* buff, OREN_Packet data);
+int CtCSV_Info(char* buff, Info_Packet data);
+
+
+/**
+ * Send command to ground station with current status
+ */
+void send_command(){
+
+	rf95.waitPacketSent();
+
+	uint16_t time = millis() / 1000;
+	uint8_t buff[HEADER_SIZE] = {0};
+
+	if(armed){
+		char flags[4] = {1, 0, 0, 0};
+		IRECHYPERP::createCMMNDFrame(buff, flags, time);
+	} else {
+		char flags[4] = {0, 1, 0, 0};
+		IRECHYPERP::createCMMNDFrame(buff, flags, time);      
+	}
+
+	rf95.send(buff, HEADER_SIZE);
+}
 
 /**
  * Grabs source from transmission, unpacks data then 
@@ -168,7 +221,7 @@ int convert_to_csv(char* buff, const uint8_t* source){
 		case CCS811t:
 		{
 			CCS811_Packet packet = IRECHYPERP::unpack_CCS811(source);
-			//CtCSV_CCS811(buff, packet);
+			CtCSV_CCS811(buff, packet);
 		}
 		break;
 		case LIS331t:
@@ -176,6 +229,22 @@ int convert_to_csv(char* buff, const uint8_t* source){
 		case PFSLt:
 		break;
 		case Orent:
+		break;
+		case CMMNDt:
+		{
+			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(source);
+
+			if(packet.header.flags & 1){
+				strcat(buff, "8,0,0,0,0,0,PAYLOAD IS !DISARMED!");
+			}
+			if((packet.header.flags >> 1) & 1){
+				strcat(buff, "8,0,0,0,0,0,PAYLOAD IS !ARMED!");
+			}
+
+			send_command();
+		}
+		break;
+		case INFOt:
 		break;
 	}
 }
@@ -245,12 +314,35 @@ void init_sys(){
 	init_LoRa();
 }
 
+/**
+ * Check user input for command updates
+ */
+void check_inpt(){
+
+	String usr;
+
+	if(Serial.available()){
+		usr = Serial.readString();
+
+		if(usr.equals("ARM")){
+			armed = true;
+			Serial.println("Arming Payload!");
+		}
+		if(usr.equals("DISARM")){
+			armed = false;
+			Serial.println("Disarming Payload!");
+		}
+	}
+}
+
 int main(){
 
 	init_sys();
 
 	while(true){
-		// Place loop code here
+
+		check_inpt();
+
 		handle_incomming_messages();
 	}
 }
