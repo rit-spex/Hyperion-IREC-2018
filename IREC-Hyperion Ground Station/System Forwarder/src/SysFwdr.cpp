@@ -90,7 +90,7 @@ int CtCSV_LSM9DS1(char* buff, LSM9DS1_Packet data){
 	
 	char temp[10] = {'\0'};
 
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 9; i++){
 		strcat(buff, ",");
 		float res = convert_int32_float(temp_arry[i]);
 		dtostrf(res, 1, 3, temp);
@@ -160,11 +160,106 @@ int CtCSV_CCS811(char* buff, CCS811_Packet data){
 	return strlen(buff);
 }
 
-int CtCSV_LIS331(char* buff, LIS311_Packet data);
-int CtCSV_PFSL(char* buff, PFSL_Packet data);
-int CtCSV_Oren(char* buff, OREN_Packet data);
-int CtCSV_Info(char* buff, Info_Packet data);
+/**
+ * Individual csv converter from LIS331 packet to data string
+ * Args:
+ * 		buff: the source string
+ * 		data: raw data struct
+ * Format:
+ * 		[Header],[ax]
+ * Returns:
+ * 		The length of the string constructed
+ */
+int CtCSV_LIS331(char* buff, LIS311_Packet data){
+	LIS311_Data data_frame = data.data;
 
+	write_header(buff, data.header);
+
+	int32_t temp_arry[3] = {data_frame.ax, data_frame.ay, data_frame.az};
+	
+	char temp[10] = {'\0'};
+
+	for(int i = 0; i < 3; i++){
+		strcat(buff, ",");
+		float res = convert_int32_float(temp_arry[i]);
+		dtostrf(res, 1, 3, temp);
+		strcat(buff, temp);
+	}
+
+	return strlen(buff);
+}
+
+/**
+ * Construct a csv string for data in a PFSL data frame
+ * Args:
+ * 		buff: the source string
+ * 		data: raw data struct
+ * Format:
+ * 		[Header],[alt]
+ * Returns:
+ * 		The length of the string constructed
+ */
+int CtCSV_PFSL(char* buff, PFSL_Packet data){
+	PFSL_Data data_frame = data.data;
+
+	write_header(buff, data.header);
+
+	char temp[10] = {'\0'};
+
+	strcat(buff, ",");
+	float res = convert_int32_float(data.data.alt);
+	dtostrf(res, 1, 3, temp);
+	strcat(buff, temp);
+
+	return strlen(buff);
+}
+
+/**
+ * Construct a csv string using the unpacked orientation data
+ * Args:
+ * 		buff: the source string
+ * 		data: raw data struct
+ * Format:
+ * 		[Header],[Pitch],[Roll],[Yaw]
+ * Returns:
+ * 		The length of the string constructed
+ */
+int CtCSV_Oren(char* buff, OREN_Packet data){
+	OREN_Data data_frame = data.data;
+
+	write_header(buff, data.header);
+
+	char temp[10] = {'\0'};
+
+	int16_t temp_arry[3] = {data_frame.pitch, data_frame.roll, data_frame.yaw};
+
+	for(int i = 0; i < 2; i++){
+		strcat(buff, ",");
+		itoa(temp_arry[i], temp, 10);
+		strcat(buff, temp);
+	}
+
+	return strlen(buff);
+}
+
+/**
+ * Construct a csv string from data within a raw struct.
+ * Args:
+ * 		buff: the source string
+ * 		data: raw data struct
+ * Format:
+ * 		[Header],[String]
+ * Returns:
+ * 		The length of the string constructed
+ */
+int CtCSV_Info(char* buff, Info_Packet data){
+
+	write_header(buff, data.header);
+	strcat(buff, ",");
+	strcat(buff, data.data);
+
+	return strlen(buff) + 1;
+}
 
 /**
  * Send command to ground station with current status
@@ -225,10 +320,22 @@ int convert_to_csv(char* buff, const uint8_t* source){
 		}
 		break;
 		case LIS331t:
+		{
+			LIS311_Packet packet = IRECHYPERP::unpack_LIS311(source);
+			CtCSV_LIS331(buff, packet);
+		}
 		break;
 		case PFSLt:
+		{
+			PFSL_Packet packet = IRECHYPERP::unpack_PFSL(source);
+			CtCSV_PFSL(buff, packet);
+		}
 		break;
 		case Orent:
+		{
+			OREN_Packet packet = IRECHYPERP::unpack_Oren(source);
+			CtCSV_Oren(buff, packet);
+		}
 		break;
 		case CMMNDt:
 		{
@@ -245,6 +352,10 @@ int convert_to_csv(char* buff, const uint8_t* source){
 		}
 		break;
 		case INFOt:
+		{
+			Info_Packet packet = IRECHYPERP::unpack_Info(source);
+			CtCSV_Info(buff, packet);
+		}
 		break;
 	}
 }
@@ -302,7 +413,7 @@ int init_LoRa(){
 }
 
 /**
- * Main initilize function for the SysFwdr program.
+ * Main initialize function for the SysFwdr program.
  */
 void init_sys(){
 	// Place startup code here
