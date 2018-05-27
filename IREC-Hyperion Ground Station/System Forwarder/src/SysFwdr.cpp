@@ -426,6 +426,35 @@ void init_sys(){
 }
 
 /**
+ * Function used to simulate orientation data
+ */
+void simulate_oren(){
+	static int32_t pitch = 0;
+	static int32_t roll = 0;
+	static int32_t yaw = 0;
+
+	pitch = (pitch < 180) ? ++pitch : -180;
+	roll = (roll < 180) ? ++roll : -180;
+	yaw = (yaw < 180) ? ++yaw : -180;
+
+	uint8_t buff[300] = {0};
+	char flags[4] = {0, 0, 0, 0};
+
+	IRECHYPERP::createOrenFrame(buff, flags, (uint16_t) millis()/100,
+								pitch, roll, yaw);
+
+	OREN_Packet packet = IRECHYPERP::unpack_Oren(buff);
+
+	char strbuff[300] = {'\0'};
+
+	CtCSV_Oren(strbuff, packet);
+
+	Serial.println(strbuff);
+
+	delay(17);
+}
+
+/**
  * Check user input for command updates
  */
 void check_inpt(){
@@ -452,8 +481,9 @@ int main(){
 
 	while(true){
 
-		check_inpt();
+		//check_inpt();
+		//handle_incomming_messages();
 
-		handle_incomming_messages();
+		simulate_oren();
 	}
 }
