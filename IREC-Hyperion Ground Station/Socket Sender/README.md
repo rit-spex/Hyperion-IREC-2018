@@ -7,7 +7,7 @@
 
         pip install socketIO-client
 
-* socketIO-client ([github](https://github.com/pyserial/pyserial))
+* pyserial ([github](https://github.com/pyserial/pyserial))
 
         pip install pyserial
 
