@@ -1,5 +1,6 @@
 ## Hyperion Socket Sender
-### Reads incoming data from System Forwarder lays data to a [HABnet](https://github.com/RIT-Space-Exploration/HABnet) instance
+### Reads incoming data from a serial device (see:[System Forwarder](../System%20Forwarder)) and sends it to a [HABnet](https://github.com/RIT-Space-Exploration/HABnet) instance
+
 
 --- 
 
@@ -33,7 +34,7 @@
 
   default: `3000`
 
-* `-S` [SERIAL_IN], `--serial [SERIAL_IN]`
+* `-S [SERIAL_IN]`, `--serial [SERIAL_IN]`
 
   Serial input port
 
