@@ -1,4 +1,6 @@
-## relays data to a HABnet instance
+## Hyperion Socket Sender
+### Reads incoming data from System Forwarder lays data to a [HABnet](https://github.com/RIT-Space-Exploration/HABnet) instance
+
 --- 
 
 **Requirements:**
@@ -11,26 +13,41 @@
 
         pip install pyserial
 
+---
+
+**Optional Arguments:**
+
+* `-h`, `--help`
+
+  show help message and exit
+
+* `-H [HOSTNAME]`, `--host [HOSTNAME]`
+
+  HABnet instance hostname
+
+  default: `127.0.0.1`
+
+* `-P [PORT]`, `--port [PORT]`
+
+  HABnet instance port
+
+  default: `3000`
+
+* `-S` [SERIAL_IN], `--serial [SERIAL_IN]`
+
+  Serial input port
+
+  default: `COM3`
+
+* `-N` [NAME], `--name [NAME]`
+
+  HABnet socket name
+
+  default: `testSocket`
 
 ---
 
-**Usage:**
+**Examples:**
 
-positional arguments:
-
-  1. hostname 
-
-        HABnet instance hostname
-
-  2. port
-  
-        HABnet instance port
-
-optional arguments:
-* -h, --help  show this help message and exit
-
----
-
-**Example:**
-
-    python socketsender.py 127.0.0.1 3000
+    python socketsender.py 
+    python socketsender.py --host 127.0.0.1 --port 3000
