@@ -233,7 +233,7 @@ int CtCSV_Oren(char* buff, OREN_Packet data){
 
 	int16_t temp_arry[3] = {data_frame.pitch, data_frame.roll, data_frame.yaw};
 
-	for(int i = 0; i < 2; i++){
+	for(int i = 0; i < 3; i++){
 		strcat(buff, ",");
 		itoa(temp_arry[i], temp, 10);
 		strcat(buff, temp);
@@ -440,7 +440,7 @@ void simulate_oren(){
 	uint8_t buff[300] = {0};
 	char flags[4] = {0, 0, 0, 0};
 
-	IRECHYPERP::createOrenFrame(buff, flags, (uint16_t) millis()/100,
+	IRECHYPERP::createOrenFrame(buff, flags, (uint16_t) (millis()/100),
 								pitch, roll, yaw);
 
 	OREN_Packet packet = IRECHYPERP::unpack_Oren(buff);
