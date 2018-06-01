@@ -35,7 +35,7 @@ cmmd_keys = []
 
 info_keys = []
 
-data_type_handler = {
+handler_keys = {
     0   : nulldata_keys,
     1   : lsm9ds1_keys,
     2   : bme280_keys,
@@ -47,11 +47,24 @@ data_type_handler = {
     8   : info_keys
 }
 
+files = {
+    -1  : 'all',
+    0   : 'null',
+    1   : 'lsm9ds1',
+    2   : 'bme280',
+    3   : 'ccs811',
+    4   : 'lis331',
+    5   : 'pfsl',
+    6   : 'oren',
+    7   : 'cmmd',
+    8   : 'info'
+}
+
 def header_handler(header_lst):
     return int(header_lst[0]) , [ int(flag) for flag in header_lst[1:5] ] , int(header_lst[5])
 
 def payload_builder(data_type, time, values):
-    keys = data_type_handler[data_type]
+    keys = handler_keys[data_type]
     payload = {}
     payload['timeStamp'] = time
     for idx,key in enumerate(keys):
