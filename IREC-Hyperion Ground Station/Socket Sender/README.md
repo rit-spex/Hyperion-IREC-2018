@@ -22,6 +22,10 @@
 
   show help message and exit
 
+* `-D`, `--details`
+
+  Display various details and close
+
 * `-H [HOSTNAME]`, `--host [HOSTNAME]`
 
   HABnet instance hostname
