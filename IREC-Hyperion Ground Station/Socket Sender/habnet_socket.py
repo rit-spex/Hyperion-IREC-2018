@@ -3,20 +3,32 @@ import serial
 import json
 from data_type_util import header_handler, payload_builder
 import pprint as pp
-
+from threading import Thread
+import queue
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
-class HABnetSocket():
-    def __init__(self, args):
-        self.hostname = args.hostname
-        self.port = args.port
-        self.serial_in = args.serial_in
-        self.name = args.name
+class HABnetSocket(Thread):
+    def __init__(self, hostname, port, name):
+        Thread.__init__(self)
+        self.hostname = hostname
+        self.port = port
+        self.name = name
+        self.socket = None
+        self.running = True
+        self.to_habnet = queue.Queue()
+    
+    def send(self,data):
+        self.to_habnet.put(data)
 
+    def clean_stop(self):
+        self.running = False
+
+    def run(self):
         self.socket = SocketIO(self.hostname, self.port)
-
         self.set_functions()
+        self.socket.wait(seconds=10)
+        print("socket waiting")
 
     def set_functions(self):
         self.socket.on('connect',self.on_connect)
@@ -39,22 +51,16 @@ class HABnetSocket():
         print('[joinedSuccessfully]')
         pp.pprint(args[0])
         self.name = args[0]['name']
-        self.serial_reading()
-    
-    def wait(self):
-        self.socket.wait()
+        self.output_data()
 
     def send_data(self, packet):
         json_packet = json.dumps(packet)
         self.socket.emit('sensorData', json_packet)
 
-    def serial_reading(self):
-        ser = serial.Serial(self.serial_in, 9600, timeout=1.0)
-        pp.pprint(ser)
-        while(True):
-            line = ser.readline()
-            s = line.decode('UTF-8')
-            data = line.decode('UTF-8').strip().split(',')
+    def output_data(self):
+        print("socket output start")
+        while self.running or not self.to_habnet.empty():
+            data = self.to_habnet.get()
 
             header_lst = data[0:6]
             data_type, flags, time = header_handler(header_lst)
@@ -68,5 +74,6 @@ class HABnetSocket():
                 'name': self.name,
             }
 
-            pp.pprint(packet)
+            # pp.pprint(packet)
             self.send_data(packet)
+        print("socket output end")
