@@ -509,7 +509,7 @@ int main(){
 
 	while(true){
 
-		//check_inpt();
+		check_inpt();
 		//handle_incomming_messages();
 
 		sim();
