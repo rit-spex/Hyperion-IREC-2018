@@ -450,7 +450,35 @@ void simulate_oren(){
 	CtCSV_Oren(strbuff, packet);
 
 	Serial.println(strbuff);
+}
 
+void simulate_alt(){
+	static int32_t alto = 0;
+	static bool falling = false;
+
+	if(alto > 10000) falling = true;
+	if(alto < 100) falling = false;
+
+	if(falling) alto -= 2;
+	else alto += 2;
+
+	uint8_t buff[300] = {0};
+	char flags[4] = {0, 0, 0, 0};
+
+	IRECHYPERP::createPFSLFrame(buff, flags, (uint16_t) (millis()/100), alto);
+
+	PFSL_Packet packet = IRECHYPERP::unpack_PFSL(buff);
+
+	char strbuff[300] = {'\0'};
+
+	CtCSV_PFSL(strbuff, packet);
+
+	Serial.println(strbuff);
+}
+
+void sim(){
+	simulate_oren();
+	simulate_alt();
 	delay(17);
 }
 
@@ -484,6 +512,6 @@ int main(){
 		//check_inpt();
 		//handle_incomming_messages();
 
-		simulate_oren();
+		sim();
 	}
 }
