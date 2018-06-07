@@ -494,11 +494,11 @@ void check_inpt(){
 
 		if(usr.equals("ARM")){
 			armed = true;
-			Serial.println("Arming Payload!");
+			Serial.println("8,0,0,0,0,0,Arming Payload!");
 		}
 		if(usr.equals("DISARM")){
 			armed = false;
-			Serial.println("Disarming Payload!");
+			Serial.println("8,0,0,0,0,0,Disarming Payload!");
 		}
 	}
 }
