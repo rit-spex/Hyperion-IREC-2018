@@ -35,6 +35,15 @@ float convert_int32_float(int32_t inputvalue) {
 }
 
 /**
+ * Convert float into a int32_t
+ */
+int32_t convert_float_int32(float inputvalue) {
+	int32_t f;
+	memcpy(&f, &inputvalue, sizeof(f));
+	return f;
+}
+
+/**
  * Create the header section of the data string to be sent over
  * a Serial connection.
  * Args:
@@ -475,9 +484,53 @@ void simulate_alt(){
 	Serial.println(strbuff);
 }
 
+void simulate_LIS331(){
+	float ay = rand()/RAND_MAX;
+	float ax = rand()/RAND_MAX;
+	float az = rand()/RAND_MAX;
+
+	uint8_t buff[300] = {0};
+	char flags[4] = {0, 0, 0, 0};
+
+	IRECHYPERP::createLIS311Frame(buff, flags, (uint16_t) (millis()/100),
+	convert_float_int32(ax), convert_float_int32(ay), convert_float_int32(az));
+
+	LIS311_Packet packet = IRECHYPERP::unpack_LIS311(buff);
+
+	char strbuff[300] = {'\0'};
+
+	CtCSV_LIS331(strbuff, packet);
+
+	Serial.println(strbuff);
+}
+
+void simulate_BME280(){
+	float alt = rand();
+	float pressure = rand() % 100;
+	float temp = rand() % 150;
+	float hum = rand() % 100;
+
+	uint8_t buff[300] = {0};
+	char flags[4] = {0, 0, 0, 0};
+
+	IRECHYPERP::createBME280Frame(buff, flags, (uint16_t) (millis()/100),
+	convert_float_int32(temp), convert_float_int32(hum), convert_float_int32(pressure), convert_float_int32(alt));
+
+	BME280_Packet packet = IRECHYPERP::unpack_BME280(buff);
+
+	char strbuff[300] = {'\0'};
+
+	CtCSV_BME280(strbuff, packet);
+
+	Serial.println(strbuff);
+}
+
 void sim(){
 	simulate_oren();
 	simulate_alt();
+	simulate_LIS331();
+	simulate_BME280();
+
 	delay(17);
 }
 
