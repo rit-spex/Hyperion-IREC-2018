@@ -69,6 +69,8 @@ def read_serial(serial_in, socket):
             # read in
             line = ser.readline().decode('UTF-8').strip()
             data = line.split(',')
+            if len(data) == 1:
+                continue
             data_type = int(data[0])
             to_file.put({'data_type':data_type, 'line':line})
             socket.send(data)

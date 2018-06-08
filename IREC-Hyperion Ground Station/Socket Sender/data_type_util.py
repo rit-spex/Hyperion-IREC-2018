@@ -1,13 +1,13 @@
 nulldata_keys = []
 
 lsm9ds1_keys = [
-    'ax', 'ay', 'az',
-    'gx', 'gy', 'gz',
-    'mx', 'my', 'mz'
+    'accelX', 'accelY', 'accelZ',
+    'gyroX', 'gyroY', 'gyroZ',
+    'magX', 'magY', 'magZ'
 ]
 
 bme280_keys = [
-    'temperature',
+    'temp1',
     'pressure',
     'humidity',
     'altitude'
@@ -18,11 +18,11 @@ ccs811_keys = [
 ]
 
 lis331_keys = [
-    'ax', 'ay', 'az'
+    'accelX', 'accelY', 'accelZ'
 ]
 
 pfsl_keys = [
-    'alt'
+    'altitude'
 ]
 
 oren_keys = [
@@ -33,7 +33,9 @@ oren_keys = [
 
 cmmd_keys = []
 
-info_keys = []
+info_keys = [
+    'text'
+]
 
 handler_keys = {
     0   : nulldata_keys,
@@ -68,5 +70,5 @@ def payload_builder(data_type, time, values):
     payload = {}
     payload['timeStamp'] = time
     for idx,key in enumerate(keys):
-        payload[key] = values[idx] # num of values & keys should be the same
+        payload[key] = int(values[idx]) # num of values & keys should be the same
     return payload
