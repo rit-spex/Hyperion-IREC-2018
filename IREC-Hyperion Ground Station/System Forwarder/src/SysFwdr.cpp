@@ -485,9 +485,9 @@ void simulate_alt(){
 }
 
 void simulate_LIS331(){
-	float ay = rand()/RAND_MAX;
-	float ax = rand()/RAND_MAX;
-	float az = rand()/RAND_MAX;
+	float ay = rand()%RAND_MAX;
+	float ax = rand()%RAND_MAX;
+	float az = rand()%RAND_MAX;
 
 	uint8_t buff[300] = {0};
 	char flags[4] = {0, 0, 0, 0};
