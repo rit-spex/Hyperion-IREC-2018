@@ -1,7 +1,7 @@
 nulldata_keys = []
 
 lsm9ds1_keys = [
-    'accelX', 'accelY', 'accelZ',
+    None, None, None, #'accelX', 'accelY', 'accelZ',
     'gyroX', 'gyroY', 'gyroZ',
     'magX', 'magY', 'magZ'
 ]
@@ -10,7 +10,7 @@ bme280_keys = [
     'temp1',
     'pressure',
     'humidity',
-    'altitude'
+    None, #'altitude'
 ]
 
 ccs811_keys = [
@@ -70,5 +70,6 @@ def payload_builder(data_type, time, values):
     payload = {}
     payload['timeStamp'] = time
     for idx,key in enumerate(keys):
-        payload[key] = int(values[idx]) # num of values & keys should be the same
+        if key is not None:
+            payload[key] = int(float(values[idx])) # num of values & keys should be the same
     return payload

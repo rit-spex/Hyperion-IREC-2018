@@ -57,6 +57,8 @@ def read_serial(serial_in, socket):
     with serial.Serial(serial_in, 9600, timeout=1.0) as ser:
         print("ser:")
         pp.pprint(ser)
+        ser.reset_input_buffer()
+
         while running or not commands.empty():
 
             # check if we need to send a command
@@ -109,11 +111,13 @@ def write_files():
 
 def write_buffer(fn, buffer):
     if buffer:
-        # print('writing', fn)
+        os.makedirs(os.path.dirname(fn), exist_ok=True)
         with open(fn, 'a') as fp:
             for line in buffer:
                 fp.write(line)
                 fp.write('\n')
+                fp.flush()
+                os.fsync(fp.fileno())
     
 def get_filename(data_type):
     folder = 'data'
