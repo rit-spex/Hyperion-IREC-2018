@@ -562,8 +562,6 @@ int main(){
 	while(true){
 
 		check_inpt();
-		//handle_incomming_messages();
-
-		sim();
+		handle_incomming_messages();
 	}
 }
