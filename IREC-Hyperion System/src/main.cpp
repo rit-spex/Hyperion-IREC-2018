@@ -30,13 +30,13 @@ void fill_main_startup(){
 	// Add startup routines into the dsq
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 	dsq.add_routine(0, 20, R_trans_BME280);
-	dsq.add_routine(0, 30, R_trans_CCS811);
+	//dsq.add_routine(0, 30, R_trans_CCS811);
 	dsq.add_routine(0, 10, R_trans_LIS331);
 	dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 10, R_trans_Orientation);
 	dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_seq_BME280_data);
-	dsq.add_routine(0, 30, R_seq_CCS811_data);
+	//dsq.add_routine(0, 30, R_seq_CCS811_data);
 	dsq.add_routine(0, 3, R_seq_LIS331_data);
 	dsq.add_routine(0, 100, R_calc_RateOfClimb);
 	dsq.add_routine(0, 10, R_Altitude_data);
@@ -62,7 +62,7 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 	dsq.add_routine(0, 20, R_trans_BME280);
-	dsq.add_routine(0, 30, R_trans_CCS811);
+	//dsq.add_routine(0, 30, R_trans_CCS811);
 	dsq.add_routine(0, 10, R_trans_LIS331);
 	dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 10, R_trans_Orientation);
@@ -147,7 +147,8 @@ void power_system_check(){
 }
 
 void setup() {
-
+	Serial.begin(9600);
+	delay(2000);
 	analogReadAveraging(16); // Smooths out analog readings
 
 	// TODO
@@ -167,7 +168,7 @@ void setup() {
 	// Add Default routine to the dsq
 	dsq.set_default(1, R_Default);
 
-	fill_safe_startup();
+	fill_done_startup();
 }
 
 /**

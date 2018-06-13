@@ -57,7 +57,6 @@ void R_Default(){
  * and this routine is removed(Not added).
  */
 void R_check_deployment(){
-
 	static unsigned int seq_cnt = 0;
 	static uint32_t seq_time = 0;
 
@@ -167,7 +166,6 @@ void R_deploy_dampers(){
  * needed
  */
 void R_calc_RateOfClimb(){
-
 	rate_of_climb(); // update rate of climb
 	dsq.add_routine(0, 100, R_calc_RateOfClimb);
 }
