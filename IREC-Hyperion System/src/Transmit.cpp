@@ -50,6 +50,7 @@ int init_LoRa(){
   // maximum power
   rf95.setTxPower(23, false);
 
+  Serial.println("THE LORA WORKS MOTHA FUCKA");
   lora_init = true;
   return 0;
 }

@@ -176,7 +176,5 @@ void setup() {
  */
 void loop() {
 	// Execute routine placed into the DSQ
-	static int cnt = 0;
 	dsq.execute();
-	cnt++;
 }
