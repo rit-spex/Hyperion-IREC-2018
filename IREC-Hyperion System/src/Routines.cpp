@@ -187,9 +187,9 @@ void R_Heartbeat(){
 	}
 
 	if(millis() - time_track < HEARTBEAT_INT){
-		pri_val += (pri_val > 1) ? -1 : 0;
-	} else {
 		pri_val += (pri_val < 1000) ? 1 : 0;
+	} else {
+		pri_val += (pri_val > 1) ? -1 : 0;
 	}
 
 	time_track = millis();
@@ -213,10 +213,10 @@ void R_Strobe(){
 		digitalWriteFast(STROBE_DISABLE, HIGH);
 	}
 
-	if(millis() - time_track < STROBE_INT){
-		pri_val += (pri_val > 1) ? -1 : 0;
-	} else {
+	if(millis() - time_track < HEARTBEAT_INT){
 		pri_val += (pri_val < 1000) ? 1 : 0;
+	} else {
+		pri_val += (pri_val > 1) ? -1 : 0;
 	}
 
 	time_track = millis();
@@ -279,7 +279,6 @@ void R_recv_Arm(){
 	uint8_t buff[HEADER_SIZE] = {0};
 
 	IRECHYPERP::createCMMNDFrame(buff, flags, time);
-
 	rf95.waitPacketSent();
 	transmit_data(buff, HEADER_SIZE);
 	rf95.waitPacketSent();

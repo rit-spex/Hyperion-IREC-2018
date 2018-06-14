@@ -62,7 +62,7 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 	dsq.add_routine(0, 20, R_trans_BME280);
-	//dsq.add_routine(0, 30, R_trans_CCS811);
+	dsq.add_routine(0, 30, R_trans_CCS811);
 	dsq.add_routine(0, 10, R_trans_LIS331);
 	dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 10, R_trans_Orientation);
@@ -168,7 +168,7 @@ void setup() {
 	// Add Default routine to the dsq
 	dsq.set_default(1, R_Default);
 
-	fill_done_startup();
+	fill_safe_startup();
 }
 
 /**
@@ -176,5 +176,7 @@ void setup() {
  */
 void loop() {
 	// Execute routine placed into the DSQ
+	static int cnt = 0;
 	dsq.execute();
+	cnt++;
 }
