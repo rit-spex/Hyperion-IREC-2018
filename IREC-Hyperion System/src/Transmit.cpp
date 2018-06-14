@@ -39,6 +39,7 @@ int init_LoRa(){
   SPI1.begin();
 
   if (!rf95.init()) {
+    Serial.println("THE DO NOOOOOT LORA WORK MOTHA FUCKA");
 	  return 1;
   }
 
