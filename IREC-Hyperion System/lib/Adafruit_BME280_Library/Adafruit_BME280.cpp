@@ -50,7 +50,7 @@ bool Adafruit_BME280::begin(TwoWire *theWire)
 bool Adafruit_BME280::begin(uint8_t addr)
 {
 	_i2caddr = addr;
-	_wire = &Wire;
+	_wire = &Wire2;
 	return init();
 }
 
@@ -64,7 +64,7 @@ bool Adafruit_BME280::begin(uint8_t addr, TwoWire *theWire)
 bool Adafruit_BME280::begin(void)
 {
     _i2caddr = BME280_ADDRESS;
-	_wire = &Wire;
+	_wire = &Wire2;
 	return init();
 }
 
