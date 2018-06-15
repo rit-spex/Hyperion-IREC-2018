@@ -13,8 +13,8 @@
 LSM9DS1 imu;
 
 //Pin Macros
-#define LSM9DS1_M  0x1E // Would be 0x1C if SDO_M is LOW
-#define LSM9DS1_AG  0x6B // Would be 0x6A if SDO_AG is LOW
+#define LSM9DS1_M  15 // Would be 0x1C if SDO_M is LOW
+#define LSM9DS1_AG  14 // Would be 0x6A if SDO_AG is LOW
 
 //WARNING CHANGE BASED LOCATION
 #define DECLINATION 11.27 // Declination (degrees) in Rochester, NY
@@ -35,7 +35,7 @@ void setup()
   // Before initializing the IMU, there are a few settings
   // we may need to adjust. Use the settings struct to set
   // the device's communication mode and addresses:
-  imu.settings.device.commInterface = IMU_MODE_I2C;
+  imu.settings.device.commInterface = IMU_MODE_SPI;
   imu.settings.device.mAddress = LSM9DS1_M;
   imu.settings.device.agAddress = LSM9DS1_AG;
   // The above lines will only take effect AFTER calling

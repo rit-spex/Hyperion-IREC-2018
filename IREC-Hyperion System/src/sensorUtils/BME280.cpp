@@ -13,6 +13,8 @@ float BME280_Pressure = 0;
 float BME280_Humidity = 0;
 float BME280_Altitude = 0;
 
+#define BME280_ADDRESS_HYPER 0x76
+
 Adafruit_BME280 bme;
 
 // Init function for the BME280 sensor
@@ -21,7 +23,7 @@ int init_BME280() {
 	bool status;
 
 	// Check status
-	status = bme.begin();
+	status = bme.begin(BME280_ADDRESS_HYPER);
 	if (!status) {
 		return 1; // Errors
 	}
