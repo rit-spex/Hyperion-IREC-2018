@@ -296,11 +296,7 @@ void R_recv_Arm(){
 			// If the packet is a Arm command
 			if((packet.header.flags >> 3) & 1){
 
-				unsigned int pins_open = deployment_pins_open();
-
-				health_report_deploy(pins_open);
-
-				if(pins_open <= 1){
+				if(arm_check_send()){
 					switch_to_main(); // Arm the payload
 					return;
 				}

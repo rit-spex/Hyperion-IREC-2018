@@ -13,11 +13,13 @@
 #include "sensorUtils/LIS331_Hyperion.h"
 #include "sensorUtils/StratoLogger_Hyperion.h"
 #include "generalUtils/Mission_Utils_Hyperion.h"
+#include "generalUtils/Health_Check_Hyperion.h"
 #include "Routines_Hyperion.h"
 #include "Transmit_Hyperion.h"
 #include "Data_Buffer_Hyperion.h"
 
 #define DSQ_MAIN_CAP 100
+#define BATT_SWITCH 9.5
 
 // Current DSQ in use
 DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)
@@ -143,19 +145,27 @@ void init_misc_pins(){
  * Checks health of power system, adjusts power source accordantly.
  */
 void power_system_check(){
-	//TODO
+	
+	float mainBattVolt = analogRead(MAIN_BATT_ANLG);
+	mainBattVolt = mainBattVolt / 0.23866;
+
+	if(mainBattVolt > BATT_SWITCH){ // Main battery ok
+		pinMode(MAIN_BATT_EN, OUTPUT);
+		digitalWriteFast(MAIN_BATT_EN, HIGH);
+	} else {
+		digitalWriteFast(LED_RED, HIGH);
+		send_health_report("MAIN BATTERY IS BELOW VOLTAGE THRESHOLD!\0");
+	}
 }
 
 void setup() {
-	Serial.begin(9600);
-	delay(2000);
+	delay(10000);
 	analogReadAveraging(16); // Smooths out analog readings
 
 	// TODO
 	// Initialize hardware modules
 	init_misc_pins();
 	init_para_pins();
-	//power_system_check();
 	init_LoRa();
 	init_BME280();
 	init_LSM9DS1();
@@ -164,6 +174,7 @@ void setup() {
 	init_StratoLogger();
 	init_SD();
 	init_deploy_pins(); // Initialize pins which deployment switches are attached.
+	power_system_check();
 
 	// Add Default routine to the dsq
 	dsq.set_default(1, R_Default);

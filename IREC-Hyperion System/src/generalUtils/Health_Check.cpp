@@ -10,10 +10,12 @@
 #include "../IRECHYPERION.h"
 #include "../Transmit_Hyperion.h"
 #include <IREC_Hyperion_Protocol.h>
+#include "Mission_Utils_Hyperion.h"
 
 #define MAX_MSG_SIZE 300
 #define SWITCH_DEBOUNCE 200
 #define DEBOUNCE_THRES 0.75
+#define EMATCH_OK_THRES 8
 
 /**
  * Given a switch pin, function will check if pin is open with
@@ -98,4 +100,41 @@ void send_health_report(char msg[]){
 
     rf95.waitPacketSent();
     transmit_data(buff, HEADER_SIZE + strlen(msg) +1);
+}
+
+bool check_para_pin(){
+
+    digitalWriteFast(EMATCH_1_ARM, HIGH); // Arm Parachute EMatch
+    delay(100);
+    float readVal = analogRead(EMATCH_1_ANLG);
+    readVal /= 0.23666;
+    digitalWriteFast(EMATCH_1_ARM, LOW); // Arm Parachute EMatch
+
+    return readVal > EMATCH_OK_THRES;
+}
+
+/**
+ * Sends health report to ground station regarding the health of EMatch1
+ * Args:
+ *      para_pin: True if OK, False if fired.
+ */
+void health_report_para(bool para_pin){
+    if(para_pin){
+        send_health_report("EMATCH_1 IS INTACT\0");
+    } else {
+        send_health_report("EMATCH_1 HAS BEEN FIRED\0");
+    }
+}
+
+/**
+ * Main check to verify arm
+ */
+bool arm_check_send(){
+    unsigned int pins_open = deployment_pins_open();
+    bool para_pin = check_para_pin(); // True is good
+
+	health_report_deploy(pins_open);
+    health_report_para(para_pin);
+
+    return pins_open <= 1 && para_pin;
 }

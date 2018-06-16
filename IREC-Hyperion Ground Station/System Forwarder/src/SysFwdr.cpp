@@ -24,6 +24,7 @@
 
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 bool armed = false;
+sent_cmd = false;
 
 /**
  * Convert int32_t into a float
@@ -356,7 +357,10 @@ int convert_to_csv(char* buff, const uint8_t* source){
 				strcat(buff, "8,0,0,0,0,0,PAYLOAD IS !ARMED!");
 			}
 
-			send_command();
+			if(sent_cmd){
+				send_command();
+				sent_cmd = false;
+			}
 		}
 		break;
 		case INFOt:
@@ -546,10 +550,12 @@ void check_inpt(){
 
 		if(usr.equals("ARM")){
 			armed = true;
+			sent_cmd = true;
 			Serial.println("8,0,0,0,0,0,Arming Payload!");
 		}
 		if(usr.equals("DISARM")){
 			armed = false;
+			sent_cmd = true;
 			Serial.println("8,0,0,0,0,0,Disarming Payload!");
 		}
 	}

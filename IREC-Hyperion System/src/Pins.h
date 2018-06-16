@@ -28,7 +28,7 @@
 #define SENSORS_CS_AG   14
 #define SENSORS_CS_M    15
 #define MAIN_BATT_ANLG  16
-#define EMATCH2_1_ANLG  17
+#define EMATCH_1_ANLG  17
 #define EMATCH_2_ANLG   18
 #define SWITCH_01       19
 #define SWITCH_02       20
