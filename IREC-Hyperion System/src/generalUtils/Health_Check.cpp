@@ -65,19 +65,19 @@ void health_report_deploy(unsigned int pin_cnt){
 
     switch(pin_cnt){
         case 0:
-            send_health_report("ALL SWITCHES CLOSED - PAYLOAD !ARMED!\0");
+            send_health_report("ALL SWITCHES CLOSED - Check GO\0");
             break;
         case 1:
-            send_health_report("ONE SWITCH OPEN, THREE CLOSED - PAYLOAD !ARMED!\0");
+            send_health_report("ONE SWITCH OPEN, THREE CLOSED - Check GO\0");
             break;
         case 2:
-            send_health_report("TWO SWITCHES OPEN. TWO CLOSED - PAYLOAD !DISARMED!\0");
+            send_health_report("TWO SWITCHES OPEN. TWO CLOSED - Check Fail\0");
             break;
         case 3:
-            send_health_report("THREE SWITCHES OPEN. ONE CLOSED - PAYLOAD !DISARMED!\0");
+            send_health_report("THREE SWITCHES OPEN. ONE CLOSED - Check FAIL\0");
             break;
         case 4:
-            send_health_report("ALL SWITCHES OPEN - PAYLOAD !DISARMED!\0");
+            send_health_report("ALL SWITCHES OPEN - Check FAIL\0");
             break;
     }
 }
@@ -121,9 +121,9 @@ bool check_para_pin(){
  */
 void health_report_para(bool para_pin){
     if(para_pin){
-        send_health_report("EMATCH_1 IS INTACT\0");
+        send_health_report("EMATCH_1 Check OK\0");
     } else {
-        send_health_report("EMATCH_1 HAS BEEN FIRED\0");
+        send_health_report("EMATCH_1 Check FAIL\0");
     }
 }
 

@@ -297,6 +297,7 @@ void R_recv_Arm(){
 			if((packet.header.flags >> 3) & 1){
 
 				if(arm_check_send()){
+					send_health_report("ALL CRITCAL SUBSYSTEMS NOMINAL - ARMING PAYLOAD\0");
 					switch_to_main(); // Arm the payload
 					return;
 				}
