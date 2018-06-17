@@ -208,9 +208,11 @@ void R_Strobe(){
 	if(toggle){
 		toggle = false;
 		digitalWriteFast(STROBE_DISABLE, LOW);
+		digitalWriteFast(BUZZER_DISABLE, LOW); // Enable Buzzer
 	} else {
 		toggle = true;
 		digitalWriteFast(STROBE_DISABLE, HIGH);
+		digitalWriteFast(BUZZER_DISABLE, HIGH); // Enable Buzzer
 	}
 
 	if(millis() - time_track < HEARTBEAT_INT){

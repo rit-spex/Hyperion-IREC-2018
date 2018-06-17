@@ -87,8 +87,6 @@ void fill_done_startup(){
  */
 void switch_to_main(){
 
-	digitalWriteFast(BUZZER_DISABLE, HIGH); // Enable Buzzer
-
 	dsq.clear();
 	fill_main_startup();
 }
@@ -97,8 +95,6 @@ void switch_to_main(){
  * Switches to done phase after mission success
  */
 void switch_to_done(){
-
-	digitalWriteFast(BUZZER_DISABLE, HIGH); // Enable Buzzer
 
 	dsq.clear();
 	fill_done_startup();
