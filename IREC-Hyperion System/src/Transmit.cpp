@@ -39,9 +39,9 @@ int init_LoRa(){
   SPI1.begin();
 
   if (!rf95.init()) {
-    Serial.println("THE DO NOOOOOT LORA WORK MOTHA FUCKA");
 	  return 1;
   }
+  lora_init = true;
 
   // Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM
   if (!rf95.setFrequency(RF95_FREQ)) {
@@ -51,8 +51,6 @@ int init_LoRa(){
   // maximum power
   rf95.setTxPower(23, false);
 
-  Serial.println("THE LORA WORKS MOTHA FUCKA");
-  lora_init = true;
   return 0;
 }
 
