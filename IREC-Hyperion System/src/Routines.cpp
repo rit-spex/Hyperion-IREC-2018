@@ -149,8 +149,9 @@ void R_deploy_parachute(){
 		digitalWriteFast(EMATCH_1_FIRE, LOW);
 
 		if(check_para_pin()){
-			digitalWriteFast(EMATCH_1_FIRE, HIGH);
 			delay(5000);
+			digitalWriteFast(EMATCH_1_FIRE, HIGH);
+			delay(2000);
 			digitalWriteFast(EMATCH_1_FIRE, LOW);
 		}
 
