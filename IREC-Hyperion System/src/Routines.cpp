@@ -243,7 +243,7 @@ void R_Strobe(){
 void R_recv_Disarm(){
 
 	// Remove routine from phase if launch has been detected
-	if(detect_launch()) return;
+	//if(detect_launch()) return;
 
 	char flags[4] = {0, 0, 1, 0};
 	uint16_t time = millis()/1000;
@@ -294,8 +294,7 @@ void R_recv_Arm(){
 	uint8_t len = sizeof(msg_buff);
 
 	// Receive command from ground station.
-	if (rf95.waitAvailableTimeout(1000) &&
-		rf95.recv(msg_buff, &len) && 
+	if (rf95.recv(msg_buff, &len) && 
 		IRECHYPERP::typeofData(msg_buff) == CMMNDt){
 
 			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
