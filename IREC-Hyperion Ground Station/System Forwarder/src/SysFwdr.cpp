@@ -24,7 +24,7 @@
 
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 bool armed = false;
-sent_cmd = false;
+bool sent_cmd = false;
 
 /**
  * Convert int32_t into a float
