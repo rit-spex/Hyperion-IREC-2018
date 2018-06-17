@@ -184,25 +184,19 @@ void R_calc_RateOfClimb(){
 void R_Heartbeat(){
 	static bool toggle = false;
 	static uint32_t time_track = 0;
-	static int pri_val = 50;
 
-	if(toggle){
-		toggle = false;
-		digitalWriteFast(LED_BLUE, LOW);
-	} else {
-		toggle = true;
-		digitalWriteFast(LED_BLUE, HIGH);
+	if(millis() - time_track > HEARTBEAT_INT){
+		if(toggle){
+			toggle = false;
+			digitalWriteFast(LED_BLUE, LOW);
+		} else {
+			toggle = true;
+			digitalWriteFast(LED_BLUE, HIGH);
+		}
+		time_track = millis();
 	}
 
-	if(millis() - time_track < HEARTBEAT_INT){
-		pri_val += (pri_val < 1000) ? 1 : 0;
-	} else {
-		pri_val += (pri_val > 1) ? -1 : 0;
-	}
-
-	time_track = millis();
-
-	dsq.add_routine(0, pri_val, R_Heartbeat);
+	dsq.add_routine(0, 10, R_Heartbeat);
 }
 
 /**
@@ -211,27 +205,21 @@ void R_Heartbeat(){
 void R_Strobe(){
 	static bool toggle = false;
 	static uint32_t time_track = 0;
-	static int pri_val = 50;
 
-	if(toggle){
-		toggle = false;
-		digitalWriteFast(STROBE_DISABLE, LOW);
-		digitalWriteFast(BUZZER_DISABLE, LOW); // Enable Buzzer
-	} else {
-		toggle = true;
-		digitalWriteFast(STROBE_DISABLE, HIGH);
-		digitalWriteFast(BUZZER_DISABLE, HIGH); // Enable Buzzer
+	if(millis() - time_track > HEARTBEAT_INT){
+		if(toggle){
+			toggle = false;
+			digitalWriteFast(STROBE_DISABLE, LOW);
+			digitalWriteFast(BUZZER_DISABLE, LOW); // Enable Buzzer
+		} else {
+			toggle = true;
+			digitalWriteFast(STROBE_DISABLE, HIGH);
+			digitalWriteFast(BUZZER_DISABLE, HIGH); // Enable Buzzer
+		}
+		time_track = millis();
 	}
 
-	if(millis() - time_track < HEARTBEAT_INT){
-		pri_val += (pri_val < 1000) ? 1 : 0;
-	} else {
-		pri_val += (pri_val > 1) ? -1 : 0;
-	}
-
-	time_track = millis();
-
-	dsq.add_routine(0, pri_val, R_Strobe);
+	dsq.add_routine(0, 10, R_Strobe);
 }
 
 /**
@@ -242,8 +230,15 @@ void R_Strobe(){
  */
 void R_recv_Disarm(){
 
+	//////////////REMOVE/////////////////////
+	static uint32_t timetr = 0;
+	if(!timetr) timetr = millis();
+
+	if(millis() - timetr > 10000) return;
+	////////////////////////////////////////
+
 	// Remove routine from phase if launch has been detected
-	//if(detect_launch()) return;
+	if(detect_launch()) return;
 
 	char flags[4] = {0, 0, 1, 0};
 	uint16_t time = millis()/1000;
@@ -259,13 +254,16 @@ void R_recv_Disarm(){
 	uint8_t msg_buff[HEADER_SIZE] = {0};
 	uint8_t len = sizeof(msg_buff);
 
-	if(rf95.recv(msg_buff, &len)){
-		if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
-			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+	// Receive command from ground station.
+	if (rf95.waitAvailableTimeout(500)){
+		if(rf95.recv(msg_buff, &len)){
+			if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
+				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
 
-			if((packet.header.flags >> 2) & 1){
-				switch_to_safe(); // Disarm the payload
-				return;
+				if((packet.header.flags >> 2) & 1){
+					switch_to_safe(); // Disarm the payload
+					return;
+				}
 			}
 		}
 	}
@@ -294,7 +292,8 @@ void R_recv_Arm(){
 	uint8_t len = sizeof(msg_buff);
 
 	// Receive command from ground station.
-	if (rf95.recv(msg_buff, &len) && 
+	if (rf95.waitAvailableTimeout(500) &&
+		rf95.recv(msg_buff, &len) && 
 		IRECHYPERP::typeofData(msg_buff) == CMMNDt){
 
 			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
