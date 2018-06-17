@@ -13,5 +13,6 @@ void            send_health_report(char msg[]); // Sends health report to ground
 void            health_report_deploy(unsigned int pin_cnt);
 unsigned int    check_switch_open(int switch_pin); // Used to debounce the pins
 bool            arm_check_send();
+bool            check_para_pin();
 
 #endif
