@@ -288,7 +288,7 @@ void R_recv_Arm(){
 
 	// Receive command from ground station.
 	if (rf95.waitAvailableTimeout(1000) &&
-		rf95.recv(msg_buff, &len) &&
+		rf95.recv(msg_buff, &len) && 
 		IRECHYPERP::typeofData(msg_buff) == CMMNDt){
 
 			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
