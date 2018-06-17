@@ -8,7 +8,7 @@
 #include "../IRECHYPERION.h"
 #include "BME280_Hyperion.h"
 
-#define HWSERIAL Serial5
+#define HWSERIAL Serial3
 
 // Altitude in meters
 float altitude = -9999; // -9999 init value

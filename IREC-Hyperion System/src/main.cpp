@@ -191,6 +191,5 @@ void setup() {
  */
 void loop() {
 	// Execute routine placed into the DSQ
-	Serial.print("HELPS");
 	dsq.execute();
 }
