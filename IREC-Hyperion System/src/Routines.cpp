@@ -259,16 +259,13 @@ void R_recv_Disarm(){
 	uint8_t msg_buff[HEADER_SIZE] = {0};
 	uint8_t len = sizeof(msg_buff);
 
-	// Receive command from ground station.
-	if (rf95.waitAvailableTimeout(1000)){
-		if(rf95.recv(msg_buff, &len)){
-			if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
-				CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
+	if(rf95.recv(msg_buff, &len)){
+		if(IRECHYPERP::typeofData(msg_buff) == CMMNDt){
+			CMMND_Packet packet = IRECHYPERP::unpack_CMMND(msg_buff);
 
-				if((packet.header.flags >> 2) & 1){
-					switch_to_safe(); // Disarm the payload
-					return;
-				}
+			if((packet.header.flags >> 2) & 1){
+				switch_to_safe(); // Disarm the payload
+				return;
 			}
 		}
 	}
