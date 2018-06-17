@@ -231,13 +231,6 @@ void R_Strobe(){
  */
 void R_recv_Disarm(){
 
-	//////////////REMOVE/////////////////////
-	static uint32_t timetr = 0;
-	if(!timetr) timetr = millis();
-
-	if(millis() - timetr > 10000) return;
-	////////////////////////////////////////
-
 	// Remove routine from phase if launch has been detected
 	if(detect_launch()) return;
 
