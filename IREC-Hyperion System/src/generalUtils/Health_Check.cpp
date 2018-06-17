@@ -107,6 +107,7 @@ bool check_para_pin(){
     digitalWriteFast(EMATCH_1_ARM, HIGH); // Arm Parachute EMatch
     delay(100);
     float readVal = analogRead(EMATCH_1_ANLG);
+    readVal *= (3.3 / 1023.0);
     readVal /= 0.23666;
     digitalWriteFast(EMATCH_1_ARM, LOW); // Arm Parachute EMatch
 

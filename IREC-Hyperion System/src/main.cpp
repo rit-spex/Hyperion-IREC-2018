@@ -19,7 +19,7 @@
 #include "Data_Buffer_Hyperion.h"
 
 #define DSQ_MAIN_CAP 100
-#define BATT_SWITCH 9.5
+#define BATT_SWITCH 9.9
 
 // Current DSQ in use
 DSQ dsq(DSQ_MAIN_CAP);// Dynamic Scheduling Queue (DSQ)
@@ -139,6 +139,9 @@ void init_misc_pins(){
 	// Init for buzzer
 	pinMode(BUZZER_DISABLE, OUTPUT);
 	digitalWriteFast(BUZZER_DISABLE, LOW);
+
+	pinMode(MAIN_BATT_EN, OUTPUT);
+	digitalWriteFast(MAIN_BATT_EN, LOW);
 }
 
 /**
@@ -147,19 +150,20 @@ void init_misc_pins(){
 void power_system_check(){
 	
 	float mainBattVolt = analogRead(MAIN_BATT_ANLG);
-	mainBattVolt = mainBattVolt / 0.23866;
+	mainBattVolt *= (3.3 / 1023.0);
+	mainBattVolt /= 0.23866;
 
 	if(mainBattVolt > BATT_SWITCH){ // Main battery ok
-		pinMode(MAIN_BATT_EN, OUTPUT);
 		digitalWriteFast(MAIN_BATT_EN, HIGH);
 	} else {
 		digitalWriteFast(LED_RED, HIGH);
+		digitalWriteFast(MAIN_BATT_EN, LOW);
 		send_health_report("MAIN BATTERY IS BELOW VOLTAGE THRESHOLD!\0");
 	}
 }
 
 void setup() {
-	delay(10000);
+	delay(4000);
 	analogReadAveraging(16); // Smooths out analog readings
 
 	// TODO
@@ -169,7 +173,7 @@ void setup() {
 	init_LoRa();
 	init_BME280();
 	init_LSM9DS1();
-	init_CCS811();
+	//init_CCS811();
 	init_LIS331();
 	init_StratoLogger();
 	init_SD();
