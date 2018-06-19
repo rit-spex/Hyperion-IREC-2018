@@ -70,6 +70,7 @@ def read_serial(serial_in, socket):
 
             # read in
             line = ser.readline().decode('UTF-8').strip()
+            print(line)
             data = line.split(',')
             if len(data) == 1:
                 continue
@@ -78,7 +79,7 @@ def read_serial(serial_in, socket):
             if data_type not in {0,7,8}:
                 socket.send(data)
             
-            print(data)
+            #print(data)
 
         print("serial thread done")
 
