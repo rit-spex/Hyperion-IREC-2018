@@ -70,6 +70,7 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 10, R_trans_Orientation);
 	dsq.add_routine(0, 50, R_recv_Arm);
 	dsq.add_routine(0, 100, R_Heartbeat);
+	dsq.add_routine(0, 200, R_Health_report);
 }
 
 /**

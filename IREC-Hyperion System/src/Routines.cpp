@@ -462,6 +462,19 @@ void R_seq_Altitude_data(){
 }
 
 /**
+ * Reporting for critical sub-systems to the ground station.
+ */
+void R_Health_report(){
+	if(arm_check_send()){
+		send_health_report("ALL SUB-SYSTEMS NOMINAL - GO FOR ARM\0");
+	} else {
+		send_health_report("CRITICAL SUBSYSTEM FAILURE\0");
+	}
+
+	dsq.add_routine(0, 200, R_Health_report);
+}
+
+/**
  * Transmit routine for the LSM9DS1 data frame.
  */
 void R_trans_LSM9DS1(){
