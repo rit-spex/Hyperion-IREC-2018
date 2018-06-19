@@ -217,7 +217,7 @@ int CtCSV_PFSL(char* buff, PFSL_Packet data){
 	char temp[10] = {'\0'};
 
 	strcat(buff, ",");
-	itoa(data_frame.alt, temp, 10);
+	dtostrf(data_frame.alt, temp, 10);
 	strcat(buff, temp);
 
 	return strlen(buff);

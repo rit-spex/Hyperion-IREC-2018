@@ -11,7 +11,7 @@
 #define HWSERIAL Serial3
 
 // Altitude in meters
-float altitude = 0; // -9999 init value
+float altitude = 0; // 0 init value
 
 bool new_altitude = false; // New data flag
 
