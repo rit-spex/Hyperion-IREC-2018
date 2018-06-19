@@ -77,9 +77,9 @@ def read_serial(serial_in, socket):
             to_file.put({'data_type':data_type, 'line':line})
             if data_type not in {0,7,8}:
                 socket.send(data)
-            if data_type in {8}:
-                print(data)
-            # print(data)
+            
+            print(data)
+
         print("serial thread done")
 
 def write_files():
