@@ -15,7 +15,7 @@
 
 /// Sea Level Temp and Pressure for Launch Location
 /// Data is Pressure at Sea Level in hPa
-#define SEALEVELPRESSURE_HPA (1023.23)
+#define SEALEVELPRESSURE_HPA (1024.9)
 
 extern Adafruit_BME280 bme; // BME280
 

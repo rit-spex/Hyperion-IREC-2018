@@ -20,7 +20,7 @@
 //////////////////
 
 // File to be created and written
-#define FILE_NAME "TEST"
+#define FILE_NAME "IREC2018SPEX"
 
 #define DEFAULT_STR_LEN 200
 
