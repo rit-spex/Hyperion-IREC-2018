@@ -429,7 +429,7 @@ void R_Altitude_data(){
 	// Use alt from BME280 if stratologger is offline
 	if(not_read_cnt >= ALT_DEBOUNCE) {
 		update_alt_BME280();
-		dsq.add_routine(0, 200, R_Altitude_data);
+		dsq.add_routine(0, 50, R_Altitude_data);
 		return;
 	}
 
