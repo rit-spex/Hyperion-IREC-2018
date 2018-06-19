@@ -6,6 +6,7 @@
  */
 
 #include "LSM9DS1_Hyperion.h"
+#include "../generalUtils/Health_Check_Hyperion.h"
 
 LSM9DS1 imu;
 
@@ -23,7 +24,10 @@ int init_LSM9DS1(){
 	// The above lines will only take effect AFTER calling
 	// imu.begin(), which verifies communication with the IMU
 	// and turns it on.
-	if (!imu.begin()) return 1;
+	if (!imu.begin()){
+		send_health_report("LSM9DS1 FAILED TO INITIALIZE!\0");
+		return 1;
+	}
 
 	return 0;
 }

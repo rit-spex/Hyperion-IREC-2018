@@ -417,6 +417,7 @@ void R_seq_LIS331_data(){
  */
 void R_Altitude_data(){
 	static unsigned int not_read_cnt = 0;
+	static bool first_send = false;
 
 	int bytes_read = read_HWSERIAL_Strato();
 
@@ -428,11 +429,14 @@ void R_Altitude_data(){
 
 	// Use alt from BME280 if stratologger is offline
 	if(not_read_cnt >= ALT_DEBOUNCE) {
+		if(!first_send) send_health_report("USING BME280 ALTITUDE DATA!\0");
+		first_send = true;
 		update_alt_BME280();
 		dsq.add_routine(0, 50, R_Altitude_data);
 		return;
 	}
 
+	first_send = false;
 	dsq.add_routine(0, 50, R_Altitude_data);
 }
 
