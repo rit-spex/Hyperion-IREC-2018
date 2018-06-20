@@ -86,6 +86,8 @@ void fill_done_startup(){
 	dsq.add_routine(0, 100, R_Heartbeat);
 	dsq.add_routine(0, 50, R_Strobe);
 	dsq.add_routine(0, 1, R_Delay);
+	dsq.add_routine(0, 10, R_gath_GPS_data);
+	dsq.add_routine(0, 100, R_trans_GPS);
 }
 
 /**
