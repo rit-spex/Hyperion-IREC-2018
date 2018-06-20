@@ -493,13 +493,13 @@ void R_trans_GPS(){
 	char buff[200] = {'\0'};
 	char temp[20] = {'\0'};
 
-	itoa(gps.date.month(), temp, 10);
+	itoa(gps.time.hour(), temp, 10);
 	strcat(buff, temp);
-	strcat("/\0", buff);
-	itoa(gps.date.day(), temp, 10);
+	strcat(":\0", buff);
+	itoa(gps.time.minute(), temp, 10);
 	strcat(buff, temp);
-	strcat("/\0", buff);
-	itoa(gps.date.year(), temp, 10);
+	strcat(":\0", buff);
+	itoa(gps.time.second(), temp, 10);
 	strcat(buff, temp);
 	strcat(",\0", buff);
 	dtostrf(gps.location.lat(), 0, 10, temp);
