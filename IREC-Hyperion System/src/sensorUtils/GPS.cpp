@@ -25,6 +25,6 @@ int init_gps(){
 }
 
 void gather_gps_data(){
-
+    
     while (ss.available() > 0) gps.encode(ss.read());
 }

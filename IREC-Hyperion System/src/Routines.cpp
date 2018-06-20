@@ -348,7 +348,7 @@ void R_gath_LIS331_data(){
  * Gathers gps data
  */
 void R_gath_GPS_data(){
-
+	Serial.println("Helps");
 	gather_gps_data();
 	dsq.add_routine(0, 10, R_gath_GPS_data);
 }
@@ -493,21 +493,22 @@ void R_trans_GPS(){
 	char buff[200] = {'\0'};
 	char temp[20] = {'\0'};
 
+
 	itoa(gps.time.hour(), temp, 10);
 	strcat(buff, temp);
-	strcat(":\0", buff);
+	strcat(buff, ":");
 	itoa(gps.time.minute(), temp, 10);
 	strcat(buff, temp);
-	strcat(":\0", buff);
+	strcat(buff, ":");
 	itoa(gps.time.second(), temp, 10);
 	strcat(buff, temp);
-	strcat(",\0", buff);
+	strcat(buff, ",");
 	dtostrf(gps.location.lat(), 0, 10, temp);
 	strcat(buff, temp);
-	strcat(",\0", buff);
+	strcat(buff, ",");
 	dtostrf(gps.location.lng(), 0, 10, temp);
 	strcat(buff, temp);
-	strcat(",\0", buff);
+	strcat(buff, ",");
 	dtostrf(gps.altitude.meters(), 0, 10, temp);
 	strcat(buff, temp);
 	
