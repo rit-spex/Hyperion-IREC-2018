@@ -8,6 +8,7 @@
 #include "../IRECHYPERION.h"
 #include "BME280_Hyperion.h"
 #include "../generalUtils/Health_Check_Hyperion.h"
+#include "../Pins.h"
 
 float BME280_Temperature = 0;
 float BME280_Pressure = 0;
@@ -26,7 +27,8 @@ int init_BME280() {
 	// Check status
 	status = bme.begin(BME280_ADDRESS_HYPER);
 	if (!status) {
-		send_health_report("BME280 - FAILED TO INITIALIZE\0");
+		digitalWriteFast(LED_RED, HIGH);
+		send_report("BME280 - FAILED TO INITIALIZE\0");
 		return 1; // Errors
 	}
 	return 0; // Correctly started

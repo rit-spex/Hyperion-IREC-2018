@@ -25,7 +25,8 @@ int init_LSM9DS1(){
 	// imu.begin(), which verifies communication with the IMU
 	// and turns it on.
 	if (!imu.begin()){
-		send_health_report("LSM9DS1 FAILED TO INITIALIZE!\0");
+		digitalWriteFast(LED_RED, HIGH);
+		send_report("LSM9DS1 FAILED TO INITIALIZE!\0");
 		return 1;
 	}
 

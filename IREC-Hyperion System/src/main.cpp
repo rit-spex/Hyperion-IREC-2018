@@ -10,6 +10,7 @@
 #include "sensorUtils/LSM9DS1_Hyperion.h"
 #include "sensorUtils/BME280_Hyperion.h"
 #include "sensorUtils/CCS811_Hyperion.h"
+#include "sensorUtils/GPS_Hyperion.h"
 #include "sensorUtils/LIS331_Hyperion.h"
 #include "sensorUtils/StratoLogger_Hyperion.h"
 #include "generalUtils/Mission_Utils_Hyperion.h"
@@ -36,6 +37,7 @@ void fill_main_startup(){
 	//dsq.add_routine(0, 10, R_trans_LIS331);
 	dsq.add_routine(0, 10, R_trans_Altitude);
 	dsq.add_routine(0, 10, R_trans_Orientation);
+	dsq.add_routine(0, 100, R_trans_GPS);
 	dsq.add_routine(0, 3, R_seq_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_seq_BME280_data);
 	//dsq.add_routine(0, 30, R_seq_CCS811_data);
@@ -46,6 +48,7 @@ void fill_main_startup(){
 	dsq.add_routine(0, 1, R_check_deployment);
 	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
+	dsq.add_routine(0, 10, R_gath_GPS_data);
 	//dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 50, R_recv_Disarm);
 	dsq.add_routine(0, 100, R_Heartbeat);
@@ -61,9 +64,11 @@ void fill_safe_startup(){
 	dsq.add_routine(0, 10, R_Altitude_data);
 	dsq.add_routine(0, 3, R_gath_LSM9DS1_data);
 	dsq.add_routine(0, 20, R_gath_BME280_data);
+	dsq.add_routine(0, 10, R_gath_GPS_data);
 	//dsq.add_routine(0, 3, R_gath_LIS331_data);
 	dsq.add_routine(0, 3, R_trans_LSM9DS1);
 	dsq.add_routine(0, 20, R_trans_BME280);
+	dsq.add_routine(0, 100, R_trans_GPS);
 	//dsq.add_routine(0, 30, R_trans_CCS811);
 	//dsq.add_routine(0, 10, R_trans_LIS331);
 	dsq.add_routine(0, 10, R_trans_Altitude);
@@ -155,7 +160,7 @@ void power_system_check(){
 	} else {
 		digitalWriteFast(LED_RED, HIGH);
 		digitalWriteFast(MAIN_BATT_EN, LOW);
-		send_health_report("MAIN BATTERY IS BELOW VOLTAGE THRESHOLD!\0");
+		send_report("MAIN BATTERY IS BELOW VOLTAGE THRESHOLD!\0");
 	}
 }
 
@@ -171,6 +176,7 @@ void setup() {
 	init_BME280();
 	init_LSM9DS1();
 	//init_CCS811();
+	init_gps();
 	init_LIS331();
 	init_StratoLogger();
 	init_SD();

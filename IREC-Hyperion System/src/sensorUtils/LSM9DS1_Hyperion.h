@@ -12,7 +12,7 @@
 #include <LSM9DS1_Types.h>
 #include <LSM9DS1_Registers.h>
 #include <SparkFunLSM9DS1.h>
-#include "Pins.h"
+#include "../Pins.h"
 
 // WARNING CHANGE BASED LOCATION
 #define DECLINATION 11.27 // Declination (degrees) in Rochester, NY

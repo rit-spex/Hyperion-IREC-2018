@@ -12,6 +12,7 @@
 #include "sensorUtils/BME280_Hyperion.h"
 #include "sensorUtils/CCS811_Hyperion.h"
 #include "sensorUtils/LIS331_Hyperion.h"
+#include "sensorUtils/GPS_Hyperion.h"
 #include "generalUtils/Mission_Utils_Hyperion.h"
 #include "sensorUtils/StratoLogger_Hyperion.h"
 #include "generalUtils/Routine_Helpers_Hyperion.h"
@@ -296,7 +297,7 @@ void R_recv_Arm(){
 			if((packet.header.flags >> 3) & 1){
 
 				if(arm_check_send()){
-					send_health_report("ALL CRITCAL SUBSYSTEMS NOMINAL - ARMING PAYLOAD\0");
+					send_report("ALL CRITCAL SUBSYSTEMS NOMINAL - ARMING PAYLOAD\0");
 					switch_to_main(); // Arm the payload
 					return;
 				}
@@ -341,6 +342,15 @@ void R_gath_LIS331_data(){
 
 	read_LIS331();
 	dsq.add_routine(0, 2, R_gath_LIS331_data);
+}
+
+/**
+ * Gathers gps data
+ */
+void R_gath_GPS_data(){
+
+	gather_gps_data();
+	dsq.add_routine(0, 10, R_gath_GPS_data);
 }
 
 /**
@@ -429,7 +439,7 @@ void R_Altitude_data(){
 
 	// Use alt from BME280 if stratologger is offline
 	if(not_read_cnt >= ALT_DEBOUNCE) {
-		if(!first_send) send_health_report("USING BME280 ALTITUDE DATA!\0");
+		if(!first_send) send_report("USING BME280 ALTITUDE DATA!\0");
 		first_send = true;
 		update_alt_BME280();
 		dsq.add_routine(0, 50, R_Altitude_data);
@@ -470,13 +480,42 @@ void R_seq_Altitude_data(){
  */
 void R_Health_report(){
 	if(arm_check_send()){
-		send_health_report("ALL SUB-SYSTEMS NOMINAL - GO FOR ARM\0");
+		send_report("ALL SUB-SYSTEMS NOMINAL - GO FOR ARM\0");
 	} else {
-		send_health_report("CRITICAL SUBSYSTEM FAILURE\0");
+		send_report("CRITICAL SUBSYSTEM FAILURE\0");
 	}
 
 	dsq.add_routine(0, 200, R_Health_report);
 }
+
+void R_trans_GPS(){
+
+	char buff[200] = {'\0'};
+	char temp[20] = {'\0'};
+
+	itoa(gps.date.month(), temp, 10);
+	strcat(buff, temp);
+	strcat("/\0", buff);
+	itoa(gps.date.day(), temp, 10);
+	strcat(buff, temp);
+	strcat("/\0", buff);
+	itoa(gps.date.year(), temp, 10);
+	strcat(buff, temp);
+	strcat(",\0", buff);
+	dtostrf(gps.location.lat(), 0, 10, temp);
+	strcat(buff, temp);
+	strcat(",\0", buff);
+	dtostrf(gps.location.lng(), 0, 10, temp);
+	strcat(buff, temp);
+	strcat(",\0", buff);
+	dtostrf(gps.altitude.meters(), 0, 10, temp);
+	strcat(buff, temp);
+	
+	send_report(buff);
+
+	dsq.add_routine(0, get_bandwidth_scaler() * 15, R_trans_GPS);
+}
+
 
 /**
  * Transmit routine for the LSM9DS1 data frame.
