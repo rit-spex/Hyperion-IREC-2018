@@ -233,7 +233,7 @@ void R_Strobe(){
 void R_recv_Disarm(){
 
 	// Remove routine from phase if launch has been detected
-	if(detect_launch()) return;
+	//if(detect_launch()) return;
 
 	char flags[4] = {0, 0, 1, 0};
 	uint16_t time = millis()/1000;
