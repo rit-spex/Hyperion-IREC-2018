@@ -1,4 +1,4 @@
-ID,Delta_Time,Temperature,Pressure,Humidity,Altitude
+ID,Time,Temperature,Pressure,Humidity,Altitude
 2,9900,"52.91",859.822,9.093,4233.933
 2,9901,"52.91",859.797,9.093,4235.181
 2,9902,"52.91",859.79,9.104,4235.575
